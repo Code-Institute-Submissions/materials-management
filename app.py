@@ -46,18 +46,41 @@ def delete_material(material_id):
 def purchases():
     puorders = mongo.db.puorders.find()
     inventory = mongo.db.inventory.find()
+    suppliers = mongo.db.suppliers.find()
     return render_template(
         "purchases.html",
-        puorders=puorders, inventory=inventory)
+        puorders=puorders, inventory=inventory, suppliers=suppliers)
 
-@app.route("/new_purchase")
-def new_purchase():
+
+@app.route("/new_purchase/<selected_supplier>")
+def new_purchase(selected_supplier):
     puorders = mongo.db.puorders.find()
     inventory = mongo.db.inventory.find()
+    supplier = selected_supplier
+    suppliers = mongo.db.suppliers.find()
+    products_list = []
+    for i in suppliers:
+        if i["supplier_name"] == selected_supplier:
+            for j in i["supplier_products"]:
+                products_list.append(j)
     return render_template(
         "new_purchase.html",
-        puorders=puorders, inventory=inventory)
+        puorders=puorders, inventory=inventory, supplier=supplier,
+        products_list=products_list)
 
+
+@app.route("/new_purchase_copy")
+def new_purchase_copy():
+    suppliers = mongo.db.suppliers.find()
+    return render_template(
+        "new_purchase_copy.html",
+        suppliers=suppliers)
+
+
+@app.route("/new_purchase_copy/<the_supplier>")
+def selected_supplier(the_supplier):
+    the_supplier = the_supplier
+    return redirect(url_for("new_purchase", selected_supplier=the_supplier))
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
             <h4 class="left-align">Purchase Orders</h4>
         </div>
         <div class="col s2 left-align">
-            <a href = "{{url_for('new_purchase')}}" >New Purchase</a>
+            <a href = "{{ url_for('new_purchase_copy') }}" >New Purchase</a>
         </div>
         <div class="col m6 l6 hide-on-small-and-down left-align">
             <form>
@@ -44,9 +44,6 @@
             </tbody>
         {% endfor %}
         </table>
-    </div>
-        
-        <!--</table>-->
     </div>
     
     <div id="rgst-mat" class="modal modal-fixed-footer grey lighten-5">
