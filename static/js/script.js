@@ -77,11 +77,18 @@ var item_id = 0
                     <td>${new_items[0][0]}</td>
                     <td>${new_items[1]}</td>
                     <td>$${new_items[0][1]}</td>
-                    <td>$${new_items[0][1]*new_items[1]}</td>
+                    <td>$${(new_items[0][1]*new_items[1]).toFixed(2)}</td>
                     <td><strong onclick="delete_item(this)"><i class="fas fa-times"></strong></i></div></td>
                 </tr>
             </tbody>
-        `);  
+        `);
+
+        var sum = 0;
+        for(var i=0; i< new_item_cost.length; i++) {
+            sum += new_item_cost[i]*new_item_qty[i];
+        }
+        $('#puo_total').html(`$ ${sum.toFixed(2)}`);
+        $('#new_purchase_total').val(sum);
         item_id++;
     })
 

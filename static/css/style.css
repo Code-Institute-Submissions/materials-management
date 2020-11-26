@@ -181,10 +181,20 @@ nav{
 
 .tabrow{
     margin: 1% !important;
-    height: 15vh !important;
+    height: 5vh !important;
     border-bottom: outset 2px;
     border-right: outset 2px;
     border-color: #323264;
+}
+
+.tabrow ul{
+    display: inline-flex;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.tabrow li{
+    padding: 0 2px;
 }
 
 .fa-search{
@@ -273,9 +283,13 @@ table{
 
 /* New Purchase*/
 
-#new_purchase_items, #new_purchase_cost, #new_purchase_qty, #new_purchase_id{
+.hidden_form{
     display: none;
     overflow-y: auto;
+}
+
+.hidden_form .btndiv{
+    display: block !important;
 }
 
 .fa-times{

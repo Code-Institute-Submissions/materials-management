@@ -30,7 +30,6 @@ def register_material():
             "material_cost": request.form.get("material_cost")
         }
         mongo.db.inventory.insert_one(rgstmat)
-        flash("New Material registered")
         return redirect(url_for("register_material"))
     return render_template("inventory.html", inventory=inventory)
 
@@ -52,21 +51,36 @@ def purchases():
         puorders=puorders, inventory=inventory, suppliers=suppliers)
 
 
-@app.route("/new_purchase/<selected_supplier>")
+@app.route("/new_purchase/<selected_supplier>", methods=["GET", "POST"])
 def new_purchase(selected_supplier):
-    puorders = mongo.db.puorders.find()
-    inventory = mongo.db.inventory.find()
     supplier = selected_supplier
     suppliers = mongo.db.suppliers.find()
+    if request.method == "POST":
+        puo = mongo.db.puorders.count()+1
+        newpurchase = {
+            "puo_number": puo,
+            "puo_date": 'today',
+            "puo_supplier": supplier,
+            "puo_items": request.form.get("new_purchase_items"),
+            "puo_items_qty": request.form.get("new_purchase_qty"),
+            "puo_items_price": request.form.get("new_purchase_cost"),
+            "puo_total": request.form.get("new_purchase_total"),
+            "puo_status": False,
+        }
+        mongo.db.puorders.insert_one(newpurchase)
+        flash("Purchase Order Processed")
+        return redirect(url_for("new_purchase", selected_supplier=supplier))
     products_list = []
+    price_list = []
     for i in suppliers:
         if i["supplier_name"] == selected_supplier:
             for j in i["supplier_products"]:
                 products_list.append(j)
+            for j in i["supplier_products_price"]:
+                price_list.append(j)
     return render_template(
-        "new_purchase.html",
-        puorders=puorders, inventory=inventory, supplier=supplier,
-        products_list=products_list)
+        "new_purchase.html", supplier=supplier,
+        products_list=zip(products_list, price_list))
 
 
 @app.route("/new_purchase_copy")
