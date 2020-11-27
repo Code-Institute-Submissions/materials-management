@@ -86,15 +86,15 @@ def new_purchase(selected_supplier):
         products_list=zip(products_list, price_list))
 
 
-@app.route("/new_purchase_copy")
-def new_purchase_copy():
+@app.route("/select_supplier")
+def select_supplier():
     suppliers = mongo.db.suppliers.find()
     return render_template(
-        "new_purchase_copy.html",
+        "select_supplier.html",
         suppliers=suppliers)
 
 
-@app.route("/new_purchase_copy/<the_supplier>")
+@app.route("/select_supplier/<the_supplier>")
 def selected_supplier(the_supplier):
     the_supplier = the_supplier
     return redirect(url_for("new_purchase", selected_supplier=the_supplier))
