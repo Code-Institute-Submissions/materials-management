@@ -15,17 +15,19 @@
                 <tr>
                     <th>Order #</th>
                     <th>Date of Request</th>
+                    <th>Supplier</th>
                     <th>Total</th>
                     <th>Status</th>
                 </tr>
             </thead>
-         {% for puorders in puorders %}
+         {% for orders in orders %}
             <tbody>
                 <tr>
-                    <td>{{ puorders.puo_number}}</td>
-                    <td>{{ puorders.puo_date }}</td>
-                    <td>Total here</td>
-                    <td>{{ puorders.puo_status }}</td>
+                    <td>#{{ orders[0].puo_number}}</td>
+                    <td>{{ orders[0].puo_date }}</td>
+                    <td>{{ orders[1].supplier_name}}</td>
+                    <td>$ {{ orders[0].puo_total }}</td>
+                    <td>{{ orders[0].puo_status }}</td>
                 </tr>
             </tbody>
         {% endfor %}

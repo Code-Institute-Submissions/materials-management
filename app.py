@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -44,11 +45,10 @@ def delete_material(material_id):
 @app.route("/purchases")
 def purchases():
     puorders = mongo.db.puorders.find()
-    inventory = mongo.db.inventory.find()
     suppliers = mongo.db.suppliers.find()
     return render_template(
         "purchases.html",
-        puorders=puorders, inventory=inventory, suppliers=suppliers)
+        orders=zip(puorders, suppliers))
 
 
 @app.route("/new_purchase/<selected_supplier>", methods=["GET", "POST"])
@@ -56,18 +56,23 @@ def new_purchase(selected_supplier):
     supplier = selected_supplier
     suppliers = mongo.db.suppliers.find()
     if request.method == "POST":
+        date = datetime.datetime.now()
         puo = mongo.db.puorders.count()+1
         puo_items = request.form.get("new_purchase_items")
         puo_items_qty = request.form.get("new_purchase_qty")
-        puo_items_price = request.form.get("new_purchase_cost")
+        puo_items_price = format(
+            float(request.form.get(
+                "new_purchase_cost")), '.2f')
         newpurchase = {
-            "puo_number": puo,
-            "puo_date": 'today',
+            "puo_number": "%04d" % (puo,),
+            "puo_date": date.strftime("%x"),
             "puo_supplier": supplier,
             "puo_items": puo_items.split(","),
             "puo_items_qty": puo_items_qty.split(","),
             "puo_items_price": puo_items_price.split(","),
-            "puo_total": request.form.get("new_purchase_total"),
+            "puo_total": format(
+                float(request.form.get(
+                    "new_purchase_total")), '.2f'),
             "puo_status": False,
         }
         mongo.db.puorders.insert_one(newpurchase)
