@@ -40,7 +40,7 @@ nav{
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     left: 0;
     overflow-x: hidden;
@@ -180,8 +180,8 @@ nav{
 }
 
 .tabrow{
-    margin: 1% !important;
-    height: 5vh !important;
+    margin-top: 1% !important;
+    height: 8vh !important;
     border-bottom: outset 2px;
     border-right: outset 2px;
     border-color: #323264;
@@ -208,7 +208,7 @@ nav{
 }
 
 .contentrow{
-    margin: 1% !important;
+    margin-top: 1% !important;
     min-height: 60vh;
     max-height: 60vh;
     position: relative !important;
@@ -216,6 +216,21 @@ nav{
     border-bottom: outset 2px;
     border-right: outset 2px;
     border-color: #323264;
+}
+
+.contentrow ul{
+    display: inline-flex;
+}
+
+.supplier-card{
+    padding: 0 2rem;
+    width: 25% !important;
+}
+
+.contentrow .card{
+    background:#323264 ;
+    color: #f3f3f3;
+    width: 100%;
 }
 
 th{
@@ -288,8 +303,8 @@ table{
     overflow-y: auto;
 }
 
-.hidden_form .btndiv{
-    display: block !important;
+#add_purchase_item{
+    margin-bottom: 2vh !important;
 }
 
 .fa-times{

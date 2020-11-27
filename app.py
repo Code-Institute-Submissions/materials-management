@@ -57,19 +57,22 @@ def new_purchase(selected_supplier):
     suppliers = mongo.db.suppliers.find()
     if request.method == "POST":
         puo = mongo.db.puorders.count()+1
+        puo_items = request.form.get("new_purchase_items")
+        puo_items_qty = request.form.get("new_purchase_qty")
+        puo_items_price = request.form.get("new_purchase_cost")
         newpurchase = {
             "puo_number": puo,
             "puo_date": 'today',
             "puo_supplier": supplier,
-            "puo_items": request.form.get("new_purchase_items"),
-            "puo_items_qty": request.form.get("new_purchase_qty"),
-            "puo_items_price": request.form.get("new_purchase_cost"),
+            "puo_items": puo_items.split(","),
+            "puo_items_qty": puo_items_qty.split(","),
+            "puo_items_price": puo_items_price.split(","),
             "puo_total": request.form.get("new_purchase_total"),
             "puo_status": False,
         }
         mongo.db.puorders.insert_one(newpurchase)
         flash("Purchase Order Processed")
-        return redirect(url_for("new_purchase", selected_supplier=supplier))
+        return redirect(url_for("purchases"))
     products_list = []
     price_list = []
     for i in suppliers:

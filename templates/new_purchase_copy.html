@@ -1,62 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="row tabrow valign-wrapper">
-        <div class="col s12">
-            <h4 class="left-align">New Purchase</h4>
-        </div>
-        
+    <div class="row tabrow valign-wrapper m-0">
+        <ul class="col s8 m-0">
+            <li class="left-align"><a href = "{{ url_for('purchases') }}" >Purchase Orders ></a></li>
+            <li class="left-align">New Purchase</li>
+        </ul>
     </div>
     
     <div class="contentrow">
-    
-            {% for supplier in suppliers %}
-                <div><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></div>
-            {% endfor %}
-
-        <div class="row m-0">
-            <div class="col s4 left">
-                <input id="new_purchase_items" class="left" name="new_purchase_items" type="text" required>
-                <input id="new_purchase_cost" class="left" name="new_purchase_cost" type="text" required>
-                <input id="new_purchase_qty" class="left" name="new_purchase_qty" type="text" required>
-                <input id="new_purchase_id" class="left" name="new_purchase_id" type="text" required>
+            <div class="row m-0 p-0">
+                <div class="col s12">
+                    <h3>Select a Supplier</h3>
+                </div>
             </div>
-        </div>
-        <div class="row m-0">
-            <div class="col s8">
-                <ol class="s12 left" id="items_list">
-                </ol>
-            </div>
-        </div>
-
-        <!-- Modal Structure -->
-        <div id="edit_purchase_item_card" class="modal">
-            <div class="modal-content">  
-                <div class="row" >
-                    <div class="col s12 m6">
-                        <div class="card blue-grey darken-1">
-                            <div class="row left-align valign-wrapper m-0">
-                                <div class="input-field col s4 m-0">
-                                    <select id="puo_item_names" name="puo_item_name" type="text" class="validate" required>
-                                        <option value="" disabled selected>Select New Item</option>
-                                        {% for inventory in inventory %}
-                                            <option value="{{ inventory.material_description }},{{ inventory.material_cost }}">{{ inventory.material_description }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="input-field col s4 m-0">
-                                    <input placeholder="Quantity" id="puo_item_qtys" name="puo_item_qty" type="text" class="validate" required>
-                                </div>
-                                <button id="add_purchase_items" class="s1 waves-effect waves-green btn-small green m-0">Add</button>
+            <div class="row m-0 p-0">
+                <ul>
+                {% for supplier in suppliers %}
+                    <li class="col supplier-card">
+                        <div class="card">
+                            <div class="card-content white-text">
+                                <span class="card-title">
+                                    <a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a>
+                                </span>
                             </div>
                         </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
+                    </li>
+                {% endfor %}
+                </ul>
             </div>
-        </div>
+
+
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">
             <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>

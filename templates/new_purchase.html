@@ -1,75 +1,70 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="row tabrow valign-wrapper">
-        <ul class="col s12">
-            <li class="left-align">New Purchase > </li>
-            <li class="left-align">{{supplier}}</li>
-        </ul>
-    </div>
-    <div class="contentrow">
-        <div class="row m-0">
-            <div class="col s12 m6">
-                <div class="input-field col s12 m-0">
-                    <select id="puo_item_name" name="puo_item_name" type="text" class="validate" required>
-                        <option value="" disabled selected>Select New Item</option>
-                        {% for products in products_list %}
-                            <option value="{{ products[0] }},{{ products[1] }}">{{products[0]}}</option>
-                        {% endfor %}
-                    </select>
-                </div>            
-                <div class="input-field col s12 m-0">
-                    <input placeholder="Quantity" id="puo_item_qty" name="puo_item_qty" type="text" class="validate" required>
-                </div>
-                <div>
-                    <button id="add_purchase_item" class="s1 waves-effect waves-green btn-small green m-0">Add</button>
-                </div>
-            </div>
-            <div class="col s12 m6">
-                <table id="items_list" class="centered">
-                    <thead>
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
-                <table class="centered">
-                    <thead>
-                        <tr>
-                            <th>Total</th>
-                            <th></th>
-                            <th></th>
-                            <th id="puo_total"></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+    <form class="col s12 m-0" method="POST" action="{{ url_for('new_purchase', selected_supplier = supplier) }}" >
+        <div class="row tabrow valign-wrapper m-0">
+            <ul class="col s8 m-0">
+                <li class="left-align"><a href = "{{ url_for('purchases') }}" >Purchase Orders ></a></li>
+                <li class="left-align"><a href = "{{ url_for('new_purchase_copy') }}" >New Purchase ></a></li>
+                <li class="left-align">{{supplier}}</li>
+            </ul>
+            <div class="col s2 btndiv m-0">
+                <button class="waves-effect waves-green btn-small green" type="submit">Confirm Purchase</button>
             </div>
         </div>
-        <form class="col s12" method="POST" action="{{ url_for('new_purchase', selected_supplier = supplier) }}" >
-            <div class="row m-0 ">
-                <div class="col s4 left">
-                    <input id="new_purchase_items" name="new_purchase_items" type="text" required>
-                    <input id="new_purchase_cost" name="new_purchase_cost" type="text" required>
-                    <input id="new_purchase_qty" name="new_purchase_qty" type="text" required>
-                    <input id="new_purchase_id" name="new_purchase_id" type="text" required>
-                    <input id="new_purchase_total" name ="new_purchase_total" type="text" required>
+        <div class="contentrow">
+            <div class="row m-0">
+                <div class="col s12 m6">
+                    <div class="input-field col s12">
+                        <select id="puo_item_name" name="puo_item_name" type="text" class="validate" required>
+                            <option value="" disabled selected>Select New Item</option>
+                            {% for products in products_list %}
+                                <option value="{{ products[0] }},{{ products[1] }}">{{products[0]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>            
+                    <div class="input-field col s12 m-0">
+                        <input placeholder="Quantity" id="puo_item_qty" name="puo_item_qty" type="text" class="validate" required>
+                    </div>
+                    <div>
+                        <div id="add_purchase_item" class="s1 waves-effect waves-green btn-small green m-0">Add</div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <table id="items_list" class="centered">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="centered">
+                        <thead>
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th></th>
+                                <th id="puo_total">$ 0.00</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-            <div class="col s6 left btndiv">
-                <button class="waves-effect waves-green btn green" type="submit">Confirm</button>
-            </div>
-        </form>
-            
-        <div class="row m-0">
-            <div class="col s8">
-                <ol class="s12 left" id="items_list">
-                </ol>
+        </div>    
+        <div class="row m-0 hidden_form">
+            <div class="col s4 left">
+                <input id="new_purchase_items" name="new_purchase_items" type="text" required>
+                <input id="new_purchase_cost" name="new_purchase_cost" type="text" required>
+                <input id="new_purchase_qty" name="new_purchase_qty" type="text" required>
+                <input id="new_purchase_id" name="new_purchase_id" type="text" required>
+                <input id="new_purchase_total" name ="new_purchase_total" type="text" required>
             </div>
         </div>
+    </form>        
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">

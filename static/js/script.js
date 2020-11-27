@@ -82,13 +82,7 @@ var item_id = 0
                 </tr>
             </tbody>
         `);
-
-        var sum = 0;
-        for(var i=0; i< new_item_cost.length; i++) {
-            sum += new_item_cost[i]*new_item_qty[i];
-        }
-        $('#puo_total').html(`$ ${sum.toFixed(2)}`);
-        $('#new_purchase_total').val(sum);
+        puo_total();
         item_id++;
     })
 
@@ -101,4 +95,14 @@ function delete_item(btn){
     new_item_qty.splice(index, 1);
     new_item_id.splice(index, 1);
     btn.parentElement.parentElement.remove();
+    puo_total();
+}
+
+function puo_total(){
+    var sum = 0;
+    for(var i=0; i< new_item_cost.length; i++) {
+        sum += new_item_cost[i]*new_item_qty[i];
+    }
+    $('#puo_total').html(`$ ${sum.toFixed(2)}`);
+    $('#new_purchase_total').val(sum);
 }
