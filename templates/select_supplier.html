@@ -10,24 +10,28 @@
     
     <div class="contentrow">
             <div class="row m-0 p-0">
-                <div class="col s12">
-                    <h3>Select a Supplier</h3>
-                </div>
-            </div>
-            <div class="row m-0 p-0">
-                <ul>
+                <table class="centered">
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th></th>
+                        </tr>
+                    </thead>
                 {% for supplier in suppliers %}
-                    <li class="col supplier-card">
-                        <div class="card">
-                            <div class="card-content white-text">
-                                <span class="card-title">
-                                    <a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a>
-                                </span>
-                            </div>
-                        </div>
-                    </li>
+                    <tbody>
+                        <tr>
+                            <td>{{supplier.supplier_name}}</td>
+                            <td>{{supplier.supplier_phone}}</td>
+                            <td>{{ supplier.supplier_email}}</td>
+                            <td>{{ supplier.supplier_rep }}</td>
+                            <td><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">Select</a></td>
+                        </tr>
+                    </tbody>
                 {% endfor %}
-                </ul>
+                </table>
             </div>
 
 
