@@ -3,38 +3,64 @@
     <div class="row tabrow valign-wrapper m-0">
         <ul class="col s8 m-0">
             <li class="left-align"><a href = "{{ url_for('purchases') }}" >Purchase Orders</a></li>
-            <li class="left-align">></li>
+            <li class="left-align">/</li>
             <li class="left-align">Select Supplier</li>
         </ul>
+        <div class="col s4 left-align">
+            <a class="modal-trigger" href="#newsupplier">New Supplier</a>
+        </div>
     </div>
-    
+
     <div class="contentrow">
-            <div class="row m-0 p-0">
-                <table class="centered">
-                    <thead>
+        <div class="row m-0 p-0">
+            <table id="sup-tbl" class="centered">
+                <thead>
+                    <tr>
+                        <th class="hide-on-small-only s1"></th>
+                        <th>Supplier</th>
+                        <th class="hide-on-med-and-down">Phone</th>
+                        <th class="hide-on-small-only">Email</th>
+                        <th class="hide-on-small-only">Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for supplier in suppliers %}
                         <tr>
-                            <th>Supplier</th>
-                            <th class="hide-on-med-and-down">Phone</th>
-                            <th class="hide-on-small-only">Email</th>
-                            <th class="hide-on-small-only">Contact</th>
-                            <th class="hide-on-small-only"></th>
-                        </tr>
-                    </thead>
-                {% for supplier in suppliers %}
-                    <tbody>
-                        <tr>
+                            <td class="hide-on-small-only s1"><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">Select</a></td>
                             <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
                             <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td class="hide-on-small-only"><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">Select</a></td>
                             <td class="hide-on-med-and-up"><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
                         </tr>
-                    </tbody>
-                {% endfor %}
-                </table>
-            </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <div id="newsupplier" class="modal modal-fixed-footer grey lighten-5">
+        <div class="modal-content p-0">
+            <h4 class="blue darken-4">Register New Supplier</h4>
+             <div class="row m-0">
+                <form class="col s12" method="POST" action="{{ url_for('select_supplier') }}" >
+                    <div class="row">
+                        <ul class="col s12">
+                            <li class="col s10"><input placeholder="Name" id="supplier_name" name="supplier_name" type="text" class="validate" required></li>
+                            <li class="col s10"><input placeholder="Address" id="supplier_address" name="supplier_address" type="text" class="validate" required></li>
+                            <li class="col s10"><input placeholder="Phone" id="supplier_phone" name="supplier_phone" type="text" class="validate" required></li>
+                            <li class="col s10"><input placeholder="Email" id="supplier_email" name="supplier_email" type="email" class="validate" required></li>
+                            <li class="col s10"><input placeholder="Representative" id="supplier_rep" name="supplier_rep" type="text" class="validate" required></li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <div class="col s5"><button class="modal-close waves-effect waves-red btn red">Cancel</button></div>
+                        <div class="col s5"><button class="waves-effect waves-green btn green" type="submit">Confirm</button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">
@@ -63,8 +89,7 @@
             <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
             <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
             <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
-        </div>
-        
+        </div>    
     </div>
 
 {% endblock %}

@@ -208,7 +208,7 @@ nav{
 }
 
 .contentrow{
-    margin-top: 1% !important;
+    margin: 2vh 0 4vh 0 !important;
     min-height: 60vh;
     max-height: 60vh;
     position: relative !important;
@@ -219,9 +219,9 @@ nav{
 }
 
 
-.supplier-card{
-    padding: 0 2rem;
-    width: 25% !important;
+#new-pchs-sup-info{
+    text-align: left !important;
+    border: 2px dotted #505050;
 }
 
 .contentrow .card{
@@ -278,7 +278,7 @@ table{
     width: 40px;
 }
 
-#rgst-mat, #confirmation{
+#newsupplier, #rgst-mat, #confirmation{
     max-width: 75% !important;
 } 
 

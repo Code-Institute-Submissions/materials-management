@@ -60,9 +60,7 @@ def new_purchase(selected_supplier):
         puo = mongo.db.puorders.count()+1
         puo_items = request.form.get("new_purchase_items")
         puo_items_qty = request.form.get("new_purchase_qty")
-        puo_items_price = format(
-            float(request.form.get(
-                "new_purchase_cost")), '.2f')
+        puo_items_price = request.form.get("new_purchase_cost")
         newpurchase = {
             "puo_number": "%04d" % (puo,),
             "puo_date": date.strftime("%x"),
@@ -82,18 +80,44 @@ def new_purchase(selected_supplier):
     price_list = []
     for i in suppliers:
         if i["supplier_name"] == selected_supplier:
+            address = i["supplier_address"]
+            phone = i["supplier_phone"]
+            email = i["supplier_email"]
+            rep = i["supplier_rep"]
             for j in i["supplier_products"]:
                 products_list.append(j)
             for j in i["supplier_products_price"]:
                 price_list.append(j)
     return render_template(
-        "new_purchase.html", supplier=supplier,
-        products_list=zip(products_list, price_list))
+        "new_purchase.html",
+        supplier=supplier,
+        address=address,
+        phone=phone,
+        email=email,
+        rep=rep,
+        products_list=zip(
+            products_list, price_list))
 
 
-@app.route("/select_supplier")
+@app.route("/select_supplier", methods=["GET", "POST"])
 def select_supplier():
     suppliers = mongo.db.suppliers.find()
+    supplier_products = []
+    supplier_products_price = []
+    supplier_products_each = []
+    if request.method == "POST":
+        newsupplier = {
+            "supplier_name": request.form.get("supplier_name"),
+            "supplier_address": request.form.get("supplier_address"),
+            "supplier_phone": request.form.get("supplier_phone"),
+            "supplier_email": request.form.get("supplier_email"),
+            "supplier_rep": request.form.get("supplier_rep"),
+            "supplier_products": supplier_products,
+            "supplier_products_price": supplier_products_price,
+            "supplier_products_each": supplier_products_each,
+        }
+        mongo.db.suppliers.insert_one(newsupplier)
+        return redirect(url_for("select_supplier"))
     return render_template(
         "select_supplier.html",
         suppliers=suppliers)

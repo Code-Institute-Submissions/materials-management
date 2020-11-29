@@ -85,7 +85,6 @@ var item_id = 0
         puo_total();
         item_id++;
     })
-
 });
 
 function delete_item(btn){
