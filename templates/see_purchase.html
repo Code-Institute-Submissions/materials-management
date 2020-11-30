@@ -57,8 +57,8 @@
         {% endfor %}
         </table>
     </div>
-    <!--<form class="col s12 m-0 p-0" method="POST" action="{{ url_for('items_received', puonumber = puonumber) }}" >-->
-        <div class="row m-0">
+    <form class="col s12 m-0 p-0" method="POST" action="{{ url_for('items_received', puonumber = puonumber) }}" >
+        <div class="row m-0 hidden_form">
             <div class="col s4 left">
                 <input id="items_name" name="items_name" type="text" required>
                 <input id="items_qty" name="items_qty" type="text" required>
@@ -67,10 +67,10 @@
         </div>
         <div class="row m-0">
             <div class="col s8 offset-s2 btndiv">
-                <button id="itemsreceived" class="waves-effect waves-green btn-small green"><a>Items Received</a></button>
+                <button id="itemsreceived" class="waves-effect waves-green btn-small green" type="submit"><a>Items Received</a></button>
             </div>
         </div>
-   <!-- </form>-->
+   </form>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">

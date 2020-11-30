@@ -20,7 +20,7 @@ mongo = PyMongo(app)
 
 @app.route("/")
 @app.route("/inventory", methods=["GET", "POST"])
-def register_material():
+def inventory_list():
     inventory = mongo.db.inventory.find()
     if request.method == "POST":
         matid = mongo.db.inventory.count()+1
@@ -31,7 +31,7 @@ def register_material():
             "material_cost": request.form.get("material_cost")
         }
         mongo.db.inventory.insert_one(rgstmat)
-        return redirect(url_for("register_material"))
+        return redirect(url_for("inventory_list"))
     return render_template("inventory.html", inventory=inventory)
 
 
@@ -39,7 +39,7 @@ def register_material():
 def delete_material(material_id):
     mongo.db.inventory.remove(
         {"_id": ObjectId(material_id)})
-    return redirect(url_for("register_material"))
+    return redirect(url_for("inventory_list"))
 
 
 @app.route("/purchases")
@@ -165,6 +165,27 @@ def see_purchase(puo_number):
             itemlist,
             items, qty,
             price))
+
+
+@app.route("/see_purchase/<puonumber>", methods=["GET", "POST"])
+def items_received(puonumber):
+    puonumber = puonumber
+    inventory = mongo.db.inventory.find()
+    puorders = mongo.db.puorders.find()
+    suppliers = mongo.db.suppliers.find()
+    items_name = request.form.get("items_name").split(",")
+    items_qty = request.form.get("items_qty").split(",")
+    items_price = request.form.get("items_qty").split(",")
+    for i in inventory:
+        for k in items_name:
+            if k == i["material_description"]:
+                newqty =(
+                    int(i["material_qty"])+
+                    int(items_qty[items_name.index(k)]))
+                mongo.db.inventory.update_one(
+                    {"material_description": k},
+                    {"$set": {"material_qty": newqty}})
+    return redirect(url_for("inventory_list"))
 
 
 @app.route("/select_supplier/<the_supplier>")
