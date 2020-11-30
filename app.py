@@ -22,6 +22,13 @@ mongo = PyMongo(app)
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = mongo.db.inventory.find()
+    suppliers = mongo.db.suppliers.find()
+    supplierlist = []
+    for s in suppliers:
+        suppliername = s["supplier_name"]
+        print(suppliername)
+        supplierlist.append(suppliername)
+    print(supplierlist)
     if request.method == "POST":
         matid = mongo.db.inventory.count()+1
         rgstmat = {
@@ -32,7 +39,10 @@ def inventory_list():
         }
         mongo.db.inventory.insert_one(rgstmat)
         return redirect(url_for("inventory_list"))
-    return render_template("inventory.html", inventory=inventory)
+    return render_template(
+        "inventory.html",
+        inventory=inventory,
+        supplierlist=supplierlist)
 
 
 @app.route("/inventory/<material_id>")
@@ -69,7 +79,7 @@ def new_purchase(selected_supplier):
             "puo_total": format(
                 float(request.form.get(
                     "new_purchase_total")), '.2f'),
-            "puo_status": 'Received',
+            "puo_status": False,
         }
         mongo.db.puorders.insert_one(newpurchase)
         flash("Purchase Order Processed")
@@ -171,7 +181,6 @@ def see_purchase(puo_number):
 def items_received(puonumber):
     puonumber = puonumber
     inventory = mongo.db.inventory.find()
-    puorders = mongo.db.puorders.find()
     items_name = request.form.get("items_name").split(",")
     items_qty = request.form.get("items_qty").split(",")
     for i in inventory:

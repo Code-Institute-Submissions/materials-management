@@ -56,36 +56,30 @@
     <div id="rgst-mat" class="modal modal-fixed-footer grey lighten-5">
         <div class="modal-content p-0">
             <h4 class="blue darken-4">Register New Material</h4>
-            <h6 class="left">Material ID #</h6>
              <div class="row m-0">
                 <form class="col s12" method="POST" action="{{ url_for('inventory_list') }}" >
                     <div class="row">
-                        <div class="input-field col s11">
-                            <input placeholder="Material Description" id="material_description" name="material_description" type="text" class="validate" required>
-                        </div>
+                        <ul class="col s12">
+                            <li class="col s10"><input placeholder="Material Description" id="material_description" name="material_description" type="text" class="validate" required></li>
+                            <li class="col s10"><input placeholder="Material Cost" id="material_cost" name="material_cost" type="text" class="validate" required></li>
+                            <li class="col s10">
+                                <select id="material_units" name="material_unit" type="text" class="validate" required>
+                                    <option value="" disabled selected>Material Each Unit</option>
+                                    <option value="UN">UN (Unit)</option>
+                                    <option value="KG">Kg (Kilogram) </option>
+                                    <option value="L">L (Litre) </option>
+                                </select>
+                            </li>
+                            <li class="col s10">
+                                <select id="material_supplier" name="material_supplier" type="text" class="validate" required>
+                                    <option value="{{ supplierlist }}" disabled selected>Select Supplier</option>
+                                </select>
+                            </li>
+                        </ul>
                     </div>
                     <div class="row">
-                        <div class="input-field col s11">
-                            <select id="material_unit" name="material_unit" type="text" class="validate" required>
-                                <option value="" disabled selected>Material Each Unit</option>
-                                <option value="UN">UN (Unit)</option>
-                                <option value="KG">Kg (Kilogram) </option>
-                                <option value="L">L (Litre) </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s11" required>
-                            <input placeholder="Material Cost" id="material_cost" name="material_cost" type="text" class="validate">
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <div class="col s6 right">
-                            <a class="modal-close waves-effect waves-red btn red">Cancel</a>
-                        </div>
-                        <div class="col s6 left">
-                            <button class="waves-effect waves-green btn green" type="submit">Confirm</button>
-                        </div>
+                        <div class="col s5"><button class="modal-close waves-effect waves-red btn red">Cancel</button></div>
+                        <div class="col s5"><button class="waves-effect waves-green btn green" type="submit">Confirm</button></div>
                     </div>
                 </form>
             </div>

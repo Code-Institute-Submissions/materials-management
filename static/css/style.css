@@ -224,12 +224,6 @@ nav{
     border: 2px dotted #505050;
 }
 
-.contentrow .card{
-    background:#323264 ;
-    color: #f3f3f3;
-    width: 100%;
-}
-
 th{
     position: sticky !important;
     top: 0;
@@ -292,6 +286,11 @@ table{
     padding-left: 10% !important;
 }
 
+.dropdown-content li>span{
+    font-size: 12px;
+    color: #323264;
+    display: block;
+}
 
 /* New Purchase*/
 

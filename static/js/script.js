@@ -57,6 +57,16 @@ var item_id = 0
     })
 
     
+    $('#rgst-mat').one("click",function(){
+        material_supplier = $("#material_supplier").children().val().split(",");
+        mat = material_supplier.join(",")
+        console.log(material_supplier)
+        //for (m in material_supplier){
+            //console.log(material_supplier[m]);
+           //$("#material_supplier").append(`<option value="${material_supplier[m]}">${material_supplier[m]}</option>`);
+        //};
+    })
+
     $('#add_purchase_item').click(function(){
         new_items[0] = $(this).parent().parent().find("#puo_item_name").val().split(",");
         new_items[1] = $(this).parent().parent().find("#puo_item_qty").val();
