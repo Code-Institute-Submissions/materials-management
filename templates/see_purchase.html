@@ -34,7 +34,7 @@
                 <li>Representative: {{rep}}</li>
             </ul>
         </div>
-        <table class="centered">
+        <table id="puoitems" class="centered">
             <thead>
                 <tr>
                     <th>Item</th>
@@ -48,21 +48,29 @@
             <tbody>
                 <tr>
                     <td>{{ item[0] }}</td>
-                    <td>{{ item[1] }}</td>
-                    <td>{{ item[2] }}</td>
-                    <td>$ {{ item[3] }}</td>
+                    <td class="items_name">{{ item[1] }}</td>
+                    <td class="items_qty">{{ item[2] }}</td>
+                    <td class="items_price">$ {{ item[3] }}</td>
                     <td>$ {{ item[2] * item[3] }}</td>
                 </tr>
             </tbody>
         {% endfor %}
         </table>
     </div>
-    <div class="row m-0">
-        <div class="col s8 offset-s2 btndiv">
-            <button class="waves-effect waves-green btn-small green"><a href = "{{ url_for('purchases') }}">Items Received</a></button>
+    <!--<form class="col s12 m-0 p-0" method="POST" action="{{ url_for('items_received', puonumber = puonumber) }}" >-->
+        <div class="row m-0">
+            <div class="col s4 left">
+                <input id="items_name" name="items_name" type="text" required>
+                <input id="items_qty" name="items_qty" type="text" required>
+                <input id="items_price" name="items_price" type="text" required>
+            </div>
         </div>
-    </div>
-    
+        <div class="row m-0">
+            <div class="col s8 offset-s2 btndiv">
+                <button id="itemsreceived" class="waves-effect waves-green btn-small green"><a>Items Received</a></button>
+            </div>
+        </div>
+   <!-- </form>-->
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">

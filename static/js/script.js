@@ -85,6 +85,24 @@ var item_id = 0
         puo_total();
         item_id++;
     })
+
+    $('#itemsreceived').click(function(){
+        itemsname = [];
+        itemsqty = [];
+        itemsprice = [];
+        $('#puoitems .items_name').each(function() {
+            itemsname.push($(this).html());  
+        });
+        $('#puoitems .items_qty').each(function() {
+            itemsqty.push($(this).html());  
+        });
+        $('#puoitems .items_price').each(function() {
+            itemsprice.push($(this).html());  
+        });
+        $('#items_name').val(itemsname);
+        $('#items_qty').val(itemsqty);
+        $('#items_price').val(itemsprice);
+    });
 });
 
 function delete_item(btn){

@@ -20,14 +20,14 @@
                     <th>Status</th>
                 </tr>
             </thead>
-        {% for orders in orders %}
+        {% for orders in puorders %}
             <tbody>
                 <tr>
-                    <td><a href = "{{ url_for('see_purchase', puo_number = orders[0].puo_number) }}">#{{ orders[0].puo_number}}</a></td>
-                    <td>{{ orders[0].puo_date }}</td>
-                    <td>{{ orders[1].supplier_name}}</td>
-                    <td>$ {{ orders[0].puo_total }}</td>
-                    <td>{{ orders[0].puo_status }}</td>
+                    <td><a href = "{{ url_for('see_purchase', puo_number = orders.puo_number) }}">#{{ orders.puo_number}}</a></td>
+                    <td>{{ orders.puo_date }}</td>
+                    <td>{{ orders.puo_supplier}}</td>
+                    <td>$ {{ orders.puo_total }}</td>
+                    <td>{{ orders.puo_status }}</td>
                 </tr>
             </tbody>
         {% endfor %}

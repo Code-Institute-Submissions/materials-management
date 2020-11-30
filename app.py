@@ -45,10 +45,8 @@ def delete_material(material_id):
 @app.route("/purchases")
 def purchases():
     puorders = mongo.db.puorders.find()
-    suppliers = mongo.db.suppliers.find()
     return render_template(
-        "purchases.html",
-        orders=zip(puorders, suppliers))
+        "purchases.html", puorders=puorders)
 
 
 @app.route("/new_purchase/<selected_supplier>", methods=["GET", "POST"])
@@ -137,6 +135,7 @@ def see_purchase(puo_number):
             date = i["puo_date"]
             total = i["puo_total"]
             status = i["puo_status"]
+            supplier = i["puo_supplier"]
             for j in i["puo_items"]:
                 itemlist.append(len(itemlist)+1)
             for j in i["puo_items"]:
@@ -145,13 +144,12 @@ def see_purchase(puo_number):
                 qty.append(int(j))
             for j in i["puo_items_price"]:
                 price.append(float(j))
-        for k in suppliers:
-            if k["supplier_name"] == i["puo_supplier"]:
-                supplier = i["puo_supplier"]
-                address = k["supplier_address"]
-                phone = k["supplier_phone"]
-                email = k["supplier_email"]
-                rep = k["supplier_rep"]
+            for k in suppliers:
+                if k["supplier_name"] == supplier:
+                    address = k["supplier_address"]
+                    phone = k["supplier_phone"]
+                    email = k["supplier_email"]
+                    rep = k["supplier_rep"]
     return render_template(
         "see_purchase.html",
         supplier=supplier,

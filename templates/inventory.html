@@ -1,21 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="row tabrow valign-wrapper">
-        <div class="col s12 m5 l4">
-            <h4 class="left-align">Inventory list</h4>
+    <div class="row tabrow valign-wrapper m-0">
+        <ul class="col s8 m-0">
+            <li class="left-align">Inventory</li>
+        </ul>
+        <div class="col s4 left-align">
+            <a class="modal-trigger tooltipped" data-position="top" data-tooltip="Register Material" href="#rgst-mat" >Register Material</a>
         </div>
-        <div class="col m5 l4 left-align hide-on-small-and-down">
-            <div class="col s4">
-                <a class="modal-trigger tooltipped" data-position="top" data-tooltip="Register Material" href="#rgst-mat">
-                    <i class="fas fa-folder-plus"></i>
-                </a>
-            </div>
-            <div class="col s4">
-                <a class="modal-trigger tooltipped" data-position="top" data-tooltip="Purchase Materials">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-            </div>
+        <div class="col s4 left-align">
+            <a href = "{{ url_for('select_supplier') }}" >New Purchase</a>
         </div>
+    </div>
+    <!--<div class="row tabrow valign-wrapper">
         <div class="col m5 l4 hide-on-small-and-down">
             <form>
                 <div class="row">
@@ -30,17 +26,17 @@
                 </div>                
             </form>
         </div>
-    </div>
+    </div>-->
     
     <div class="contentrow">
-        <table class="centered">
+        <table id="puoitems" class="centered">
             <thead>
                 <tr>
-                    <th>Order #</th>
+                    <th>Material ID</th>
+                    <th>Material Description</th>
+                    <th>Qty</th>
+                    <th>Each</th>
                     <th>Supplier</th>
-                    <th>Date of Request</th>
-                    <th>Total</th>
-                    <th>Status</th>
                 </tr>
             </thead>
         {% for inventory in inventory %}
@@ -50,6 +46,7 @@
                     <td>{{ inventory.material_description }}</td>
                     <td>{{ inventory.material_qty }}</td>
                     <td>{{ inventory.material_unit }}</td>
+                    <td>{{ inventory.material_supplier }}</td>
                 </tr>
             </tbody>
         {% endfor %}
