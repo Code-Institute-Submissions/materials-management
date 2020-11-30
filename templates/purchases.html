@@ -23,7 +23,7 @@
         {% for orders in orders %}
             <tbody>
                 <tr>
-                    <td>#{{ orders[0].puo_number}}</td>
+                    <td><a href = "{{ url_for('see_purchase', puo_number = orders[0].puo_number) }}">#{{ orders[0].puo_number}}</a></td>
                     <td>{{ orders[0].puo_date }}</td>
                     <td>{{ orders[1].supplier_name}}</td>
                     <td>$ {{ orders[0].puo_total }}</td>

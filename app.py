@@ -123,6 +123,52 @@ def select_supplier():
         suppliers=suppliers)
 
 
+@app.route("/see_purchase/<puo_number>")
+def see_purchase(puo_number):
+    puonumber = puo_number
+    puorders = mongo.db.puorders.find()
+    suppliers = mongo.db.suppliers.find()
+    itemlist = []
+    items = []
+    qty = []
+    price = []
+    for i in puorders:
+        if i["puo_number"] == puonumber:
+            date = i["puo_date"]
+            total = i["puo_total"]
+            status = i["puo_status"]
+            supplier = i["puo_supplier"]
+            for j in i["puo_items"]:
+                itemlist.append(len(itemlist)+1)
+            for j in i["puo_items"]:
+                items.append(j)
+            for j in i["puo_items_qty"]:
+                qty.append(int(j))
+            for j in i["puo_items_price"]:
+                price.append(float(j))
+    for i in suppliers:
+        if i["supplier_name"] == supplier:
+            address = i["supplier_address"]
+            phone = i["supplier_phone"]
+            email = i["supplier_email"]
+            rep = i["supplier_rep"]
+    return render_template(
+        "see_purchase.html",
+        supplier=supplier,
+        address=address,
+        phone=phone,
+        email=email,
+        rep=rep,
+        date=date,
+        total=total,
+        status=status,
+        puonumber=puonumber,
+        items_list=zip(
+            itemlist,
+            items, qty,
+            price))
+
+
 @app.route("/select_supplier/<the_supplier>")
 def selected_supplier(the_supplier):
     the_supplier = the_supplier
