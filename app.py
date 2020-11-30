@@ -69,7 +69,7 @@ def new_purchase(selected_supplier):
             "puo_total": format(
                 float(request.form.get(
                     "new_purchase_total")), '.2f'),
-            "puo_status": False,
+            "puo_status": 'Received',
         }
         mongo.db.puorders.insert_one(newpurchase)
         flash("Purchase Order Processed")
@@ -172,10 +172,8 @@ def items_received(puonumber):
     puonumber = puonumber
     inventory = mongo.db.inventory.find()
     puorders = mongo.db.puorders.find()
-    suppliers = mongo.db.suppliers.find()
     items_name = request.form.get("items_name").split(",")
     items_qty = request.form.get("items_qty").split(",")
-    items_price = request.form.get("items_qty").split(",")
     for i in inventory:
         for k in items_name:
             if k == i["material_description"]:
@@ -185,7 +183,10 @@ def items_received(puonumber):
                 mongo.db.inventory.update_one(
                     {"material_description": k},
                     {"$set": {"material_qty": newqty}})
-    return redirect(url_for("inventory_list"))
+    mongo.db.puorders.update_one(
+        {"puo_number": puonumber},
+        {"$set": {"puo_status": True}})
+    return redirect(url_for("purchases"))
 
 
 @app.route("/select_supplier/<the_supplier>")

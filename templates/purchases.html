@@ -7,6 +7,9 @@
         <div class="col s4 left-align">
             <a href = "{{ url_for('select_supplier') }}" >New Purchase</a>
         </div>
+        <div class="col s4 left-align">
+            <a href = "{{ url_for('inventory_list') }}" >Inventory</a>
+        </div>
     </div>
     
     <div class="contentrow">
@@ -27,7 +30,12 @@
                     <td>{{ orders.puo_date }}</td>
                     <td>{{ orders.puo_supplier}}</td>
                     <td>$ {{ orders.puo_total }}</td>
-                    <td>{{ orders.puo_status }}</td>
+                    <td>{% if orders.puo_status == false %}
+                                    Pending
+                                {% else %}
+                                    Received
+                                {% endif%}
+                    </td>
                 </tr>
             </tbody>
         {% endfor %}
