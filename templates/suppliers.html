@@ -32,7 +32,7 @@
                             <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td><a class="modal-trigger" href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" ><i class="far fa-file-alt"></i></a></td>
+                            <td><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" ><i class="far fa-file-alt"></i></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -8,8 +8,7 @@
             <ul>
                 <li class="col"><a href = "{{ url_for('purchases') }}" >Purchases</a></li>
                 <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
-                <li class="col"><a class="modal-trigger" href="#newsupplier">New Supplier</a></li>
-                <li class="col"><a class="modal-trigger" href="#editupplier">Edit Supplier</a></li>
+                <li class="col"><a class="modal-trigger" href="#editsupplier">Edit Supplier</a></li>
             </ul>
         </div>
     </div>
@@ -17,28 +16,20 @@
     <div class="contentrow">
         <div class="row m-0 p-0">
             <table id="sup-tbl" class="centered">
-                <thead>
-                    <tr>
-                        <th>Supplier</th>
-                        <th class="hide-on-med-and-down">Phone</th>
-                        <th class="hide-on-small-only">Email</th>
-                        <th class="hide-on-small-only">Contact</th>
-                        <th class="hide-on-small-only s1">Details</th>
-                    </tr>
-                </thead>
-                <tbody>
                     {% for s in suppliers %}
                         {% if s.supplier_name == supplier %}
-                            <tr>
-                                <td class="hide-on-small-only">{{s.supplier_name}}</td>
-                                <td class="hide-on-med-and-down">{{s.supplier_phone}}</td>
-                                <td class="hide-on-small-only">{{ s.supplier_email}}</td>
-                                <td class="hide-on-small-only">{{ s.supplier_rep }}</td>
-                                <td><a class="modal-trigger" href="#editsupplier"><i class="far fa-file-alt"></i></a></td>
-                            </tr>
+                            <div class="col s12 m6 offset-m3 sup-info">
+                                <ul class="col s11">
+                                    <li>Supplier: {{s.supplier_name }}</li>
+                                    <li>Address: {{s.supplier_address }}</li>
+                                    <li>Phone: {{s.supplier_phone }}</li>
+                                    <li>Email: {{s.supplier_email }}</li>
+                                    <li>Representative: {{s.supplier_rep }}</li>
+                                </ul>
+                                <a class="col modal-trigger right p-0" href="#editsupplier"><i class="far fa-edit"></i></a>
+                            </div>
                         {% endif %}
                     {% endfor %}
-                </tbody>
             </table>
         </div>
     </div>

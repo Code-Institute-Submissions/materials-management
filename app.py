@@ -104,9 +104,9 @@ def edit_supplier(supplier):
                 "supplier_email": request.form.get("edit_supplier_email"),
                 "supplier_rep": request.form.get("edit_supplier_rep")
             }
-            mongo.db.suppliers.update(
+            mongo.db.suppliers.update_one(
                 {"supplier_name": supplier},
-                edit_supplier)
+                {"$set": edit_supplier})
     return redirect(url_for("suppliers"))
 
 
@@ -133,12 +133,14 @@ def new_purchase(selected_supplier):
             "puo_status": False,
         }
         mongo.db.puorders.insert_one(newpurchase)
-        flash("Purchase Order Processed")
         return redirect(url_for("purchases"))
     products_list = []
     price_list = []
     for i in suppliers:
-        if i["supplier_name"] == selected_supplier:
+        print(supplier)
+        print(i["_id"])
+        if i["_id"] == ObjectId(supplier):
+            print("supplier")
             address = i["supplier_address"]
             phone = i["supplier_phone"]
             email = i["supplier_email"]

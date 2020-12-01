@@ -32,8 +32,8 @@
                             <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td class="hide-on-med-and-up"><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
-                            <td class="hide-on-small-only s1"><a href="{{ url_for('selected_supplier', the_supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
+                            <td class="hide-on-med-and-up"><a href="{{ url_for('selected_supplier', the_supplier = supplier._id) }}">{{supplier.supplier_name}}</a></td>
+                            <td class="hide-on-small-only s1"><a href="{{ url_for('selected_supplier', the_supplier = supplier._id) }}"><i class="fas fa-check"></i></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
