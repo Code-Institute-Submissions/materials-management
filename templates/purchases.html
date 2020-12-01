@@ -18,17 +18,18 @@
                 <tr>
                     <th>Order #</th>
                     <th>Date of Request</th>
-                    <th>Supplier</th>
+                    <th class="hide-on-small-only">Supplier</th>
                     <th>Total</th>
                     <th>Status</th>
+                    <th>Details</th>
                 </tr>
             </thead>
         {% for orders in puorders %}
             <tbody>
                 <tr>
-                    <td><a href = "{{ url_for('see_purchase', puo_number = orders.puo_number) }}">#{{ orders.puo_number}}</a></td>
+                    <td>#{{ orders.puo_number}}</td>
                     <td>{{ orders.puo_date }}</td>
-                    <td>{{ orders.puo_supplier}}</td>
+                    <td class="hide-on-small-only">{{ orders.puo_supplier}}</td>
                     <td>$ {{ orders.puo_total }}</td>
                     <td>{% if orders.puo_status == false %}
                                     Pending
@@ -36,6 +37,7 @@
                                     Received
                                 {% endif%}
                     </td>
+                    <td><a href="{{ url_for('see_purchase', puo_number = orders.puo_number) }}"><i class="far fa-file-alt"></i></a></td>
                 </tr>
             </tbody>
         {% endfor %}

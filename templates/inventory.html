@@ -36,7 +36,8 @@
                     <th>Material Description</th>
                     <th>Qty</th>
                     <th>Each</th>
-                    <th>Supplier</th>
+                    <th class="hide-on-small-only">Supplier</th>
+                    <th>Details</th>
                 </tr>
             </thead>
         {% for inventory in inventory %}
@@ -46,7 +47,8 @@
                     <td>{{ inventory.material_description }}</td>
                     <td>{{ inventory.material_qty }}</td>
                     <td>{{ inventory.material_unit }}</td>
-                    <td>{{ inventory.material_supplier }}</td>
+                    <td class="hide-on-small-only">{{ inventory.material_supplier }}</td>
+                    <td><a href="#"><i class="far fa-file-alt"></i></a></td>
                 </tr>
             </tbody>
         {% endfor %}
