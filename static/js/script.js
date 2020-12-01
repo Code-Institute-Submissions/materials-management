@@ -57,15 +57,34 @@ var item_id = 0
     })
 
     
-    $('#rgst-mat').one("click",function(){
-        material_supplier = $("#material_supplier").children().val().split(",");
-        mat = material_supplier.join(",")
-        console.log(material_supplier)
-        //for (m in material_supplier){
-            //console.log(material_supplier[m]);
-           //$("#material_supplier").append(`<option value="${material_supplier[m]}">${material_supplier[m]}</option>`);
-        //};
-    })
+    /*$('body').one("click",function(){
+        material_supplier = []
+        suppliers = $("#material_supplier").val().split("'");
+        listid = $("#supplierlist").children().children().children().parent().attr("id");
+        console.log(listid);
+        console.log(listid+0);
+        suppliers.pop();
+        suppliers.shift();
+        for (s in suppliers){
+            if (s%2 == 0){
+                console.log(suppliers[s]);
+                material_supplier.push(suppliers[s]);
+            };
+        };
+        for (m in material_supplier){
+            console.log(listid+m);
+            console.log(material_supplier[m]);
+            $("#supplieroption").append(`
+                <option val="${material_supplier[m]}">${material_supplier[m]}</option>`);
+            if (m > 0){
+                $(`#${listid}`).append(`
+                    <li id="${listid+m} tabindex="0">
+                        <span "onclick="selected()">${material_supplier[m]}</span>
+                    </li>`
+                );
+            };
+        };
+    })*/
 
     $('#add_purchase_item').click(function(){
         new_items[0] = $(this).parent().parent().find("#puo_item_name").val().split(",");
@@ -114,6 +133,11 @@ var item_id = 0
         $('#items_price').val(itemsprice);
     });
 });
+
+/*function selected(){
+    console.log("This is getting interesting");
+    setTimeout(function(){ $(this).addClass("selected"); }, 3000);
+}*/
 
 function delete_item(btn){
     index = new_item_id.indexOf(Number(btn.parentElement.id));

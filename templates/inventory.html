@@ -72,7 +72,11 @@
                             </li>
                             <li class="col s10">
                                 <select id="material_supplier" name="material_supplier" type="text" class="validate" required>
-                                    <option value="{{ supplierlist }}" disabled selected>Select Supplier</option>
+                                    <option value="" disabled selected>Select</option>
+                                    {% for supplier in suppliers %}
+                                        <option value="{{ supplier.supplier_name}}" >{{ supplier.supplier_name }}</option>
+                                    {% endfor %}
+
                                 </select>
                             </li>
                         </ul>

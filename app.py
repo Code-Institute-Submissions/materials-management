@@ -22,7 +22,7 @@ mongo = PyMongo(app)
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = mongo.db.inventory.find()
-    suppliers = mongo.db.suppliers.find()
+    suppliers = list(mongo.db.suppliers.find())
     supplierlist = []
     for s in suppliers:
         suppliername = s["supplier_name"]
@@ -42,7 +42,8 @@ def inventory_list():
     return render_template(
         "inventory.html",
         inventory=inventory,
-        supplierlist=supplierlist)
+        supplierlist=supplierlist,
+        suppliers=suppliers)
 
 
 @app.route("/inventory/<material_id>")
