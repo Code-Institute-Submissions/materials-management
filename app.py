@@ -60,6 +60,13 @@ def purchases():
         "purchases.html", puorders=puorders)
 
 
+@app.route("/suppliers")
+def suppliers():
+    suppliers = mongo.db.suppliers.find()
+    return render_template(
+        "suppliers.html", suppliers=suppliers)
+
+
 @app.route("/new_purchase/<selected_supplier>", methods=["GET", "POST"])
 def new_purchase(selected_supplier):
     supplier = selected_supplier

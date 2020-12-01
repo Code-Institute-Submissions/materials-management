@@ -5,10 +5,11 @@
             <li class="left-align">Inventory</li>
         </ul>
         <div class="col s4 left-align">
-            <a class="modal-trigger tooltipped" data-position="top" data-tooltip="Register Material" href="#rgst-mat" >Register Material</a>
-        </div>
-        <div class="col s4 left-align">
-            <a href = "{{ url_for('purchases') }}" >Purchase Orders</a>
+            <ul>
+                <li class="col"><a href = "{{ url_for('purchases') }}" >Purchases</a></li>
+                <li class="col"><a href = "{{ url_for('suppliers') }}" >Suppliers</a></li>
+                <a class="col modal-trigger tooltipped" data-position="top" data-tooltip="Register Material" href="#rgst-mat" >New Material</a></li>
+            </ul>
         </div>
     </div>
     <!--<div class="row tabrow valign-wrapper">
