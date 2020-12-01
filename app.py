@@ -60,11 +60,54 @@ def purchases():
         "purchases.html", puorders=puorders)
 
 
-@app.route("/suppliers")
+@app.route("/suppliers", methods=["GET", "POST"])
 def suppliers():
     suppliers = mongo.db.suppliers.find()
+    supplier_products = []
+    supplier_products_price = []
+    supplier_products_each = []
+    if request.method == "POST":
+        newsupplier = {
+            "supplier_name": request.form.get("supplier_name"),
+            "supplier_address": request.form.get("supplier_address"),
+            "supplier_phone": request.form.get("supplier_phone"),
+            "supplier_email": request.form.get("supplier_email"),
+            "supplier_rep": request.form.get("supplier_rep"),
+            "supplier_products": supplier_products,
+            "supplier_products_price": supplier_products_price,
+            "supplier_products_each": supplier_products_each,
+        }
+        mongo.db.suppliers.insert_one(newsupplier)
+        return redirect(url_for("select_supplier"))
     return render_template(
         "suppliers.html", suppliers=suppliers)
+
+
+@app.route("/supplier_info/<supplier>")
+def supplier_info(supplier):
+    suppliers = list(mongo.db.suppliers.find())
+    return render_template(
+        "supplier_info.html",
+        supplier=supplier, suppliers=suppliers)
+
+
+@app.route("/supplier_info/<supplier>", methods=["GET", "POST"])
+def edit_supplier(supplier):
+    suppliers = mongo.db.suppliers.find()
+    for i in suppliers:
+        if i["supplier_name"] == supplier:
+            print(supplier)
+            edit_supplier = {
+                "supplier_name": request.form.get("edit_supplier_name"),
+                "supplier_address": request.form.get("edit_supplier_address"),
+                "supplier_phone": request.form.get("edit_supplier_phone"),
+                "supplier_email": request.form.get("edit_supplier_email"),
+                "supplier_rep": request.form.get("edit_supplier_rep")
+            }
+            mongo.db.suppliers.update(
+                {"supplier_name": supplier},
+                edit_supplier)
+    return redirect(url_for("suppliers"))
 
 
 @app.route("/new_purchase/<selected_supplier>", methods=["GET", "POST"])
@@ -115,25 +158,9 @@ def new_purchase(selected_supplier):
             products_list, price_list))
 
 
-@app.route("/select_supplier", methods=["GET", "POST"])
+@app.route("/select_supplier")
 def select_supplier():
     suppliers = mongo.db.suppliers.find()
-    supplier_products = []
-    supplier_products_price = []
-    supplier_products_each = []
-    if request.method == "POST":
-        newsupplier = {
-            "supplier_name": request.form.get("supplier_name"),
-            "supplier_address": request.form.get("supplier_address"),
-            "supplier_phone": request.form.get("supplier_phone"),
-            "supplier_email": request.form.get("supplier_email"),
-            "supplier_rep": request.form.get("supplier_rep"),
-            "supplier_products": supplier_products,
-            "supplier_products_price": supplier_products_price,
-            "supplier_products_each": supplier_products_each,
-        }
-        mongo.db.suppliers.insert_one(newsupplier)
-        return redirect(url_for("select_supplier"))
     return render_template(
         "select_supplier.html",
         suppliers=suppliers)

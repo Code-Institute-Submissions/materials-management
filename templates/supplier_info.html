@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row tabrow valign-wrapper m-0">
+        <ul class="col s8 m-0">
+            <li class="left-align">Suppliers</li>
+        </ul>
+        <div class="col s4 left-align">
+            <ul>
+                <li class="col"><a href = "{{ url_for('purchases') }}" >Purchases</a></li>
+                <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
+                <li class="col"><a class="modal-trigger" href="#newsupplier">New Supplier</a></li>
+                <li class="col"><a class="modal-trigger" href="#editupplier">Edit Supplier</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="contentrow">
+        <div class="row m-0 p-0">
+            <table id="sup-tbl" class="centered">
+                <thead>
+                    <tr>
+                        <th>Supplier</th>
+                        <th class="hide-on-med-and-down">Phone</th>
+                        <th class="hide-on-small-only">Email</th>
+                        <th class="hide-on-small-only">Contact</th>
+                        <th class="hide-on-small-only s1">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in suppliers %}
+                        {% if s.supplier_name == supplier %}
+                            <tr>
+                                <td class="hide-on-small-only">{{s.supplier_name}}</td>
+                                <td class="hide-on-med-and-down">{{s.supplier_phone}}</td>
+                                <td class="hide-on-small-only">{{ s.supplier_email}}</td>
+                                <td class="hide-on-small-only">{{ s.supplier_rep }}</td>
+                                <td><a class="modal-trigger" href="#editsupplier"><i class="far fa-file-alt"></i></a></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
+        <div class="col s12">
+            <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>
+            <div class="col s6"><a href="#">Purchase</a></div>
+        </div>
+    </div>
+    
+    <div id="editsupplier" class="modal modal-fixed-footer grey lighten-5">
+        <div class="modal-content p-0">
+            <h4 class="blue darken-4">Edit Supplier</h4>
+             <div class="row m-0">
+             {% for s in suppliers %}
+                {% if s.supplier_name == supplier %}
+                    <form class="col s12" method="POST" action="{{ url_for('edit_supplier', supplier=supplier) }}" >
+                        <div class="row">
+                            <ul class="col s12">
+                                <li class="col s10"><input placeholder="Name" id="edit_supplier_name" name="edit_supplier_name" type="text" class="validate" value="{{- s.supplier_name -}}" required></li>
+                                <li class="col s10"><input placeholder="Address" id="edit_supplier_address" name="edit_supplier_address" type="text" class="validate" value="{{- s.supplier_address -}}" required></li>
+                                <li class="col s10"><input placeholder="Phone" id="edit_supplier_phone" name="edit_supplier_phone" type="text" class="validate" value="{{- s.supplier_phone -}}" required></li> 
+                                <li class="col s10"><input placeholder="Email" id="edit_supplier_email" name="edit_supplier_email" type="email" class="validate" value="{{- s.supplier_email -}}" required></li>
+                                <li class="col s10"><input placeholder="Representative" id="edit_supplier_rep" name="edit_supplier_rep" type="text" class="validate" value="{{- s.supplier_rep -}}" required></li>      
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col s5"><button class="modal-close waves-effect waves-red btn red">Cancel</button></div>
+                            <div class="col s5"><button class="waves-effect waves-green btn green" type="submit">Confirm</button></div>
+                        </div>
+                    </form>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-search-inventory">
+        <form>
+            <div class="row">
+                <div class="col s12 valign-wrapper">
+                    <div class="col s10">
+                        <input type="text" placeholder="Search Material">
+                    </div>
+                    <div class="col s2 left-align">
+                        <a href="#"><i class="fas fa-search"></i></a>
+                    </div>
+                </div>
+            </div>                
+        </form>
+    </div>
+
+    <div class="row mobilepanel hide-on-med-and-up valign-wrapper m-0 p-0 center">
+        <div class="col s12">
+            <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
+            <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
+            <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
+        </div>
+        
+    </div>
+
+{% endblock %}
