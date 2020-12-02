@@ -18,12 +18,12 @@
             <table id="sup-tbl" class="centered">
                     {% for s in suppliers %}
                         {% if s.supplier_name == supplier %}
-                            <div class="col s12 m6 offset-m3 sup-info">
+                            <div class="col s12 offset-m3 m-0">
                                 <ul class="col s11">
-                                    <li>Supplier: {{s.supplier_name }}</li>
-                                    <li>Address: {{s.supplier_address }}</li>
-                                    <li>Phone: {{s.supplier_phone }}</li>
-                                    <li>Email: {{s.supplier_email }}</li>
+                                    <li>{{s.supplier_name }}</li>
+                                    <li>{{s.supplier_address }}</li>
+                                    <li>{{s.supplier_phone }}</li>
+                                    <li>{{s.supplier_email }}</li>
                                     <li>Representative: {{s.supplier_rep }}</li>
                                 </ul>
                                 <a class="col modal-trigger right p-0" href="#editsupplier"><i class="far fa-edit"></i></a>
@@ -32,6 +32,33 @@
                     {% endfor %}
             </table>
         </div>
+        <table id="supplier_items" class="centered">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Each</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for item in items_list %}
+                <tbody>
+                    <tr>
+                        <td>{{ item[0] }}</td>
+                        <td>${{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td><span class="col s4 offset-s4 "><i class="col s6 fas fa-pencil-alt"></i> <i class="col s6 fas fa-times"></i><span></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <table class="centered">
+            <thead>
+                <tr>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
     </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">

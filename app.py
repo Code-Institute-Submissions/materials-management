@@ -86,9 +86,24 @@ def suppliers():
 @app.route("/supplier_info/<supplier>")
 def supplier_info(supplier):
     suppliers = list(mongo.db.suppliers.find())
+    items = []
+    price = []
+    each = []
+    for i in suppliers:
+        if i["supplier_name"] == supplier:
+            print(supplier)
+            print(i["supplier_name"])
+            for j in i["supplier_products"]:
+                items.append(j)
+            for j in i["supplier_products_price"]:
+                price.append(float(j))
+            for j in i["supplier_products_each"]:
+                each.append(j)
     return render_template(
         "supplier_info.html",
-        supplier=supplier, suppliers=suppliers)
+        supplier=supplier,
+        suppliers=suppliers,
+        items_list=zip(items,price,each))
 
 
 @app.route("/supplier_info/<supplier>", methods=["GET", "POST"])
