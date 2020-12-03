@@ -23,13 +23,6 @@ mongo = PyMongo(app)
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = mongo.db.inventory.find()
-    suppliers = list(mongo.db.suppliers.find())
-    supplierlist = []
-    for s in suppliers:
-        suppliername = s["supplier_name"]
-        print(suppliername)
-        supplierlist.append(suppliername)
-    print(supplierlist)
     if request.method == "POST":
         matid = mongo.db.inventory.count()+1
         rgstmat = {
@@ -40,18 +33,7 @@ def inventory_list():
         }
         mongo.db.inventory.insert_one(rgstmat)
         return redirect(url_for("inventory_list"))
-    return render_template(
-        "inventory.html",
-        inventory=inventory,
-        supplierlist=supplierlist,
-        suppliers=suppliers)
-
-
-@app.route("/inventory/<material_id>")
-def delete_material(material_id):
-    mongo.db.inventory.remove(
-        {"_id": ObjectId(material_id)})
-    return redirect(url_for("inventory_list"))
+    return render_template("inventory.html", inventory=inventory)
 
 
 @app.route("/purchases")
@@ -86,34 +68,18 @@ def suppliers():
 
 @app.route("/supplier_info/<supplier>")
 def supplier_info(supplier):
-    suppliers = list(mongo.db.suppliers.find())
-    items = []
-    price = []
-    each = []
-    for i in suppliers:
-        if i["supplier_name"] == supplier:
-            for j in i["supplier_products"]:
-                items.append(j)
-            for j in i["supplier_products_price"]:
-                price.append(j)
-            for j in i["supplier_products_each"]:
-                each.append(j)
+    suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})
     return render_template(
         "supplier_info.html",
-        supplier=supplier,
         suppliers=suppliers,
         items_list=zip(
-            items,
-            price,
-            each))
+            suppliers["supplier_products"],
+            suppliers["supplier_products_price"],
+            suppliers["supplier_products_each"]))
 
 
 @app.route("/supplier_info/<supplier>/<item>/<price>/<each>")
 def delete_item_supplier(supplier, item, price, each):
-    print(item)
-    print(price)
-    print(each)
-    print(supplier)
     mongo.db.suppliers.update(
         {"supplier_name": supplier},
         {"$pull":
@@ -127,27 +93,23 @@ def delete_item_supplier(supplier, item, price, each):
 
 @app.route("/supplier_info/<supplier>", methods=["GET", "POST"])
 def edit_supplier(supplier):
-    suppliers = mongo.db.suppliers.find()
-    for i in suppliers:
-        if i["supplier_name"] == supplier:
-            print(supplier)
-            edit_supplier = {
-                "supplier_name": request.form.get("edit_supplier_name"),
-                "supplier_address": request.form.get("edit_supplier_address"),
-                "supplier_phone": request.form.get("edit_supplier_phone"),
-                "supplier_email": request.form.get("edit_supplier_email"),
-                "supplier_rep": request.form.get("edit_supplier_rep")
-            }
-            mongo.db.suppliers.update_one(
-                {"supplier_name": supplier},
-                {"$set": edit_supplier})
+    suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})
+    edit_supplier = {
+        "supplier_name": request.form.get("edit_supplier_name"),
+        "supplier_address": request.form.get("edit_supplier_address"),
+        "supplier_phone": request.form.get("edit_supplier_phone"),
+        "supplier_email": request.form.get("edit_supplier_email"),
+        "supplier_rep": request.form.get("edit_supplier_rep")
+    }
+    mongo.db.suppliers.update_one(
+        {"supplier_name": supplier},
+        {"$set": edit_supplier})
     return redirect(url_for("suppliers"))
 
 
-@app.route("/new_purchase/<selected_supplier>", methods=["GET", "POST"])
-def new_purchase(selected_supplier):
-    supplier = selected_supplier
-    suppliers = mongo.db.suppliers.find()
+@app.route("/new_purchase/<supplier>", methods=["GET", "POST"])
+def new_purchase(supplier):
+    suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})
     if request.method == "POST":
         date = datetime.datetime.now()
         puo = mongo.db.puorders.count()+1
@@ -168,30 +130,12 @@ def new_purchase(selected_supplier):
         }
         mongo.db.puorders.insert_one(newpurchase)
         return redirect(url_for("purchases"))
-    products_list = []
-    price_list = []
-    for i in suppliers:
-        print(supplier)
-        print(i["_id"])
-        if i["_id"] == ObjectId(supplier):
-            print("supplier")
-            address = i["supplier_address"]
-            phone = i["supplier_phone"]
-            email = i["supplier_email"]
-            rep = i["supplier_rep"]
-            for j in i["supplier_products"]:
-                products_list.append(j)
-            for j in i["supplier_products_price"]:
-                price_list.append(j)
     return render_template(
         "new_purchase.html",
-        supplier=supplier,
-        address=address,
-        phone=phone,
-        email=email,
-        rep=rep,
+        suppliers=suppliers,
         products_list=zip(
-            products_list, price_list))
+            suppliers["supplier_products"],
+            suppliers["supplier_products_price"]))
 
 
 @app.route("/select_supplier")
@@ -204,61 +148,29 @@ def select_supplier():
 
 @app.route("/see_purchase/<puo_number>")
 def see_purchase(puo_number):
-    puonumber = puo_number
-    puorders = mongo.db.puorders.find()
-    suppliers = mongo.db.suppliers.find()
-    itemlist = []
-    items = []
-    qty = []
-    price = []
-    for i in puorders:
-        if i["puo_number"] == puonumber:
-            date = i["puo_date"]
-            total = i["puo_total"]
-            status = i["puo_status"]
-            supplier = i["puo_supplier"]
-            for j in i["puo_items"]:
-                itemlist.append(len(itemlist)+1)
-            for j in i["puo_items"]:
-                items.append(j)
-            for j in i["puo_items_qty"]:
-                qty.append(int(j))
-            for j in i["puo_items_price"]:
-                price.append(float(j))
-            for k in suppliers:
-                if k["supplier_name"] == supplier:
-                    address = k["supplier_address"]
-                    phone = k["supplier_phone"]
-                    email = k["supplier_email"]
-                    rep = k["supplier_rep"]
+    puorders = mongo.db.puorders.find_one({"puo_number": puo_number})
+    suppliers = mongo.db.suppliers.find_one(
+        {"supplier_name": puorders["puo_supplier"]})
     return render_template(
         "see_purchase.html",
-        supplier=supplier,
-        address=address,
-        phone=phone,
-        email=email,
-        rep=rep,
-        date=date,
-        total=total,
-        status=status,
-        puonumber=puonumber,
+        suppliers=suppliers,
+        puorders=puorders,
         items_list=zip(
-            itemlist,
-            items, qty,
-            price))
+            puorders["puo_items"],
+            puorders["puo_items_qty"],
+            puorders["puo_items_price"]))
 
 
-@app.route("/see_purchase/<puonumber>", methods=["GET", "POST"])
-def items_received(puonumber):
-    puonumber = puonumber
+@app.route("/see_purchase/<puo_number>", methods=["GET", "POST"])
+def items_received(puo_number):
     inventory = mongo.db.inventory.find()
     items_name = request.form.get("items_name").split(",")
     items_qty = request.form.get("items_qty").split(",")
     for i in inventory:
         for k in items_name:
             if k == i["material_description"]:
-                newqty =(
-                    int(i["material_qty"])+
+                newqty = (
+                    int(i["material_qty"]) +
                     int(items_qty[items_name.index(k)]))
                 mongo.db.inventory.update_one(
                     {"material_description": k},
@@ -269,13 +181,8 @@ def items_received(puonumber):
     return redirect(url_for("purchases"))
 
 
-@app.route("/select_supplier/<the_supplier>")
-def selected_supplier(the_supplier):
-    the_supplier = the_supplier
-    return redirect(url_for("new_purchase", selected_supplier=the_supplier))
-
-
 if __name__ == "__main__":
-    app.run(host=os.environ.get("IP"),
+    app.run(
+        host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
         debug=True)

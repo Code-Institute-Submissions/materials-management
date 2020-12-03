@@ -18,10 +18,10 @@
         </table>
         <div class="col s12 m6 sup-info">
             <ul>
-                <li>Purchase Order: {{puonumber}}</li>
-                <li>Date of Request: {{date}}</li>
+                <li>Purchase Order: {{puorders.puo_number}}</li>
+                <li>Date of Request: {{puorders.puo_date}}</li>
                 <li>Requested by:</li>
-                <li>Purchase Total: ${{total}}</li>
+                <li>Purchase Total: ${{puorders.puo_total}}</li>
                     <li>Status: {% if status == false %}
                                     Pending
                                 {% else %}
@@ -32,11 +32,11 @@
         </div>
         <div class="col s12 m6 sup-info">
             <ul>
-                <li>Supplier: {{supplier}}</li>
-                <li>Address: {{address}}</li>
-                <li>Phone: {{phone}}</li>
-                <li>Email: {{email}}</li>
-                <li>Representative: {{rep}}</li>
+                <li>Supplier: {{suppliers.supplier_name}}</li>
+                <li>Address: {{suppliers.supplier_address}}</li>
+                <li>Phone: {{suppliers.supplier_phone}}</li>
+                <li>Email: {{suppliers.supplier_email}}</li>
+                <li>Representative: {{suppliers.supplier_rep}}</li>
             </ul>
         </div>
         <table id="puoitems" class="centered">
@@ -52,11 +52,11 @@
         {% for item in items_list %}
             <tbody>
                 <tr>
-                    <td>{{ item[0] }}</td>
-                    <td class="items_name">{{ item[1] }}</td>
-                    <td class="items_qty">{{ item[2] }}</td>
-                    <td class="items_price">$ {{ item[3] }}</td>
-                    <td>$ {{ item[2] * item[3] }}</td>
+                    <td>{{ loop.index }}</td>
+                    <td class="items_name">{{ item[0] }}</td>
+                    <td class="items_qty">{{ item[1] }}</td>
+                    <td class="items_price">$ {{ item[2] }}</td>
+                    <td>$ {{ item[2] }}</td>
                 </tr>
             </tbody>
         {% endfor %}
@@ -69,8 +69,8 @@
             </thead>
         </table>
     </div>
-    {% if status == false %}
-        <form class="col s12 m-0 p-0" method="POST" action="{{ url_for('items_received', puonumber = puonumber) }}" >
+    {% if puorders.puo_status == false %}
+        <form class="col s12 m-0 p-0" method="POST" action="{{ url_for('items_received', puo_number = puorders.puo_number) }}" >
             <div class="row m-0 hidden_form">
                 <div class="col s4 left">
                     <input id="items_name" name="items_name" type="text" required>

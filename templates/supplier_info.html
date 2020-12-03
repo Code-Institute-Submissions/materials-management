@@ -16,20 +16,16 @@
     <div class="contentrow">
         <div class="row m-0 p-0">
             <table id="sup-tbl" class="centered">
-                    {% for s in suppliers %}
-                        {% if s.supplier_name == supplier %}
-                            <div class="col s12 offset-m3 m-0">
-                                <ul class="col s11">
-                                    <li>{{s.supplier_name }}</li>
-                                    <li>{{s.supplier_address }}</li>
-                                    <li>{{s.supplier_phone }}</li>
-                                    <li>{{s.supplier_email }}</li>
-                                    <li>Representative: {{s.supplier_rep }}</li>
-                                </ul>
-                                <a class="col modal-trigger right p-0" href="#editsupplier"><i class="far fa-edit"></i></a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                <div class="col s12 offset-m3 m-0">
+                    <ul class="col s11">
+                        <li>{{suppliers.supplier_name }}</li>
+                        <li>{{suppliers.supplier_address }}</li>
+                        <li>{{suppliers.supplier_phone }}</li>
+                        <li>{{suppliers.supplier_email }}</li>
+                        <li>Representative: {{suppliers.supplier_rep }}</li>
+                    </ul>
+                    <a class="col modal-trigger right p-0" href="#editsupplier"><i class="far fa-edit"></i></a>
+                </div>
             </table>
         </div>
         <table id="supplier_items" class="centered">
