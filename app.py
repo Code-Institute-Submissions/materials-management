@@ -1,5 +1,6 @@
 import os
 import datetime
+import math
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -91,19 +92,37 @@ def supplier_info(supplier):
     each = []
     for i in suppliers:
         if i["supplier_name"] == supplier:
-            print(supplier)
-            print(i["supplier_name"])
             for j in i["supplier_products"]:
                 items.append(j)
             for j in i["supplier_products_price"]:
-                price.append(float(j))
+                price.append(j)
             for j in i["supplier_products_each"]:
                 each.append(j)
     return render_template(
         "supplier_info.html",
         supplier=supplier,
         suppliers=suppliers,
-        items_list=zip(items,price,each))
+        items_list=zip(
+            items,
+            price,
+            each))
+
+
+@app.route("/supplier_info/<supplier>/<item>/<price>/<each>")
+def delete_item_supplier(supplier, item, price, each):
+    print(item)
+    print(price)
+    print(each)
+    print(supplier)
+    mongo.db.suppliers.update(
+        {"supplier_name": supplier},
+        {"$pull":
+            {
+                "supplier_products": item,
+                "supplier_products_price": price,
+                "supplier_products_each": each}})
+    return redirect(
+        url_for("supplier_info", supplier=supplier))
 
 
 @app.route("/supplier_info/<supplier>", methods=["GET", "POST"])
