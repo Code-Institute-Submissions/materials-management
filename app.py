@@ -107,6 +107,12 @@ def edit_supplier(supplier):
     return redirect(url_for("suppliers"))
 
 
+@app.route("/supplier_info/<supplier>/<supplier_id>", methods=["GET", "POST"])
+def delete_supplier(supplier, supplier_id):
+    mongo.db.suppliers.remove({"_id": ObjectId(supplier_id)})
+    return redirect(url_for("suppliers"))
+
+
 @app.route("/new_purchase/<supplier>", methods=["GET", "POST"])
 def new_purchase(supplier):
     suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})

@@ -95,8 +95,23 @@
                         <div class="col s5"><a class="modal-close waves-effect waves-red btn red" href="#!">Cancel</a></div>
                         <div class="col s5"><button class="waves-effect waves-green btn green" type="submit">Confirm</button></div>
                     </div>
+                    <div class="row">
+                        <div class="col s10"><a class="modal-trigger waves-effect waves-green btn red" href="#delete_supplier">Delete Supplier</a></div>
+                    </div>   
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div id="delete_supplier" class="modal">
+        <div class="modal-content">
+            <h4>Delete Supplier</h4>
+            <p>Do you want to delete this Supplier?</p>
+            <p><i class="fas fa-exclamation"></i>  All data will related to this supplier will be deleted  <i class="fas fa-exclamation"></i></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancel</a>
+            <a href="{{ url_for('delete_supplier', supplier = suppliers.supplier_name, supplier_id=suppliers._id)}}" class="waves-effect waves-green btn-flat">Delete</a>
         </div>
     </div>
 
