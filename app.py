@@ -176,7 +176,7 @@ def items_received(puo_number):
                     {"material_description": k},
                     {"$set": {"material_qty": newqty}})
     mongo.db.puorders.update_one(
-        {"puo_number": puonumber},
+        {"puo_number": puo_number},
         {"$set": {"puo_status": True}})
     return redirect(url_for("purchases"))
 

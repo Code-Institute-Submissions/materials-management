@@ -4,10 +4,11 @@
         <ul class="col s8 m-0">
             <li class="left-align"><a href = "{{ url_for('purchases') }}" >Purchase Orders</a></li>
             <li class="left-align">/</li>
-            <li class="left-align">Select Supplier</li>
+            <li class="left-align">New Purchase - Select Supplier</li>
         </ul>
         <div class="col s4 left-align">
             <ul>
+                <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
                 <li class="col"><a href="{{ url_for('suppliers') }}" >Suppliers</a></li>
             </ul>
         </div>
@@ -15,6 +16,9 @@
 
     <div class="contentrow">
         <div class="row m-0 p-0">
+            <table class="centered">
+                <thead><tr><th>Select Supplier</th></tr></thead>
+            </table>
             <table id="sup-tbl" class="centered">
                 <thead>
                     <tr>
@@ -22,7 +26,7 @@
                         <th class="hide-on-med-and-down">Phone</th>
                         <th class="hide-on-small-only">Email</th>
                         <th class="hide-on-small-only">Contact</th>
-                        <th class="hide-on-small-only s1"></th>
+                        <th class="hide-on-small-only s1"> Select</th>
                     </tr>
                 </thead>
                 <tbody>
