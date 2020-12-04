@@ -28,8 +28,7 @@ def inventory_list():
         rgstmat = {
             "material_id": "%04d" % (matid,),
             "material_description": request.form.get("material_description"),
-            "material_unit": request.form.get("material_unit"),
-            "material_cost": request.form.get("material_cost")
+            "material_unit": request.form.get("material_unit")
         }
         mongo.db.inventory.insert_one(rgstmat)
         return redirect(url_for("inventory_list"))

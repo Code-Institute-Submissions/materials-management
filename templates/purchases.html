@@ -44,45 +44,6 @@
         {% endfor %}
         </table>
     </div>
-    
-    <div id="rgst-mat" class="modal modal-fixed-footer grey lighten-5">
-        <div class="modal-content p-0">
-            <h4 class="blue darken-4">Register New Material</h4>
-            <h6 class="left">Material ID #</h6>
-             <div class="row m-0">
-                <form class="col s12" method="POST" action="{{ url_for('inventory_list') }}" >
-                    <div class="row">
-                        <div class="input-field col s11">
-                            <input placeholder="Material Description" id="material_description" name="material_description" type="text" class="validate" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s11">
-                            <select id="material_unit" name="material_unit" type="text" class="validate" required>
-                                <option value="" disabled selected>Material Each Unit</option>
-                                <option value="UN">UN (Unit)</option>
-                                <option value="KG">Kg (Kilogram) </option>
-                                <option value="L">L (Litre) </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s11" required>
-                            <input placeholder="Material Cost" id="material_cost" name="material_cost" type="text" class="validate">
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <div class="col s6 right">
-                            <a class="modal-close waves-effect waves-red btn red">Cancel</a>
-                        </div>
-                        <div class="col s6 left">
-                            <button class="waves-effect waves-green btn green" type="submit">Confirm</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">
