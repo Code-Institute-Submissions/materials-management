@@ -1,48 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="menulist valign-wrapper m-0">
+        <ul>
+            <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
+            <li class="col"><a href="{{ url_for('suppliers') }}" >Suppliers</a></li>
+        </ul>
+    </div>
     <div class="row tabrow valign-wrapper m-0">
-        <ul class="col s8 m-0">
+        <ul class="col s12 m-0">
             <li class="left-align"><a href = "{{ url_for('purchases') }}" >Purchase Orders</a></li>
             <li class="left-align">/</li>
             <li class="left-align">New Purchase - Select Supplier</li>
         </ul>
-        <div class="col s4 left-align">
-            <ul>
-                <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
-                <li class="col"><a href="{{ url_for('suppliers') }}" >Suppliers</a></li>
-            </ul>
-        </div>
     </div>
 
     <div class="contentrow">
-        <div class="row m-0 p-0">
-            <table class="centered">
-                <thead><tr><th>Select Supplier</th></tr></thead>
-            </table>
-            <table id="sup-tbl" class="centered">
-                <thead>
+        <table class="centered">
+            <thead><tr><th>Select Supplier</th></tr></thead>
+        </table>
+        <table id="sup-tbl" class="centered">
+            <thead>
+                <tr>
+                    <th>Supplier</th>
+                    <th class="hide-on-med-and-down">Phone</th>
+                    <th class="hide-on-small-only">Email</th>
+                    <th class="hide-on-small-only">Contact</th>
+                    <th class="hide-on-small-only s1"> Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in suppliers %}
                     <tr>
-                        <th>Supplier</th>
-                        <th class="hide-on-med-and-down">Phone</th>
-                        <th class="hide-on-small-only">Email</th>
-                        <th class="hide-on-small-only">Contact</th>
-                        <th class="hide-on-small-only s1"> Select</th>
+                        <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
+                        <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
+                        <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
+                        <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
+                        <td class="hide-on-med-and-up"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
+                        <td class="hide-on-small-only s1"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for supplier in suppliers %}
-                        <tr>
-                            <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
-                            <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
-                            <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
-                            <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td class="hide-on-med-and-up"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
-                            <td class="hide-on-small-only s1"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">

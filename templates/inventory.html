@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="menulist valign-wrapper m-0">
+       <ul>
+            <li class="col"><a href = "{{ url_for('purchases') }}" >Purchases</a></li>
+            <li class="col"><a href = "{{ url_for('suppliers') }}" >Suppliers</a></li>
+            <li class="col"><a class="col modal-trigger" href="#rgst-mat" >New Material</a></li>
+        </ul>
+    </div>
     <div class="row tabrow valign-wrapper m-0">
         <ul class="col s8 m-0">
             <li class="left-align">Inventory</li>
         </ul>
-        <div class="col s4 left-align">
-            <ul>
-                <li class="col"><a href = "{{ url_for('purchases') }}" >Purchases</a></li>
-                <li class="col"><a href = "{{ url_for('suppliers') }}" >Suppliers</a></li>
-                <a class="col modal-trigger tooltipped" data-position="top" data-tooltip="Register Material" href="#rgst-mat" >New Material</a></li>
-            </ul>
-        </div>
     </div>
     <!--<div class="row tabrow valign-wrapper">
         <div class="col m5 l4 hide-on-small-and-down">

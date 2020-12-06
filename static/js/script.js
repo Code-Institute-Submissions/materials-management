@@ -14,8 +14,7 @@ var item_id = 0
     $('.tabs').tabs();
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
-    
-    
+
     $('.navpanellayer').mouseenter(function(){
         $(this).css("width","0");
         $('.navpanel').css("width","200px","visibility","visible");

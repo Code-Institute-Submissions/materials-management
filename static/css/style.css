@@ -18,6 +18,16 @@ nav{
     overflow-y: auto !important;
 }
 
+.menulist{
+    background-color: #323264;
+    height: 5vh !important;
+    border-top: solid white 1px;
+    padding-left: 2%;
+}
+
+.menulist a{
+    color: white;
+}
 
 .navpanellayer{
     height: 100%;

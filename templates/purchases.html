@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="menulist valign-wrapper m-0">
+        <ul>
+            <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
+            <li class="col"><a href = "{{ url_for('suppliers') }}" >Suppliers</a></li>
+            <li class="col"><a href = "{{ url_for('select_supplier') }}" >New Purchase</a></li>
+        </ul>
+    </div>
     <div class="row tabrow valign-wrapper m-0">
         <ul class="col s8 m-0">
-            <li class="left-align">Purchase Orders</li>
+            <li class="left-align">Purchases</li>
         </ul>
-        <div class="col s4 left-align">
-            <ul>
-                <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
-                <li class="col"><a href = "{{ url_for('suppliers') }}" >Suppliers</a></li>
-                <li class="col"><a href = "{{ url_for('select_supplier') }}" >New Purchase</a></li>
-            </ul>
-        </div>
     </div>
-    
     <div class="contentrow">
         <table class="centered">
             <thead>
