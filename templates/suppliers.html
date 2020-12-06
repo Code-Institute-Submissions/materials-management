@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="menulist valign-wrapper m-0">
+        <ul class="col s12 m-0">
+            <li class="left-align"><h5>Suppliers</h5></li>
+        </ul>
+    </div>
+    <div class="menulist valign-wrapper m-0">
         <ul>
             <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
             <li class="col"><a href = "{{ url_for('purchases') }}" >Purchases</a></li>
             <li class="col"><a class="modal-trigger" href="#newsupplier">New Supplier</a></li>
         </ul>
-    </div>
-    <div class="row tabrow valign-wrapper m-0">
-        <ul class="col s8 m-0">
-            <li class="left-align">Suppliers</li>
-        </ul>
-    </div>
-    
+    </div>    
     <div class="contentrow">
         <div class="row m-0 p-0">
             <table id="sup-tbl" class="centered">
@@ -32,7 +31,8 @@
                             <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
                             <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" ><i class="far fa-file-alt"></i></a></td>
+                            <td class="show-on-small-only"><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" >{{supplier.supplier_name}}</a></td>
+                            <td class="hide-on-small-only"><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" ><i class="far fa-file-alt"></i></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

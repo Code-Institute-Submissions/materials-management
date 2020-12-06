@@ -20,13 +20,23 @@ nav{
 
 .menulist{
     background-color: #323264;
-    height: 5vh !important;
-    border-top: solid white 1px;
+    min-height: 5vh !important;
+    border-bottom: solid white 1px;
     padding-left: 2%;
+    
 }
 
-.menulist a{
+.menulist a, .menulist h5{
     color: white;
+    font-style: italic;
+}
+
+.menulist ul{
+    display: inline-flex;
+}
+
+.menulist li{
+    padding-right:2%;
 }
 
 .navpanellayer{
@@ -108,7 +118,7 @@ nav{
 }
 
 .content{
-    background-color: #f3f3f3;
+    background-color: #f0f0f0;
 }
 
 .mobilepanel {
@@ -218,7 +228,7 @@ nav{
 }
 
 .contentrow{
-    margin: 2vh 0 4vh 0 !important;
+    margin: 1vh 0 !important;
     min-height: 60vh;
     max-height: 60vh;
     position: relative !important;

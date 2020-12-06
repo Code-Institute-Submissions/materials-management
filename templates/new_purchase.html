@@ -2,18 +2,17 @@
 {% block content %}
     <form class="col s12 m-0 p-0" method="POST" action="{{ url_for('new_purchase', supplier = suppliers.supplier_name) }}" >
         <div class="menulist valign-wrapper m-0">
+            <ul class="col s12 m-0">
+                <li class="left-align"><a href = "{{ url_for('purchases') }}" ><h5>Purchase Orders</h5></a></li>
+                <li class="left-align"><h5>/</h5></li>
+                <li class="left-align"><a href = "{{ url_for('select_supplier') }}" ><h5>New Purchase - Select Supplier / </h5></a></li>
+                <li class="left-align"><h5> {{ suppliers.supplier_name }}</h5></li>
+            </ul>
+        </div>
+        <div class="menulist valign-wrapper m-0">
             <ul>
                 <li class="col"><a href = "{{ url_for('inventory_list') }}" >Inventory</a></li>
                 <li class="col"><a href="{{ url_for('suppliers') }}" >Suppliers</a></li>
-            </ul>
-        </div>
-        <div class="row tabrow valign-wrapper m-0">
-            <ul class="col s8 m-0">
-                <li class="left-align"><a href = "{{ url_for('purchases') }}" >Purchase Orders</a></li>
-                <li class="left-align">/</li>
-                <li class="left-align"><a href = "{{ url_for('select_supplier') }}" >New Purchase - Select Supplier</a></li>
-                <li class="left-align">/</li>
-                <li class="left-align">{{suppliers.supplier_name}}</li>
             </ul>
         </div>
         <div class="contentrow">
