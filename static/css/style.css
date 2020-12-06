@@ -342,3 +342,8 @@ table{
     color: red;
     cursor: pointer;
 }
+
+.btn_confirm{
+    padding: 5vh !important;
+    color: #323264;
+}
