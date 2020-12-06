@@ -29,9 +29,9 @@
                     </div>
                     <div class="input-field col s12">
                         <select id="puo_item_name" name="puo_item_name" type="text" class="validate" required>
-                            <option value="" disabled selected>Select New Item</option>
+                            <option class="col s12" value="" disabled selected>Select New Item</option>
                             {% for products in products_list %}
-                                <option value="{{ products[0] }},{{ products[1] }}">{{products[0]}}</option>
+                                <option class="col s12" value="{{ products[0] }},{{ products[1] }}">{{products[0]}}</option>
                             {% endfor %}
                         </select>
                     </div>          

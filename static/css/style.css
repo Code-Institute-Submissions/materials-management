@@ -308,10 +308,23 @@ table{
     padding-left: 10% !important;
 }
 
+.dropdown-content li{
+    min-height: 10px !important;
+    padding: 2% !important;
+}
 .dropdown-content li>span{
-    font-size: 12px;
-    color: #323264;
-    display: block;
+    color: #323264 !important;
+    min-height:0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dropdown-content li>a{
+    font-size: 12px !important;
+    min-height:0 !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* New Purchase*/
