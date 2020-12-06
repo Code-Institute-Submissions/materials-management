@@ -63,7 +63,7 @@
                     <td class="items_name">{{ item[0] }}</td>
                     <td class="items_qty">{{ item[1] }}</td>
                     <td class="items_price">$ {{ item[2] }}</td>
-                    <td>$ {{ item[2] }}</td>
+                    <td>$ {{ "%.2f"|format(item[1]|int * item[2]|float) }}</td>
                 </tr>
             </tbody>
         {% endfor %}

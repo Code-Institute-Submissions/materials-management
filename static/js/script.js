@@ -93,8 +93,8 @@ var item_id = 0
             return
         };
         new_item_name.push(new_items[0][0]);
-        new_item_cost.push(new_items[0][1]);
-        new_item_qty.push(new_items[1]);
+        new_item_cost.push(Number(new_items[0][1]));
+        new_item_qty.push(Number(new_items[1]));
         new_item_id.push(item_id);
         $('#new_purchase_items').val(new_item_name);
         $('#new_purchase_cost').val(new_item_cost);
