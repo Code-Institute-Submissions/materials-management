@@ -42,6 +42,21 @@ def purchases():
         "purchases.html", puorders=puorders)
 
 
+@app.route("/material_info/<name>")
+def material_info(name):
+    puorders = mongo.db.puorders.find({"puo_items": name})
+    level = mongo.db.inventory.find_one({"material_description": name})
+    total = 0
+    for mat in puorders:
+        for qty in mat["puo_items_qty"]:
+            total += int(qty)
+    return render_template(
+        "material_info.html",
+        puorders=puorders,
+        total=total,
+        level=level["material_qty"])
+
+
 @app.route("/suppliers", methods=["GET", "POST"])
 def suppliers():
     suppliers = mongo.db.suppliers.find()

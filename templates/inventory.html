@@ -47,7 +47,7 @@
                     <td>{{ inventory.material_description }}</td>
                     <td>{{ inventory.material_qty }}</td>
                     <td>{{ inventory.material_unit }}</td>
-                    <td><a href="#"><i class="far fa-file-alt"></i></a></td>
+                    <td><a href="{{ url_for('material_info', name = inventory.material_description) }}"><i class="far fa-file-alt"></i></a></td>
                 </tr>
             </tbody>
         {% endfor %}

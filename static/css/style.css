@@ -9,6 +9,10 @@ body {
   min-height: -webkit-fill-available;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
 nav{
     box-shadow: none !important;
     background-color: #323264 !important;
@@ -345,5 +349,5 @@ table{
 
 .btn_confirm{
     padding: 5vh !important;
-    color: #323264;
+    color: blue;
 }
