@@ -28,6 +28,7 @@ def inventory_list():
         rgstmat = {
             "material_id": "%04d" % (matid,),
             "material_description": request.form.get("material_description"),
+            "material_qty": 0,
             "material_unit": request.form.get("material_unit")
         }
         mongo.db.inventory.insert_one(rgstmat)
@@ -203,18 +204,15 @@ def purchase_info(puo_number):
 
 @app.route("/purchase_info/<puo_number>", methods=["GET", "POST"])
 def items_received(puo_number):
-    inventory = mongo.db.inventory.find()
     items_name = request.form.get("items_name").split(",")
     items_qty = request.form.get("items_qty").split(",")
-    for i in inventory:
-        for k in items_name:
-            if k == i["material_description"]:
-                newqty = (
-                    int(i["material_qty"]) +
-                    int(items_qty[items_name.index(k)]))
-                mongo.db.inventory.update_one(
-                    {"material_description": k},
-                    {"$set": {"material_qty": newqty}})
+    for k in items_name:
+        inventory = mongo.db.inventory.find_one({"material_description": k})
+        qty = inventory["material_qty"]
+        newqty = qty+int(items_qty[items_name.index(k)])
+        mongo.db.inventory.update_one(
+            {"material_description": k},
+            {"$set": {"material_qty": newqty}})
     mongo.db.puorders.update_one(
         {"puo_number": puo_number},
         {"$set": {"puo_status": True}})
