@@ -196,7 +196,8 @@ nav{
 }
 
 .m-0{
-    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .p-0{

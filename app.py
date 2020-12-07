@@ -42,10 +42,27 @@ def purchases():
         "purchases.html", puorders=puorders)
 
 
-@app.route("/material_info/<name>")
+@app.route("/material_info/<name>", methods=["GET", "POST"])
 def material_info(name):
     puorders = mongo.db.puorders.find({"puo_items": name})
-    level = mongo.db.inventory.find_one({"material_description": name})
+    inventory = mongo.db.inventory.find_one({"material_description": name})
+    supplier = mongo.db.suppliers.find()
+    suppliers = list(mongo.db.suppliers.find({"supplier_products": name}))
+    if request.method == "POST":
+        supplier = request.form.get("supplier_name")
+        mongo.db.suppliers.update(
+            {"supplier_name": supplier},
+            {"$push":
+                {
+                    "supplier_products": request.form.get(
+                        "material_description"),
+                    "supplier_products_price": request.form.get(
+                        "supplier_products_price"),
+                    "supplier_products_each": request.form.get(
+                        "supplier_products_each")
+                }}
+        )
+        return redirect(url_for("material_info", name=name))
     total = 0
     for mat in puorders:
         for qty in mat["puo_items_qty"]:
@@ -54,7 +71,9 @@ def material_info(name):
         "material_info.html",
         puorders=puorders,
         total=total,
-        level=level["material_qty"])
+        inventory=inventory,
+        suppliers=suppliers,
+        supplier=supplier)
 
 
 @app.route("/suppliers", methods=["GET", "POST"])
@@ -92,15 +111,15 @@ def supplier_info(supplier):
             suppliers["supplier_products_each"]))
 
 
-@app.route("/supplier_info/<supplier>/<item>/<price>/<each>")
-def delete_item_supplier(supplier, item, price, each):
+@app.route("/supplier_info/<supplier>/<item>")
+def delete_item_supplier(supplier, item):
     mongo.db.suppliers.update(
         {"supplier_name": supplier},
         {"$pull":
             {
                 "supplier_products": item,
-                "supplier_products_price": price,
-                "supplier_products_each": each}})
+                }}
+        )
     return redirect(
         url_for("supplier_info", supplier=supplier))
 
@@ -121,8 +140,9 @@ def edit_supplier(supplier):
     return redirect(url_for("suppliers"))
 
 
-@app.route("/supplier_info/<supplier>/<supplier_id>", methods=["GET", "POST"])
-def delete_supplier(supplier, supplier_id):
+@app.route("/supplier_info/<supplier>/<supplier_rep>/<supplier_id>")
+def delete_supplier(supplier, supplier_rep, supplier_id):
+    print(supplier_id)
     mongo.db.suppliers.remove({"_id": ObjectId(supplier_id)})
     return redirect(url_for("suppliers"))
 
