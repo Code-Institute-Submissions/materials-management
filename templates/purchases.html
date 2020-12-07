@@ -2,7 +2,7 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m-0">
-            <li class="left-align"><h5>Purchases</h5></li>
+            <li class="left-align"><h5>Purchase Orders</h5></li>
         </ul>
     </div>
     <div class="menulist valign-wrapper m-0">
@@ -37,7 +37,7 @@
                                     Received
                                 {% endif%}
                     </td>
-                    <td><a href="{{ url_for('see_purchase', puo_number = orders.puo_number) }}"><i class="far fa-file-alt"></i></a></td>
+                    <td><a href="{{ url_for('purchase_info', puo_number = orders.puo_number) }}"><i class="far fa-file-alt"></i></a></td>
                 </tr>
             </tbody>
         {% endfor %}

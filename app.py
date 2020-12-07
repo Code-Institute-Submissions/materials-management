@@ -60,7 +60,7 @@ def suppliers():
             "supplier_products_each": supplier_products_each,
         }
         mongo.db.suppliers.insert_one(newsupplier)
-        return redirect(url_for("select_supplier"))
+        return redirect(url_for("suppliers"))
     return render_template(
         "suppliers.html", suppliers=suppliers)
 
@@ -151,13 +151,13 @@ def select_supplier():
         suppliers=suppliers)
 
 
-@app.route("/see_purchase/<puo_number>")
-def see_purchase(puo_number):
+@app.route("/purchase_info/<puo_number>")
+def purchase_info(puo_number):
     puorders = mongo.db.puorders.find_one({"puo_number": puo_number})
     suppliers = mongo.db.suppliers.find_one(
         {"supplier_name": puorders["puo_supplier"]})
     return render_template(
-        "see_purchase.html",
+        "purchase_info.html",
         suppliers=suppliers,
         puorders=puorders,
         items_list=zip(
@@ -166,7 +166,7 @@ def see_purchase(puo_number):
             puorders["puo_items_price"]))
 
 
-@app.route("/see_purchase/<puo_number>", methods=["GET", "POST"])
+@app.route("/purchase_info/<puo_number>", methods=["GET", "POST"])
 def items_received(puo_number):
     inventory = mongo.db.inventory.find()
     items_name = request.form.get("items_name").split(",")
@@ -183,7 +183,7 @@ def items_received(puo_number):
     mongo.db.puorders.update_one(
         {"puo_number": puo_number},
         {"$set": {"puo_status": True}})
-    return redirect(url_for("purchases"))
+    return redirect(url_for("purchase_info", puo_number=puo_number))
 
 
 if __name__ == "__main__":
