@@ -55,7 +55,35 @@ var item_id = 0
         $('#mobilepanel-caret').css("display", "none");
     })
 
-    
+    $('#add_product').click(function(){
+        console.log('Item added')
+        new_items[0][0] = $("#product_name").val();
+        new_items[0][1] = $("#product_cost").val();
+        new_items[1] = $("#product_qty").val();
+        if (new_items[1] == ""){
+            return
+        };
+        new_item_name.push(new_items[0][0]);
+        new_item_cost.push(Number(new_items[0][1]));
+        new_item_qty.push(Number(new_items[1]));
+        new_item_id.push(item_id);
+        $('#new_product_items').val(new_item_name);
+        $('#new_product_cost').val(new_item_cost);
+        $('#new_product_qty').val(new_item_qty);
+        $('#new_product_id').val(new_item_id);
+        $('#items_list').append(`
+            <tbody>
+                <tr id=${item_id}>
+                    <td>${new_items[0][0]}</td>
+                    <td>${new_items[1]}</td>
+                    <td><strong onclick="delete_item(this)"><i class="fas fa-times"></strong></i></div></td>
+                </tr>
+            </tbody>
+        `);
+        product_total();
+        item_id++;
+    })
+
     $('#add_pack_product').click(function(){
         console.log($("#pack_product_name").val());
         new_items[0] = $("#pack_product_name").val().split(",");
@@ -69,7 +97,7 @@ var item_id = 0
         new_item_qty.push(Number(new_items[1]));
         new_item_id.push(item_id);
         $('#new_product_items').val(new_item_name);
-        $('#new_product_price').val(new_item_cost);
+        $('#new_product_cost').val(new_item_cost);
         $('#new_product_qty').val(new_item_qty);
         $('#new_product_id').val(new_item_id);
         $('#items_list').append(`

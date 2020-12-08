@@ -21,13 +21,17 @@
             <div class="row m-0">
                 <div class="col s12 m6 m-0">
                     <div class="col s12">
+                        <h5>Product Name</h5>
+                    </div>
+                    <div class="col s12">
                         <input placeholder="Product Name" id="new_product_name" name="new_product_name" type="text" class="validate col s8 offset-s2" required>
                     </div>
+                {% if product_type == 'pack' %}
                     <div class="input-field col s12">
                         <select id="pack_product_name" name="pack_product_name" type="text" class="validate" required>
                             <option class="col s12" value="" disabled selected>Select Products</option>
                             {% for product in products %}
-                                <option class="col s12" value="{{ product.product_name}},{{product.product_price }}">{{ product.product_name }}</option>
+                                <option class="col s12" value="{{ product.product_name}},{{product.product_cost }}">{{ product.product_name }}</option>
                             {% endfor %}
                         </select>
                     </div>          
@@ -37,6 +41,30 @@
                     <div class="col s2 offset-s2">
                         <div id="add_pack_product" class="waves-effect waves-green btn-small green m-0">Add</div>
                     </div>
+                {% else %}
+                    <div class="col s8 offset-s2">
+                        <div class="col s12">
+                            <h5>Product Materials</h5>
+                        </div>
+                        <div class="col s12 p-0">
+                            <select class="validate" id="product_name" name="new_product_name" type="text" required>
+                                <option value="" disabled selected>Select Material</option>
+                                {% for material in inventory %}
+                                    <option>{{ material.material_description }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col s12 hidden_form">
+                            <input id="product_cost" name="product_cost" type="number" class="validate col s8 offset-s2" value="0" required>
+                        </div>
+                        <div class="col s12 p-0">
+                            <input placeholder="Quantity" id="product_qty" name="product_qty" type="number" class="validate col s2 m-0 p-0" required>
+                        </div>
+                        <div class="col s2 right">
+                            <div id="add_product" class="waves-effect waves-green btn-small green m-0">Add</div>
+                        </div>
+                    </div>
+                {% endif %}
                 </div>
                 <div class="col s12 m6">
                     <table id="items_list" class="centered">
@@ -44,29 +72,33 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Qty</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                                <th></th>
+                                {% if product_type == "pack" %}
+                                    <th>Cost</th>
+                                    <th>Total</th>
+                                {% endif %}
+                                <th>Remove</th>
                             </tr>
                         </thead>
                     </table>
-                    <table class="centered">
-                        <thead>
-                            <tr>
-                                <th>Total</th>
-                                <th></th>
-                                <th></th>
-                                <th id="product_total">$ 0.00</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
+                    {% if product_type == "pack" %}
+                        <table class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th id="product_total">$ 0.00</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    {% endif %}
                 </div>
             </div>
             <div class="row m-0 hidden_form">
                 <div class="col s4 left">
                     <input id="new_product_items" name="new_product_items" type="text" required>
-                    <input id="new_product_price" name="new_product_price" type="text" required>
+                    <input id="new_product_cost" name="new_product_cost" type="text" required>
                     <input id="new_product_qty" name="new_product_qty" type="text" required>
                     <input id="new_product_id" name="new_product_id" type="text" required>
                     <input id="new_product_total" name ="new_product_total" type="text" required>
