@@ -43,6 +43,49 @@ def products():
         "products.html", products=products)
 
 
+@app.route("/new_product/<product_type>", methods=["GET", "POST"])
+def new_product(product_type):
+    products = mongo.db.products.find()
+    if product_type == "pack":
+        if request.method == "POST":
+            product_id = request.form.get("new_product_id").split(",")
+            sub_products = request.form.get("new_product_items").split(",")
+            sub_products_qty = request.form.get("new_product_qty").split(",")
+            product_material_name = []
+            product_material_qty = []
+            product_material_unit = []
+            print(sub_products_qty)
+            for sp in product_id:
+                material = mongo.db.products.find_one(
+                    {"product_name": sub_products[int(sp)]})
+                for i in material["product_material_name"]:
+                    product_material_name.append(i)
+                for i in material["product_material_qty"]:
+                    print(i*int(sub_products_qty[int(sp)]))
+                    q = i*int(sub_products_qty[int(sp)])
+                    product_material_qty.append(q)
+                for i in material["product_material_unit"]:
+                    product_material_unit.append(i)
+            new_product = {
+                "product_name": request.form.get("new_product_name"),
+                "product_price": format(
+                    float(request.form.get(
+                        "new_product_total")), '.2f'),
+                "product_pack": True,
+                "sub_products": sub_products,
+                "sub_products_qty": sub_products_qty,
+                "product_material_name": product_material_name,
+                "product_material_qty": product_material_qty,
+                "product_material_unit": product_material_unit
+            }
+            mongo.db.products.insert_one(new_product)
+            return redirect(url_for("products"))
+        return render_template(
+            "new_product.html",
+            products=products,
+            product_type="pack")
+
+
 @app.route("/purchases")
 def purchases():
     puorders = mongo.db.puorders.find()

@@ -56,38 +56,40 @@ var item_id = 0
     })
 
     
-    /*$('body').one("click",function(){
-        material_supplier = []
-        suppliers = $("#material_supplier").val().split("'");
-        listid = $("#supplierlist").children().children().children().parent().attr("id");
-        console.log(listid);
-        console.log(listid+0);
-        suppliers.pop();
-        suppliers.shift();
-        for (s in suppliers){
-            if (s%2 == 0){
-                console.log(suppliers[s]);
-                material_supplier.push(suppliers[s]);
-            };
+    $('#add_pack_product').click(function(){
+        console.log($("#pack_product_name").val());
+        new_items[0] = $("#pack_product_name").val().split(",");
+        new_items[1] = $("#pack_product_qty").val();
+        if (new_items[1] == ""){
+            return
         };
-        for (m in material_supplier){
-            console.log(listid+m);
-            console.log(material_supplier[m]);
-            $("#supplieroption").append(`
-                <option val="${material_supplier[m]}">${material_supplier[m]}</option>`);
-            if (m > 0){
-                $(`#${listid}`).append(`
-                    <li id="${listid+m} tabindex="0">
-                        <span "onclick="selected()">${material_supplier[m]}</span>
-                    </li>`
-                );
-            };
-        };
-    })*/
+        console.log(new_items[0]);
+        new_item_name.push(new_items[0][0]);
+        new_item_cost.push(Number(new_items[0][1]));
+        new_item_qty.push(Number(new_items[1]));
+        new_item_id.push(item_id);
+        $('#new_product_items').val(new_item_name);
+        $('#new_product_price').val(new_item_cost);
+        $('#new_product_qty').val(new_item_qty);
+        $('#new_product_id').val(new_item_id);
+        $('#items_list').append(`
+            <tbody>
+                <tr id=${item_id}>
+                    <td>${new_items[0][0]}</td>
+                    <td>${new_items[1]}</td>
+                    <td>$${new_items[0][1]}</td>
+                    <td>$${(new_items[0][1]*new_items[1]).toFixed(2)}</td>
+                    <td><strong onclick="delete_item(this)"><i class="fas fa-times"></strong></i></div></td>
+                </tr>
+            </tbody>
+        `);
+        product_total();
+        item_id++;
+    })
 
     $('#add_purchase_item').click(function(){
-        new_items[0] = $(this).parent().parent().find("#puo_item_name").val().split(",");
-        new_items[1] = $(this).parent().parent().find("#puo_item_qty").val();
+        new_items[0] = $("#puo_item_name").val().split(",");
+        new_items[1] = $("#puo_item_qty").val();
         if (new_items[1] == ""){
             return
         };
@@ -155,4 +157,13 @@ function puo_total(){
     }
     $('#puo_total').html(`$ ${sum.toFixed(2)}`);
     $('#new_purchase_total').val(sum);
+}
+
+function product_total(){
+    var sum = 0;
+    for(var i=0; i< new_item_cost.length; i++) {
+        sum += new_item_cost[i]*new_item_qty[i];
+    }
+    $('#product_total').html(`$ ${sum.toFixed(2)}`);
+    $('#new_product_total').val(sum);
 }
