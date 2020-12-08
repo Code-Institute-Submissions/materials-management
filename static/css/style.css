@@ -304,13 +304,19 @@ table{
 } 
 
 .modal-content h4{
-    padding: 10px;
+    margin: 0px;
+    padding: 15px;
+    background-color: #323264;
     color: #f3f3f3;
-    margin-bottom: 20px;
 }
+
 
 .modal-content h6, .modal-content form{
     padding-left: 10% !important;
+}
+
+.modal_message{
+    margin: 20% auto;
 }
 
 .dropdown-content li{
@@ -351,4 +357,11 @@ table{
 .btn_confirm{
     padding: 5vh !important;
     color: blue;
+}
+
+/* Products */
+
+#new_product a, .modal-footer{
+    background-color: #323264 !important;
+    color: #f3f3f3;
 }

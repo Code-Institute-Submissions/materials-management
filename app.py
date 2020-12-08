@@ -36,6 +36,13 @@ def inventory_list():
     return render_template("inventory.html", inventory=inventory)
 
 
+@app.route("/products")
+def products():
+    products = mongo.db.products.find()
+    return render_template(
+        "products.html", products=products)
+
+
 @app.route("/purchases")
 def purchases():
     puorders = mongo.db.puorders.find()
