@@ -320,20 +320,27 @@ table{
 }
 
 .dropdown-content li{
-    min-height: 10px !important;
-    padding: 2% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    clear: both;
+    color: #323264;
+    cursor: pointer;
+    /* min-height: 50px; */
+    line-height: 1.5rem;
+    width: 100%;
+    text-align: left;
+
 }
 .dropdown-content li>span{
     color: #323264 !important;
-    min-height:0 !important;
+    min-height: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
 }
-
+    
 .dropdown-content li>a{
     font-size: 12px !important;
     min-height:0 !important;
-
     padding: 0 !important;
     margin: 0 !important;
 }

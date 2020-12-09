@@ -18,55 +18,69 @@
             </ul>
         </div>
         <div class="contentrow">
-            <div class="row m-0">
-                <div class="col s12 m6 m-0">
+            <div class="row">
+                <div class="col s12 l6">
                     <div class="col s12">
                         <h5>Product Name</h5>
                     </div>
-                    <div class="col s12">
-                        <input placeholder="Product Name" id="new_product_name" name="new_product_name" type="text" class="validate col s8 offset-s2" required>
+                    <div class="col m8 offset-m2">
+                        <input placeholder="Product Name" id="new_product_name" name="new_product_name" type="text" class="validate" required>
                     </div>
                 {% if product_type == 'pack' %}
-                    <div class="input-field col s12">
-                        <select id="pack_product_name" name="pack_product_name" type="text" class="validate" required>
-                            <option class="col s12" value="" disabled selected>Select Products</option>
-                            {% for product in products %}
-                                <option class="col s12" value="{{ product.product_name}},{{product.product_cost }}">{{ product.product_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>          
-                    <div class="input-field col s6 m-0">
-                        <input placeholder="Quantity" id="pack_product_qty" name="pack_product_qty" type="number" class="validate" required>
-                    </div>
-                    <div class="col s2 offset-s2">
-                        <div id="add_pack_product" class="waves-effect waves-green btn-small green m-0">Add</div>
+                    <div class="col m8 offset-m2">
+                        <div class="row">
+                            <div class="col s12">
+                                <select id="pack_product_name" name="pack_product_name" type="text" class="validate col m8 offset-m2 m-0" required>
+                                    <option class="col s12 m-0" value="" disabled selected>Select Products</option>
+                                    {% for product in products %}
+                                        <option class="col s12 m-0" value="{{ product.product_name}},{{product.product_cost }}">{{ product.product_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <input placeholder="QTY" id="pack_product_qty" name="pack_product_qty" type="number" class="validate" required>
+                            </div>
+                            <div class="col s9">
+                                <div id="add_pack_product" class="waves-effect waves-green btn-small green">Add</div>
+                            </div>
+                        </div>
                     </div>
                 {% else %}
-                    <div class="col s8 offset-s2">
-                        <div class="col s12">
-                            <h5>Product Materials</h5>
-                        </div>
-                        <div class="col s12 p-0">
-                            <select class="validate" id="product_name" name="new_product_name" type="text" required>
-                                <option value="" disabled selected>Select Material</option>
+                    <div class="col m8 offset-m2">
+                        <div class="row">
+                            <div class="col s12">
+                                <h5>Product Materials</h5>
+                            </div>
+                            <div class="col s12">
+                                <select class="validate" id="product_name" name="new_product_name" type="text" required>
+                                    <option value="" disabled selected>Select Material</option>
+                                    {% for material in inventory %}
+                                        <option class="{{ material._id }}" value="{{ material._id }}">{{ material.material_description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col s12 hidden_form">
                                 {% for material in inventory %}
-                                    <option>{{ material.material_description }}</option>
+                                    <input id="{{ material._id }}" name="material_unit" type="material_unit" value="{{ material.material_unit }}" required>
                                 {% endfor %}
-                            </select>
+                                <input id="product_cost" name="product_cost" type="number" class="validate col l8 offset-m2" value="0" required>
+                            </div>
                         </div>
-                        <div class="col s12 hidden_form">
-                            <input id="product_cost" name="product_cost" type="number" class="validate col s8 offset-s2" value="0" required>
-                        </div>
-                        <div class="col s12 p-0">
-                            <input placeholder="Quantity" id="product_qty" name="product_qty" type="number" class="validate col s2 m-0 p-0" required>
-                        </div>
-                        <div class="col s2 right">
-                            <div id="add_product" class="waves-effect waves-green btn-small green m-0">Add</div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2">
+                                <input placeholder="QTY" id="product_qty" name="product_qty" type="number" class="validate" required>
+                            </div>
+                            <span class="col s1" id="unit"></span>
+                            <div class="col s9">
+                                <div id="add_product" class="waves-effect waves-green btn-small green">Add</div>
+                            </div>
                         </div>
                     </div>
                 {% endif %}
                 </div>
-                <div class="col s12 m6">
+                <div class="col s12 l6">
                     <table id="items_list" class="centered">
                         <thead>
                             <tr>
@@ -75,6 +89,8 @@
                                 {% if product_type == "pack" %}
                                     <th>Cost</th>
                                     <th>Total</th>
+                                {% else %}
+                                    <th>Each</th>
                                 {% endif %}
                                 <th>Remove</th>
                             </tr>

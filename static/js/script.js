@@ -55,9 +55,16 @@ var item_id = 0
         $('#mobilepanel-caret').css("display", "none");
     })
 
+    $("#product_name").on("change", function(){
+        material_id = $("#product_name").val();
+        unit = $(`#${material_id}`).val();
+        $("#unit").html(unit);
+    })
+
     $('#add_product').click(function(){
-        console.log('Item added')
-        new_items[0][0] = $("#product_name").val();
+        material_id = $("#product_name").val();
+        unit = $(`#${material_id}`).val()
+        new_items[0][0] = $(`.${material_id}`).html();
         new_items[0][1] = $("#product_cost").val();
         new_items[1] = $("#product_qty").val();
         if (new_items[1] == ""){
@@ -76,6 +83,7 @@ var item_id = 0
                 <tr id=${item_id}>
                     <td>${new_items[0][0]}</td>
                     <td>${new_items[1]}</td>
+                    <td>${unit}</td>
                     <td><strong onclick="delete_item(this)"><i class="fas fa-times"></strong></i></div></td>
                 </tr>
             </tbody>
