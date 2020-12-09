@@ -26,12 +26,7 @@
             <tbody>
                 <tr>
                     <td>{{ product.product_name }}</td>
-                    <td>{% if product.product_pack == false %}
-                            Product
-                        {% else %}
-                            Pack
-                        {% endif%}
-                    </td>
+                    <td>{{ product.product_pack }}</td>
                     <td>$ {{ product.product_cost }}</td>
                     <td><a href="#"><i class="far fa-file-alt"></i></a></td>
                 </tr>
@@ -46,10 +41,10 @@
             <div class="row modal_message m-0">
                 <div class="col s12 valign-wrapper">
                     <div class="col s6">
-                        <a href="{{ url_for('new_product', product_type = 'pack') }}" class="btn-large">New Pack</a>
+                        <a href="{{ url_for('new_product', product_type = 'Pack') }}" class="btn-large">New Pack</a>
                     </div>
                     <div class="col s6">
-                        <a href="{{ url_for('new_product', product_type = 'product') }}" class="btn-large">Single Product</a>
+                        <a href="{{ url_for('new_product', product_type = 'Product') }}" class="btn-large">Single Product</a>
                     </div>
                 </div>
             </div>

@@ -47,13 +47,15 @@ def products():
 def new_product(product_type):
     products = mongo.db.products.find()
     inventory = list(mongo.db.inventory.find())
+    suppliers = list(mongo.db.suppliers.find())
     product_material_name = []
     product_material_qty = []
     product_material_unit = []
     if request.method == "POST":
-        if product_type == "product":
+        if product_type == "Product":
             sub_products = request.form.get("new_product_name")
             sub_products_qty = [1]
+            product_pack = "Product"
             product_id = [0]
             product_material_name = request.form.get(
                 "new_product_items").split(",")
@@ -66,6 +68,7 @@ def new_product(product_type):
         else:
             sub_products = request.form.get("new_product_items").split(",")
             sub_products_qty = request.form.get("new_product_qty").split(",")
+            product_pack = "Pack"
             product_id = request.form.get("new_product_id").split(",")
             for sp in product_id:
                 material = mongo.db.products.find_one(
@@ -82,7 +85,7 @@ def new_product(product_type):
             "product_cost": format(
                 float(request.form.get(
                     "new_product_total")), '.2f'),
-            "product_pack": "pack",
+            "product_pack": product_pack,
             "sub_products": sub_products,
             "sub_products_qty": sub_products_qty,
             "product_material_name": product_material_name,
@@ -91,17 +94,18 @@ def new_product(product_type):
         }
         mongo.db.products.insert_one(new_product)
         return redirect(url_for("products"))
-    if product_type == "product":
+    if product_type == "Product":
         return render_template(
             "new_product.html",
-            product_type="product",
+            product_type="Product",
             products=products,
-            inventory=inventory)
+            inventory=inventory,
+            suppliers=suppliers)
     else:
         return render_template(
             "new_product.html",
             products=products,
-            product_type="pack")
+            product_type="Pack")
 
 
 @app.route("/purchases")
@@ -244,7 +248,8 @@ def new_purchase(supplier):
         suppliers=suppliers,
         products_list=zip(
             suppliers["supplier_products"],
-            suppliers["supplier_products_price"]))
+            suppliers["supplier_products_price"],
+            suppliers["supplier_products_each"]))
 
 
 @app.route("/select_supplier")

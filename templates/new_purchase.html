@@ -17,32 +17,41 @@
         </div>
         <div class="contentrow">
             <div class="row m-0">
-                <div class="col s12 m6 m-0">
-                    <div class="col s12 m-0 sup-info">
-                        <ul>
-                            <li>Supplier: {{ suppliers.supplier_name }}</li>
-                            <li>Address: {{ suppliers.supplier_address }}</li>
-                            <li>Phone: {{ suppliers.supplier_phone }}</li>
-                            <li>Email: {{ suppliers.supplier_email }}</li>
-                            <li>Representative: {{ suppliers.supplier_rep }}</li>
-                        </ul>
+                <div class="col s12 l6">
+                    <div class="row">
+                        <div class="col s8 offset-s2 sup-info">
+                            <ul>
+                                <li>Supplier: {{ suppliers.supplier_name }}</li>
+                                <li>Address: {{ suppliers.supplier_address }}</li>
+                                <li>Phone: {{ suppliers.supplier_phone }}</li>
+                                <li>Email: {{ suppliers.supplier_email }}</li>
+                                <li>Representative: {{ suppliers.supplier_rep }}</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <select id="puo_item_name" name="puo_item_name" type="text" class="validate" required>
-                            <option class="col s12" value="" disabled selected>Select New Item</option>
-                            {% for products in products_list %}
-                                <option class="col s12" value="{{ products[0] }},{{ products[1] }}">{{products[0]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>          
-                    <div class="input-field col s6 m-0">
-                        <input placeholder="Quantity" id="puo_item_qty" name="puo_item_qty" type="text" class="validate" required>
-                    </div>
-                    <div class="col s2 offset-s2">
-                        <div id="add_purchase_item" class="waves-effect waves-green btn-small green m-0">Add</div>
+                    <div class="col s8 offset-s2">
+                        <div class="row">    
+                            <div class="col s12">
+                                <select id="puo_item_name" name="puo_item_name" type="text" class="validate" required>
+                                    <option class="col s12" value="" disabled selected>Select New Item</option>
+                                    {% for products in products_list %}
+                                        <option class="col s12" value="{{ products[0] }},{{ products[1] }},{{ products[2] }}">{{products[0]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div> 
+                        <div class="row valign-wrapper">         
+                            <div class="col s2">
+                                <input placeholder="QTY" id="puo_item_qty" name="puo_item_qty" type="text" class="validate" required>
+                            </div>
+                            <span class="col s1" id="unit"></span>
+                            <div class="col s9">
+                                <div id="add_purchase_item" class="waves-effect waves-green btn-small green m-0">Add</div>
+                            </div>
+                        </div> 
                     </div>
                 </div>
-                <div class="col s12 m6">
+                <div class="col s12 l6">
                     <table id="items_list" class="centered">
                         <thead>
                             <tr>

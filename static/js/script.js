@@ -63,9 +63,13 @@ var item_id = 0
 
     $('#add_product').click(function(){
         material_id = $("#product_name").val();
-        unit = $(`#${material_id}`).val()
+        if ( $(`#${material_id}`).val() ){
+            unit = $(`#${material_id}`).val();
+        }else{
+            unit = `"No Supplier Found"`;
+        };
         new_items[0][0] = $(`.${material_id}`).html();
-        new_items[0][1] = $("#product_cost").val();
+        new_items[0][1] = $(`#${material_id}`).next().val();
         new_items[1] = $("#product_qty").val();
         if (new_items[1] == ""){
             return
@@ -82,8 +86,7 @@ var item_id = 0
             <tbody>
                 <tr id=${item_id}>
                     <td>${new_items[0][0]}</td>
-                    <td>${new_items[1]}</td>
-                    <td>${unit}</td>
+                    <td>${new_items[1]} ${unit}</td>
                     <td><strong onclick="delete_item(this)"><i class="fas fa-times"></strong></i></div></td>
                 </tr>
             </tbody>
@@ -93,13 +96,11 @@ var item_id = 0
     })
 
     $('#add_pack_product').click(function(){
-        console.log($("#pack_product_name").val());
         new_items[0] = $("#pack_product_name").val().split(",");
         new_items[1] = $("#pack_product_qty").val();
         if (new_items[1] == ""){
             return
-        };
-        console.log(new_items[0]);
+        }
         new_item_name.push(new_items[0][0]);
         new_item_cost.push(Number(new_items[0][1]));
         new_item_qty.push(Number(new_items[1]));
@@ -123,6 +124,12 @@ var item_id = 0
         item_id++;
     })
 
+    $("#puo_item_name").on("change", function(){
+        new_items[0] = $("#puo_item_name").val().split(",");
+        unit = new_items[0][2];
+        $("#unit").html(unit);
+    })
+
     $('#add_purchase_item').click(function(){
         new_items[0] = $("#puo_item_name").val().split(",");
         new_items[1] = $("#puo_item_qty").val();
@@ -141,8 +148,8 @@ var item_id = 0
             <tbody>
                 <tr id=${item_id}>
                     <td>${new_items[0][0]}</td>
-                    <td>${new_items[1]}</td>
-                    <td>$${new_items[0][1]}</td>
+                    <td>${new_items[1]} ${new_items[0][2]}</td>
+                    <td>$${new_items[0][1]} / ${new_items[0][2]}</td>
                     <td>$${(new_items[0][1]*new_items[1]).toFixed(2)}</td>
                     <td><strong onclick="delete_item(this)"><i class="fas fa-times"></strong></i></div></td>
                 </tr>

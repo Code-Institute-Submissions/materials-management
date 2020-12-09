@@ -21,12 +21,12 @@
             <div class="row">
                 <div class="col s12 l6">
                     <div class="col s12">
-                        <h5>Product Name</h5>
+                        <h5>Product Details</h5>
                     </div>
                     <div class="col m8 offset-m2">
                         <input placeholder="Product Name" id="new_product_name" name="new_product_name" type="text" class="validate" required>
                     </div>
-                {% if product_type == 'pack' %}
+                {% if product_type == 'Pack' %}
                     <div class="col m8 offset-m2">
                         <div class="row">
                             <div class="col s12">
@@ -63,9 +63,15 @@
                             </div>
                             <div class="col s12 hidden_form">
                                 {% for material in inventory %}
-                                    <input id="{{ material._id }}" name="material_unit" type="material_unit" value="{{ material.material_unit }}" required>
+                                    {% for item in suppliers %}
+                                        {% for product in item.supplier_products %}
+                                            {% if product == material.material_description %}
+                                                <input id="{{ material._id }}" name="material_unit" type="text" value="{{ material.material_unit }}" required>
+                                                <input name="product_cost" type="text" value="{{ item.supplier_products_price[loop.index-1] }}" required>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
                                 {% endfor %}
-                                <input id="product_cost" name="product_cost" type="number" class="validate col l8 offset-m2" value="0" required>
                             </div>
                         </div>
                         <div class="row valign-wrapper">
@@ -86,17 +92,15 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Qty</th>
-                                {% if product_type == "pack" %}
+                                {% if product_type == "Pack" %}
                                     <th>Cost</th>
                                     <th>Total</th>
-                                {% else %}
-                                    <th>Each</th>
                                 {% endif %}
                                 <th>Remove</th>
                             </tr>
                         </thead>
                     </table>
-                    {% if product_type == "pack" %}
+                    {% if product_type == "Pack" %}
                         <table class="centered">
                             <thead>
                                 <tr>
