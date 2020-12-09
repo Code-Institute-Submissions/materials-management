@@ -1,6 +1,6 @@
 import os
 import datetime
-import math
+import numpy
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -53,7 +53,7 @@ def new_product(product_type):
     product_material_unit = []
     if request.method == "POST":
         if product_type == "Product":
-            sub_products = request.form.get("new_product_name")
+            sub_products = [request.form.get("new_product_name")]
             sub_products_qty = [1]
             product_pack = "Product"
             product_id = [0]
@@ -106,6 +106,29 @@ def new_product(product_type):
             "new_product.html",
             products=products,
             product_type="Pack")
+
+
+@app.route("/product_info/<name>", methods=["GET", "POST"])
+def product_info(name):
+    products = mongo.db.products.find_one({"product_name": name})
+    materials = list(numpy.unique(products["product_material_name"]))
+    materials_qty = []
+    materials_unit = []
+    for m in materials:
+        i = products["product_material_name"].index(m)
+        print(i)
+        qty = int(products["product_material_qty"][i])
+        unit = products["product_material_unit"][i]
+        n = products["product_material_name"].count(m)
+        materials_qty.append(qty*n)
+        materials_unit.append(unit)
+    return render_template(
+        "product_info.html",
+        items=zip(
+            materials,
+            materials_qty,
+            materials_unit),
+        products=products)
 
 
 @app.route("/purchases")

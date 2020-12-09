@@ -28,7 +28,7 @@
                     <td>{{ product.product_name }}</td>
                     <td>{{ product.product_pack }}</td>
                     <td>$ {{ product.product_cost }}</td>
-                    <td><a href="#"><i class="far fa-file-alt"></i></a></td>
+                    <td><a href="{{ url_for('product_info', name = product.product_name) }}"><i class="far fa-file-alt"></i></a></td>
                 </tr>
             </tbody>
         {% endfor %}
