@@ -2,13 +2,16 @@
 {% block content %}
     <form class="col s12 m-0 p-0" method="POST" action="{{ url_for('new_product', product_type = product_type) }}" >
         <div class="menulist valign-wrapper m-0">
-            <ul class="col s10 m-0">
+            <ul class="col s12 m10 m-0">
                 <li class="left-align"><a href = "{{ url_for('products') }}" ><h5>Products</h5></a></li>
                 <li class="left-align"><h5>/</h5></li>
-                <li class="left-align"><h5>New Product</h5></li>
-                <li class="left-align"><h5>New Pack</h5></li>
+                {% if product_type == 'Pack' %}
+                    <li class="left-align"><h5>New Pack</h5></li>
+                {% else %}
+                    <li class="left-align"><h5>New Product</h5></li>
+                {% endif %}
             </ul>
-            <div class="col s2">
+            <div class="col s3 m-0 hide-on-small-only">
                 <div class="previous"><i class="fas fa-caret-left"></i></div>
                 <div class="next"><i class="fas fa-caret-right"></i></div>
             </div>
@@ -17,8 +20,11 @@
             <ul>
                 <li class="col"><a href = "#" >Production Orders</a></li>
                 <li class="col"><a href = "#" >Materials Request</a></li>
-                <li class="col"><a href = "#" >New Pack</a></li>
-                <li class="col"><a href = "#" >New Product</a></li>
+                {% if product_type == 'Pack' %}
+                    <li class="col"><a href = "{{ url_for('new_product', product_type = 'Product') }}" >New Product</a></li>
+                {% else %}
+                    <li class="col"><a href = "{{ url_for('new_product', product_type = 'Pack') }}" >New Pack</a></li>
+                {% endif %}
             </ul>
         </div>
         <div class="contentrow">

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="menulist valign-wrapper m-0">
-        <ul class="col s10 m-0">
+        <ul class="col s12 m10 m-0">
             <li class="left-align"><a href = "{{ url_for('suppliers') }}" ><h5>Suppliers</h5></a></li>
             <li class="left-align"><h5>/</h5></li>
             <li class="left-align"><h5>{{suppliers.supplier_name }}</h5></li>
         </ul>
-        <div class="col s2">
+        <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
             <div class="next"><i class="fas fa-caret-right"></i></div>
         </div>
@@ -37,7 +37,6 @@
                 <tr>
                     <th>Description</th>
                     <th>Price</th>
-                    <th>Each</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -45,8 +44,7 @@
                 <tbody>
                     <tr>
                         <td>{{ item[0] }}</td>
-                        <td>${{ item[1] }}</td>
-                        <td>{{ item[2] }}</td>
+                        <td>${{ item[1] }} / {{ item[2] }}</td>
                         <td>
                             <span class="col s4 offset-s4 ">
                                 <a href=""><i class="col s6 fas fa-pencil-alt"></i></a>

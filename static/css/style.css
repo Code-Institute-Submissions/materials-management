@@ -54,6 +54,9 @@ nav{
     padding-right:2%;
 }
 
+.menulist .s3{
+    padding-top: 20px;
+}
 .navpanellayer{
     height: 100%;
     width: 10px;
