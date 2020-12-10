@@ -114,14 +114,12 @@ def product_info(name):
     materials = list(numpy.unique(products["product_material_name"]))
     materials_qty = []
     materials_unit = []
-    for m in materials:
-        i = products["product_material_name"].index(m)
-        print(i)
-        qty = int(products["product_material_qty"][i])
-        unit = products["product_material_unit"][i]
-        n = products["product_material_name"].count(m)
-        materials_qty.append(qty*n)
-        materials_unit.append(unit)
+    for m in range(0, len(materials)):
+        materials_qty.append(0)
+        for i in range(0, len(products["product_material_name"])):
+            if materials[m] == products["product_material_name"][i]:
+                materials_qty[m] += int(products["product_material_qty"][i])
+                materials_unit.append(products["product_material_unit"][i])
     return render_template(
         "product_info.html",
         items=zip(
@@ -160,9 +158,10 @@ def material_info(name):
         )
         return redirect(url_for("material_info", name=name))
     total = 0
-    for mat in puorders:
-        for qty in mat["puo_items_qty"]:
-            total += int(qty)
+    for order in puorders:
+        if order["puo_status"] is False:
+            for i in range(0, len(order["puo_items"])):
+                total += int(order["puo_items_qty"][i])
     return render_template(
         "material_info.html",
         puorders=puorders,
@@ -302,12 +301,13 @@ def purchase_info(puo_number):
 def items_received(puo_number):
     items_name = request.form.get("items_name").split(",")
     items_qty = request.form.get("items_qty").split(",")
-    for k in items_name:
-        inventory = mongo.db.inventory.find_one({"material_description": k})
+    for k in range(0, len(items_name)):
+        inventory = mongo.db.inventory.find_one(
+            {"material_description": items_name[k]})
         qty = inventory["material_qty"]
-        newqty = qty+int(items_qty[items_name.index(k)])
+        newqty = qty+int(items_qty[k])
         mongo.db.inventory.update_one(
-            {"material_description": k},
+            {"material_description": items_name[k]},
             {"$set": {"material_qty": newqty}})
     mongo.db.puorders.update_one(
         {"puo_number": puo_number},
