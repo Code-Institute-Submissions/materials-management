@@ -25,6 +25,14 @@ var item_id = 0
         $('.navpanellayer').css("width","10px");
     })
 
+    $(".previous").click(function (){
+        window.history.back();
+    })
+
+    $(".next").click(function (){
+        window.history.forward();
+    })
+
     $('#plus-inventory').click(function(){
         $('#mobilepanel-plus-inventory').toggle('slow');
         $('#mobilepanel-caret').hide();

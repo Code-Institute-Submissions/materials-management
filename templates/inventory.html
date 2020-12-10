@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="menulist valign-wrapper m-0">
-        <ul class="col s12 m-0">
+        <ul class="col s10 m-0">
             <li class="left-align"><a href = "{{ url_for('inventory_list') }}" ><h5>Inventory</h5></a></li>
         </ul>
+        <div class="col s2">
+            <div class="previous"><i class="fas fa-caret-left"></i></div>
+            <div class="next"><i class="fas fa-caret-right"></i></div>
+        </div>
     </div>
     <div class="menulist valign-wrapper m-0">
        <ul>

@@ -18,6 +18,17 @@ nav{
     background-color: #323264 !important;
 }
 
+.previous, .next{
+    text-decoration: none !important;
+    display: inline-block;
+    padding: 8px auto !important;
+    height: 40px !important;
+    width: 40px !important;
+    cursor: pointer;
+    color: #f3f3f3;
+}
+
+
 .scrolly{
     overflow-y: auto !important;
 }
