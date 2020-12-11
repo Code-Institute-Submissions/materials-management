@@ -2,7 +2,7 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "#" ><h5>Products</h5></a></li>
+            <li class="left-align"><a href = "#" ><h5>Stock</h5></a></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -11,9 +11,9 @@
     </div>
     <div class="menulist valign-wrapper m-0">
         <ul>
+            <li class="col"><a href = "#" >Customer Orders</a></li>
             <li class="col"><a href = "#" >Production Orders</a></li>
             <li class="col"><a href = "#" >Materials Request</a></li>
-            <li class="col"><a class="modal-trigger" href="#new_product" >New Product</a></li>
         </ul>
     </div>    
     <div class="contentrow">
@@ -22,42 +22,23 @@
                 <tr>
                     <th>Product Name</th>
                     <th>Product Type</th>
-                    <th>Cost</th>
-                    <th>Details</th>
+                    <th>Quantity</th>
+                    <th>In Orders</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-        {% for product in products %}
+        {% for product in stock %}
             <tbody>
                 <tr>
-                    <td>{{ product.product_name }}</td>
-                    <td>{{ product.product_pack }}</td>
-                    <td>$ {{ product.product_cost }}</td>
-                    <td><a href="{{ url_for('product_info', name = product.product_name) }}"><i class="far fa-file-alt"></i></a></td>
+                    <td>{{ product[0].product_name }}</td>
+                    <td>{{ product[0].product_type }}</td>
+                    <td>{{ product[0].product_qty }}</td>
+                    <td>{{ product[1] }}</td>
                 </tr>
             </tbody>
         {% endfor %}
         </table>
     </div>
-    
-    <div id="new_product" class="modal modal-fixed-footer grey lighten-5">
-        <div class="modal-content p-0 m-0">
-            <h4>Select Product Type</h4>
-            <div class="row modal_message m-0">
-                <div class="col s12 valign-wrapper">
-                    <div class="col s6">
-                        <a href="{{ url_for('new_product', product_type = 'Pack') }}" class="btn-large">New Pack</a>
-                    </div>
-                    <div class="col s6">
-                        <a href="{{ url_for('new_product', product_type = 'Product') }}" class="btn-large">Single Product</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close btn-flat">Cancel</a>
-        </div>
-    </div>
-
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">
             <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>

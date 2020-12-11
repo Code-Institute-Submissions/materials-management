@@ -77,6 +77,24 @@ def order_info(order_id):
         order_id=order_id)
 
 
+@app.route("/stock")
+def stock():
+    stock = list(mongo.db.stock.find())
+    orders = list(mongo.db.orders.find())
+    products = []
+    for s in stock:
+        i = stock.index(s)
+        for o in orders:
+            for j in range(0, len(o["order_items"])):
+                if s["product_name"] == o["order_items"][j]:
+                    qty = int(o["order_items_qty"][j])
+                    products.append(0)
+                    products[i] += qty
+    return render_template(
+        "stock.html",
+        stock=zip(stock, products))
+
+
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = mongo.db.inventory.find()
