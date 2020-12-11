@@ -27,6 +27,44 @@ def orders():
         "orders.html", orders=orders)
 
 
+@app.route("/new_order", methods=["GET", "POST"])
+def new_order():
+    order_id = mongo.db.orders.count()+1
+    products = mongo.db.products.find()
+    customer = []
+    if request.method == "POST":
+        customer.append(request.form.get("customer_fname"))
+        customer.append(request.form.get("customer_lname"))
+        customer.append(request.form.get("customer_phone"))
+        customer.append(request.form.get("customer_email"))
+    return render_template(
+        "new_order.html",
+        order_id=order_id,
+        products=products,
+        customer=customer)
+
+
+@app.route("/new_order/<order_id>", methods=["GET", "POST"])
+def add_new_order(order_id):
+    date = datetime.datetime.now()
+    if request.method == "POST":
+        order_items = request.form.get("new_product_items").split(",")
+        order_items_qty = request.form.get("new_product_qty").split(",")
+        neworder = {
+            "order_id": order_id,
+            "order_date": date.strftime("%x"),
+            "order_status": "Pending",
+            "order_items": order_items,
+            "order_items_qty": order_items_qty,
+            "customer_fname": request.form.get("customer_fname"),
+            "customer_lname": request.form.get("customer_lname"),
+            "customer_phone": request.form.get("customer_phone"),
+            "customer_email": request.form.get("customer_email")
+        }
+    mongo.db.orders.insert_one(neworder)
+    return redirect(url_for('orders'))
+
+
 @app.route("/order_info/<order_id>")
 def order_info(order_id):
     orders = mongo.db.orders.find_one({"order_id": order_id})
@@ -34,8 +72,7 @@ def order_info(order_id):
         "order_info.html",
         items=zip(
             orders["order_items"],
-            orders["order_items_qty"],
-            orders["order_items_type"]),
+            orders["order_items_qty"]),
         orders=orders,
         order_id=order_id)
 

@@ -330,9 +330,13 @@ table{
 }
 
 .modal_message{
-    margin: 20% auto;
+    margin-top: 20%;
 }
 
+.btn-flat{
+    background-color: #323264;
+    color: #f3f3f3;
+}
 .dropdown-content li{
     min-height: 0 !important;
     padding: 0 !important;

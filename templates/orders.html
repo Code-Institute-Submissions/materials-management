@@ -13,7 +13,7 @@
        <ul>
             <li class="col"><a href = "#" >Production Orders</a></li>
             <li class="col"><a href = "#" >Materials Request</a></li>
-            <li class="col"><a href="#" >New Order</a></li>
+            <li class="col"><a class="modal-trigger" href="#new_order" >New Order</a></li>
         </ul>
     </div>    
     <div class="contentrow">
@@ -37,6 +37,35 @@
             </tbody>
         {% endfor %}
         </table>
+    </div>
+
+    <div id="new_order" class="modal modal-fixed-footer grey lighten-5">
+        <div class="modal-content p-0 m-0">
+            <h4>New Order</h4>
+            <div class="row m-0">
+                <form class="col s12" method="POST" action="{{ url_for('new_order') }}" >
+                    <div class="row">
+                        <h5 class="col s8 offset-s1">Customer Details</h5>
+                        <ul class="col s12">
+                            <li class="col s10"><input placeholder="Customer First Name" id="customer_fname" name="customer_fname" type="text" class="validate" value="" required></li>
+                            <li class="col s10"><input placeholder="Customer Last Name" id="customer_lname" name="customer_lname" type="text" class="validate" value="" required></li>
+                            <li class="col s10"><input placeholder="Customer Phone" id="customer_phone" name="customer_phone" type="text" class="validate" value="" required></li> 
+                            <li class="col s10"><input placeholder="Customer Email" id="customer_email" name="customer_email" type="email" class="validate" value="" required></li>
+                        </ul>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col s10">
+                            <div class="col s6">
+                                <a href="" class="modal-close btn-flat">Cancel</a>
+                            </div>
+                            <div class="col s6">
+                                <button type="submit" class="modal-close btn-flat">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </form> 
+            </div>
+        </div>
     </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
