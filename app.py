@@ -20,6 +20,26 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
+@app.route("/orders")
+def orders():
+    orders = mongo.db.orders.find()
+    return render_template(
+        "orders.html", orders=orders)
+
+
+@app.route("/order_info/<order_id>")
+def order_info(order_id):
+    orders = mongo.db.orders.find_one({"order_id": order_id})
+    return render_template(
+        "order_info.html",
+        items=zip(
+            orders["order_items"],
+            orders["order_items_qty"],
+            orders["order_items_type"]),
+        orders=orders,
+        order_id=order_id)
+
+
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = mongo.db.inventory.find()
