@@ -15,16 +15,6 @@ var item_id = 0
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
 
-    $('.navpanellayer').mouseenter(function(){
-        $(this).css("width","0");
-        $('.navpanel').css("width","200px","visibility","visible");
-    })
-
-    $('.navpanel').mouseleave(function(){
-        $(this).css("width","0","visibility","hidden");
-        $('.navpanellayer').css("width","10px");
-    })
-
     $(".previous").click(function (){
         window.history.back();
     })
@@ -185,11 +175,6 @@ var item_id = 0
         $('#items_price').val(itemsprice);
     });
 });
-
-/*function selected(){
-    console.log("This is getting interesting");
-    setTimeout(function(){ $(this).addClass("selected"); }, 3000);
-}*/
 
 function delete_item(btn){
     index = new_item_id.indexOf(Number(btn.parentElement.id));

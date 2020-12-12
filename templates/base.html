@@ -12,84 +12,48 @@
 </head>
 <body> 
     <div class="row mb-0">
-        <div class="hide-on-small-and-down scrolly full-height navpanellayer valign-wrapper" ><div><i class="fas fa-chevron-right"></i></div></div>
-        <div class="hide-on-small-and-down scrolly full-height navpanel" >
-                <ul class="collapsible">
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper" ><a href="#">Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Customer Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Invoices</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper" ><a href="#">Stock</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Stock Levels</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Finished Goods</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper" ><a href="#">Production</a></div>
-                        <div class="collapsible-body navlist"><a href="{{ url_for('products') }}">Products</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Register New Product</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper"><a href="#">Inventory</a></div>
-                        <div class="collapsible-body navlist"><a href="{{ url_for('inventory_list') }}">Inventory List</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Materials Request</a></div>
-                        <div class="collapsible-body navlist"><a href="{{ url_for('purchases') }}">Purchase Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li><div class="collapsible-header navheader navlistwrapper"><a href="#">Dashboard</a></div></li>
-                </ul>
-                
+        <div class="col m2 l1 hide-on-small-and-down scrolly full-height navpanel center" >
+            <ul>
+                <li>
+                    <a href="{{ url_for('orders') }}"><i class="fas fa-receipt"></i></a>
+                    <div>Orders</div>
+                </li>
+                <li>
+                    <a href="{{ url_for('stock') }}"><i class="fas fa-pallet"></i></a>
+                    <div>Stock</div>
+                </li>
+                <li>
+                    <a href="{{ url_for('products') }}"><i class="fas fa-cubes"></i></a>
+                    <div>Products</div>
+                </li>
+                <li>
+                    <a href="{{ url_for('inventory_list') }}"><i class="fas fa-boxes"></i></a>
+                    <div>Inventory</div>
+                </li>
+                <li>
+                    <a href="{{ url_for('purchases') }}"><i class="fas fa-shopping-basket"></i></a>
+                    <div>Purchases</div>
+                </li>
+                <li><a href="{{ url_for('suppliers') }}"><i class="fas fa-dolly"></i></a>
+                    <div>Suppliers</div>
+                </li>
+            </ul>
         </div>
 
-        <div class="col s12 full-height content m-0 p-0">
-            <!--<nav>
-                <ul class="right">
-                    <li><a href="#">Log In</a></li>
-                    <li><a href="#">Log Out</a></li>
-                    <li><a href="#">Register User</a></li>
-                </ul>
-            </nav>-->
-            <div class="row m-0">
-                <div class="col center s12 m-0 p-0">
-                    {% block content %}
-                    {% endblock %}
-                </div>
-            </div>
+        <div class="col s12 m10 l11 full-height content m-0 p-0">
+            {% block content %}
+            {% endblock %}
         </div>
 
         <div class="row mobilepanel-caret hide-on-med-and-up valign-wrapper m-0 scrolly" id="mobilepanel-caret">
             <div class="col s12">
-                <ul class="collapsible navpanel-mob right">
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper" ><a href="#">Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Customer Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Invoices</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper" ><a href="#">Stock</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Stock Levels</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Finished Goods</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper" ><a href="#">Production</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Production Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Register New Product</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header navheader navlistwrapper"><a href="#">Inventory</a></div>
-                        <div class="collapsible-body navlist"><a href="{{ url_for('inventory_list') }}">Inventory List</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Materials Request</a></div>
-                        <div class="collapsible-body navlist"><a href="{{ url_for('purchases') }}">Purchase Orders</a></div>
-                        <div class="collapsible-body navlist"><a href="#">Reports</a></div>
-                    </li>
-                    <li><div class="collapsible-header navheader navlistwrapper"><a href="#">Dashboard</a></div></li>
+                <ul>
+                    <li><a href="{{ url_for('orders') }}">Customer Orders</a></li>
+                    <li><a href="{{ url_for('stock') }}">Stock</a></li>
+                    <li><a href="{{ url_for('products') }}">Products</a></li>
+                    <li><a href="{{ url_for('inventory_list') }}">Inventory</a></li>
+                    <li><a href="{{ url_for('purchases') }}">Purchases</a></li>
+                    <li><a href="{{ url_for('suppliers') }}">Suppliers</a></li>
                 </ul>
             </div>
         </div>
