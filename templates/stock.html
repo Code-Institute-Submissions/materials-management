@@ -17,27 +17,29 @@
         </ul>
     </div>    
     <div class="contentrow">
-        <table class="centered">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Product Type</th>
-                    <th>Quantity</th>
-                    <th>In Orders</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        {% for product in stock %}
-            <tbody>
-                <tr>
-                    <td>{{ product[0].product_name }}</td>
-                    <td>{{ product[0].product_type }}</td>
-                    <td>{{ product[0].product_qty }}</td>
-                    <td>{{ product[1] }}</td>
-                </tr>
-            </tbody>
-        {% endfor %}
-        </table>
+        <div class="scrollx">
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Type</th>
+                        <th>Quantity</th>
+                        <th>In Orders</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            {% for product in stock %}
+                <tbody>
+                    <tr>
+                        <td>{{ product[0].product_name }}</td>
+                        <td>{{ product[0].product_type }}</td>
+                        <td>{{ product[0].product_qty }}</td>
+                        <td>{{ product[1] }}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            </table>
+        </div>
     </div>
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">

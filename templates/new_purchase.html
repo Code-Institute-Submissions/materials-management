@@ -49,35 +49,37 @@
                                 <input placeholder="QTY" id="puo_item_qty" name="puo_item_qty" type="text" class="validate" required>
                             </div>
                             <span class="col s1" id="unit"></span>
-                            <div class="col s9">
+                            <div class="col s9 right-align">
                                 <div id="add_purchase_item" class="waves-effect waves-green btn-small green m-0">Add</div>
                             </div>
                         </div> 
                     </div>
                 </div>
                 <div class="col s12 l6">
-                    <table id="items_list" class="centered">
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <table class="centered">
-                        <thead>
-                            <tr>
-                                <th>Total</th>
-                                <th></th>
-                                <th></th>
-                                <th id="puo_total">$ 0.00</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="scrollx">
+                        <table id="items_list" class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th id="puo_total">$ 0.00</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="row m-0 hidden_form">
@@ -90,7 +92,7 @@
                 </div>
             </div>
             <div class="row m-0">
-                <div class="col s8 offset-s2 btn_confirm">
+                <div class="col s8 offset-s2 btn_confirm center">
                     <button class="waves-effect waves-green btn-small green" type="submit">Confirm Purchase</button>
                 </div>
             </div>

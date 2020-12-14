@@ -21,7 +21,8 @@
     </div>  
     <div class="contentrow">
         <div class="row m-0">
-            <table class="centered">
+            <div class="scrollx">
+                <table class="centered">
                 <thead>
                     <tr>
                         <th>In Orders</th>
@@ -36,53 +37,58 @@
                         <td>Balance</td>
                     </tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
         </div>
         <div class="row m-0">
-            <table class="centered">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-            {% for subproduct in products.sub_products %}
-                <tbody>
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td class="items_name">{{ subproduct }}</td>
-                        <td class="items_qty">{{ products.sub_products_qty[loop.index-1] }}</td>
-                        <td><a href="{{ url_for('product_info', name = subproduct) }}"><i class="far fa-file-alt"></i></a></td>
-                    </tr>
-                </tbody>
-            {% endfor %}
-            </table>
+            <div class="scrollx">
+                <table class="centered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                {% for subproduct in products.sub_products %}
+                    <tbody>
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td class="items_name">{{ subproduct }}</td>
+                            <td class="items_qty">{{ products.sub_products_qty[loop.index-1] }}</td>
+                            <td><a href="{{ url_for('product_info', name = subproduct) }}"><i class="far fa-file-alt"></i></a></td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+                </table>
+            </div>
         </div>
         <div class="row m-0">
             <div class="col s12">
                 <h5>Product Materials</h5>
             </div>
             <div class="col s12 m8 offset-m2">
-                <table class="centered">
-                    <thead>
-                        <tr>
-                            <th>Material</th>
-                            <th>Quantity</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                {% for item in items %}
-                    <tbody>
-                        <tr>
-                            <td class="items_name">{{ item[0] }}</td>
-                            <td class="items_qty">{{ item[1] }} {{ item[2] }}</td>
-                            <td><a href="{{ url_for('material_info', name = item[0]) }}"><i class="far fa-file-alt"></i></a></td>
-                        </tr>
-                    </tbody>
-                {% endfor %}
-                </table>
+                <div class="scrollx">
+                    <table class="centered">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Quantity</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                    {% for item in items %}
+                        <tbody>
+                            <tr>
+                                <td class="items_name">{{ item[0] }}</td>
+                                <td class="items_qty">{{ item[1] }} {{ item[2] }}</td>
+                                <td><a href="{{ url_for('material_info', name = item[0]) }}"><i class="far fa-file-alt"></i></a></td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
     </div>    

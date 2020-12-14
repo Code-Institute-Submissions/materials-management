@@ -21,29 +21,31 @@
         <div class="menulist valign-wrapper center m-0">
             <h5 class="col s8 offset-s2">Select Supplier</h5>
         </div>
-        <table id="sup-tbl" class="centered">
-            <thead>
-                <tr>
-                    <th>Supplier</th>
-                    <th class="hide-on-med-and-down">Phone</th>
-                    <th class="hide-on-small-only">Email</th>
-                    <th class="hide-on-small-only">Contact</th>
-                    <th class="hide-on-small-only s1"> Select</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for supplier in suppliers %}
+        <div class="scrollx">
+            <table id="sup-tbl" class="centered">
+                <thead>
                     <tr>
-                        <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
-                        <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
-                        <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
-                        <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                        <td class="hide-on-med-and-up"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
-                        <td class="hide-on-small-only s1"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
+                        <th>Supplier</th>
+                        <th class="hide-on-med-and-down">Phone</th>
+                        <th class="hide-on-small-only">Email</th>
+                        <th class="hide-on-small-only">Contact</th>
+                        <th class="hide-on-small-only s1"> Select</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for supplier in suppliers %}
+                        <tr>
+                            <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
+                            <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
+                            <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
+                            <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
+                            <td class="hide-on-med-and-up"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
+                            <td class="hide-on-small-only s1"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">

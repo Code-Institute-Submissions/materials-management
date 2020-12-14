@@ -17,35 +17,37 @@
         </ul>
     </div>
     <div class="contentrow">
-        <table class="centered">
-            <thead>
-                <tr>
-                    <th>Order #</th>
-                    <th>Date of Request</th>
-                    <th class="hide-on-small-only">Supplier</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-        {% for orders in puorders %}
-            <tbody>
-                <tr>
-                    <td>#{{ orders.puo_number}}</td>
-                    <td>{{ orders.puo_date }}</td>
-                    <td class="hide-on-small-only">{{ orders.puo_supplier}}</td>
-                    <td>$ {{ orders.puo_total }}</td>
-                    <td>{% if orders.puo_status == false %}
-                            Pending
-                        {% else %}
-                            Received
-                        {% endif%}
-                    </td>
-                    <td><a href="{{ url_for('purchase_info', puo_number = orders.puo_number) }}"><i class="far fa-file-alt"></i></a></td>
-                </tr>
-            </tbody>
-        {% endfor %}
-        </table>
+        <div class="scrollx">
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date of Request</th>
+                        <th class="hide-on-small-only">Supplier</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+            {% for orders in puorders %}
+                <tbody>
+                    <tr>
+                        <td>#{{ orders.puo_number}}</td>
+                        <td>{{ orders.puo_date }}</td>
+                        <td class="hide-on-small-only">{{ orders.puo_supplier}}</td>
+                        <td>$ {{ orders.puo_total }}</td>
+                        <td>{% if orders.puo_status == false %}
+                                Pending
+                            {% else %}
+                                Received
+                            {% endif%}
+                        </td>
+                        <td><a href="{{ url_for('purchase_info', puo_number = orders.puo_number) }}"><i class="far fa-file-alt"></i></a></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            </table>
+        </div>
     </div>
 
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">

@@ -5,7 +5,7 @@ var new_item_cost = []
 var new_item_id = []
 var item_id = 0
     
-    $(document).ready(function(){
+$(document).ready(function(){
     $('.sidenav').sidenav();
     $('.fixed-action-btn').floatingActionButton();
     $('.modal').modal();
@@ -17,10 +17,12 @@ var item_id = 0
 
     $(".previous").click(function (){
         window.history.back();
+        return
     })
 
     $(".next").click(function (){
         window.history.forward();
+        return
     })
 
     $('#plus-inventory').click(function(){
@@ -57,6 +59,7 @@ var item_id = 0
         material_id = $("#product_name").val();
         unit = $(`#${material_id}`).val();
         $("#unit").html(unit);
+        return
     })
 
     $('#add_product').click(function(){
@@ -91,6 +94,7 @@ var item_id = 0
         `);
         product_total();
         item_id++;
+        return
     })
 
     $('#add_pack_product').click(function(){
@@ -120,12 +124,14 @@ var item_id = 0
         `);
         product_total();
         item_id++;
+        return
     })
 
     $("#puo_item_name").on("change", function(){
         new_items[0] = $("#puo_item_name").val().split(",");
         unit = new_items[0][2];
         $("#unit").html(unit);
+        return
     })
 
     $('#add_purchase_item').click(function(){
@@ -155,26 +161,9 @@ var item_id = 0
         `);
         puo_total();
         item_id++;
+        return
     })
-
-    $('#itemsreceived').click(function(){
-        itemsname = [];
-        itemsqty = [];
-        itemsprice = [];
-        $('#puoitems .items_name').each(function() {
-            itemsname.push($(this).html());  
-        });
-        $('#puoitems .items_qty').each(function() {
-            itemsqty.push($(this).html());  
-        });
-        $('#puoitems .items_price').each(function() {
-            itemsprice.push($(this).html());  
-        });
-        $('#items_name').val(itemsname);
-        $('#items_qty').val(itemsqty);
-        $('#items_price').val(itemsprice);
-    });
-});
+})
 
 function delete_item(btn){
     index = new_item_id.indexOf(Number(btn.parentElement.id));
@@ -184,6 +173,7 @@ function delete_item(btn){
     new_item_id.splice(index, 1);
     btn.parentElement.parentElement.remove();
     puo_total();
+    return
 }
 
 function puo_total(){
@@ -193,6 +183,7 @@ function puo_total(){
     }
     $('#puo_total').html(`$ ${sum.toFixed(2)}`);
     $('#new_purchase_total').val(sum);
+    return
 }
 
 function product_total(){
@@ -202,4 +193,5 @@ function product_total(){
     }
     $('#product_total').html(`$ ${sum.toFixed(2)}`);
     $('#new_product_total').val(sum);
+    return
 }

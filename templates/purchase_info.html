@@ -19,83 +19,73 @@
         </ul>
     </div>
     <div class="contentrow">
-        <table class="centered">
-            <thead>
-                <tr>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
-        <div class="col s12 m6 sup-info">
-            <ul>
-                <li>Purchase Order: #{{puorders.puo_number}}</li>
-                <li>Date of Request: {{puorders.puo_date}}</li>
-                <li>Requested by:</li>
-                <li>Purchase Total: ${{puorders.puo_total}}</li>
-                    <li>Status: {% if puorders.puo_status == false %}
-                                    Pending
-                                {% else %}
-                                    Received
-                                {% endif%}
-                    </li>
-            </ul>
+        <div class="row m-0">
+            <div class="col s12 m6 sup-info">
+                <ul>
+                    <li>Purchase Order: #{{puorders.puo_number}}</li>
+                    <li>Date of Request: {{puorders.puo_date}}</li>
+                    <li>Requested by:</li>
+                    <li>Purchase Total: ${{puorders.puo_total}}</li>
+                        <li>Status: {% if puorders.puo_status == false %}
+                                        Pending
+                                    {% else %}
+                                        Received
+                                    {% endif%}
+                        </li>
+                </ul>
+            </div>
+            <div class="col s12 m6 sup-info">
+                <ul>
+                    <li>Supplier: {{suppliers.supplier_name}}</li>
+                    <li>Address: {{suppliers.supplier_address}}</li>
+                    <li>Phone: {{suppliers.supplier_phone}}</li>
+                    <li>Email: {{suppliers.supplier_email}}</li>
+                    <li>Representative: {{suppliers.supplier_rep}}</li>
+                </ul>
+            </div>
         </div>
-        <div class="col s12 m6 sup-info">
-            <ul>
-                <li>Supplier: {{suppliers.supplier_name}}</li>
-                <li>Address: {{suppliers.supplier_address}}</li>
-                <li>Phone: {{suppliers.supplier_phone}}</li>
-                <li>Email: {{suppliers.supplier_email}}</li>
-                <li>Representative: {{suppliers.supplier_rep}}</li>
-            </ul>
+        <div class="row m-0">
+            <div class="scrollx">
+                <table id="puoitems" class="centered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                {% for item in items_list %}
+                    <tbody>
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td class="items_name">{{ item[0] }}</td>
+                            <td class="items_qty">{{ item[1] }}</td>
+                            <td class="items_price">$ {{ item[2] }}</td>
+                            <td>$ {{ "%.2f"|format(item[1]|int * item[2]|float) }}</td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+                </table>
+                <table class="centered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-        <table id="puoitems" class="centered">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-        {% for item in items_list %}
-            <tbody>
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td class="items_name">{{ item[0] }}</td>
-                    <td class="items_qty">{{ item[1] }}</td>
-                    <td class="items_price">$ {{ item[2] }}</td>
-                    <td>$ {{ "%.2f"|format(item[1]|int * item[2]|float) }}</td>
-                </tr>
-            </tbody>
-        {% endfor %}
-        </table>
-        <table class="centered">
-            <thead>
-                <tr>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
         {% if puorders.puo_status == false %}
-            <form class="col s12 m-0 p-0" method="POST" action="{{ url_for('items_received', puo_number = puorders.puo_number) }}" >
-                <div class="row m-0 hidden_form">
-                    <div class="col s4 left">
-                        <input id="items_name" name="items_name" type="text" required>
-                        <input id="items_qty" name="items_qty" type="text" required>
-                        <input id="items_price" name="items_price" type="text" required>
-                    </div>
+            <div class="row m-0">
+                <div class="col s8 offset-s2 btn_confirm center">
+                    <a href="{{ url_for('items_received', puo_number = puorders.puo_number, status = puorders.puo_status) }}" class="waves-effect waves-green btn-small green">Receive Items</a>
                 </div>
-                <div class="row m-0">
-                    <div class="col s8 offset-s2 btn_confirm">
-                        <button id="itemsreceived" class="waves-effect waves-green btn-small green" type="submit">Receive Items</button>
-                    </div>
-                </div>
-            </form>
+            </div>
         {% else %}
             <div class="row m-0">
-                <div class="col s8 offset-s2 btn_confirm ">
+                <div class="col s8 offset-s2 btn_confirm center">
                     <strong>Items Received</strong>
                 </div>
             </div>

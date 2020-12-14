@@ -19,62 +19,66 @@
     </div>  
     <div class="contentrow">
         <div class="row m-0 p-0">
-            <table id="sup-tbl" class="centered">
-                <div class="col s12 offset-m3 m-0">
-                    <ul class="col s11">
-                        <li>{{suppliers.supplier_name }}</li>
-                        <li>{{suppliers.supplier_address }}</li>
-                        <li>{{suppliers.supplier_phone }}</li>
-                        <li>{{suppliers.supplier_email }}</li>
-                        <li>Representative: {{suppliers.supplier_rep }}</li>
-                    </ul>
-                    <a class="col modal-trigger right p-0" href="#editsupplier"><i class="far fa-edit"></i></a>
-                </div>
+            <div class="scrollx">
+                <table id="sup-tbl" class="centered">
+                    <div class="col s12 offset-m3 m-0">
+                        <ul class="col s11">
+                            <li>{{suppliers.supplier_name }}</li>
+                            <li>{{suppliers.supplier_address }}</li>
+                            <li>{{suppliers.supplier_phone }}</li>
+                            <li>{{suppliers.supplier_email }}</li>
+                            <li>Representative: {{suppliers.supplier_rep }}</li>
+                        </ul>
+                        <a class="col modal-trigger right p-0" href="#editsupplier"><i class="far fa-edit"></i></a>
+                    </div>
+                </table>
+            </div>
+        </div>
+        <div class="scrollx">
+            <table id="supplier_items" class="centered">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                {% for item in items_list %}
+                    <tbody>
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td>${{ item[1] }} / {{ item[2] }}</td>
+                            <td>
+                                <span class="col s4 offset-s4 ">
+                                    <a href=""><i class="col s6 fas fa-pencil-alt"></i></a>
+                                    <a class="modal-trigger"
+                                        href="#{{item[0]}}">
+                                        <i class="col s6 fas fa-times"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <div id="{{item[0]}}" class="modal">
+                        <div class="modal-content">
+                            <h4>Delete Material</h4>
+                            <p>Do you want to delete this material?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancel</a>
+                            <a href="{{ url_for('delete_item_supplier', supplier=suppliers.supplier_name , item=item[0]) }}" class="waves-effect waves-green btn-flat">Delete</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </table>
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
             </table>
         </div>
-        <table id="supplier_items" class="centered">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            {% for item in items_list %}
-                <tbody>
-                    <tr>
-                        <td>{{ item[0] }}</td>
-                        <td>${{ item[1] }} / {{ item[2] }}</td>
-                        <td>
-                            <span class="col s4 offset-s4 ">
-                                <a href=""><i class="col s6 fas fa-pencil-alt"></i></a>
-                                <a class="modal-trigger"
-                                    href="#{{item[0]}}">
-                                    <i class="col s6 fas fa-times"></i>
-                                </a>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-                <div id="{{item[0]}}" class="modal">
-                    <div class="modal-content">
-                        <h4>Delete Material</h4>
-                        <p>Do you want to delete this material?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancel</a>
-                        <a href="{{ url_for('delete_item_supplier', supplier=suppliers.supplier_name , item=item[0]) }}" class="waves-effect waves-green btn-flat">Delete</a>
-                    </div>
-                </div>
-            {% endfor %}
-        </table>
-        <table class="centered">
-            <thead>
-                <tr>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
     </div>
     
     <div id="editsupplier" class="modal modal-fixed-footer grey lighten-5">

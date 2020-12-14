@@ -97,20 +97,23 @@
                 {% endif %}
                 </div>
                 <div class="col s12 l6">
-                    <table id="items_list" class="centered">
-                        <thead>
-                            <tr>
-                                <th>Product Name</th>
-                                <th>Qty</th>
-                                {% if product_type == "Pack" %}
-                                    <th>Cost</th>
-                                    <th>Total</th>
-                                {% endif %}
-                                <th>Remove</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="scrollx">
+                        <table id="items_list" class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    {% if product_type == "Pack" %}
+                                        <th>Cost</th>
+                                        <th>Total</th>
+                                    {% endif %}
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                     {% if product_type == "Pack" %}
+                    <div class="scrollx">
                         <table class="centered">
                             <thead>
                                 <tr>
@@ -122,6 +125,7 @@
                                 </tr>
                             </thead>
                         </table>
+                    </div>
                     {% endif %}
                 </div>
             </div>

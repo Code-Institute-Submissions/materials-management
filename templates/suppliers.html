@@ -18,29 +18,31 @@
     </div>    
     <div class="contentrow">
         <div class="row m-0 p-0">
-            <table id="sup-tbl" class="centered">
-                <thead>
-                    <tr>
-                        <th>Supplier</th>
-                        <th class="hide-on-med-and-down">Phone</th>
-                        <th class="hide-on-small-only">Email</th>
-                        <th class="hide-on-small-only">Contact</th>
-                        <th class="hide-on-small-only s1">Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for supplier in suppliers %}
+            <div class="scrollx">
+                <table id="sup-tbl" class="centered">
+                    <thead>
                         <tr>
-                            <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
-                            <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
-                            <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
-                            <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td class="hide-on-med-and-up"><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" >{{supplier.supplier_name}}</a></td>
-                            <td class="hide-on-small-only"><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" ><i class="far fa-file-alt"></i></a></td>
+                            <th>Supplier</th>
+                            <th class="hide-on-med-and-down">Phone</th>
+                            <th class="hide-on-small-only">Email</th>
+                            <th class="hide-on-small-only">Contact</th>
+                            <th class="hide-on-small-only s1">Details</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for supplier in suppliers %}
+                            <tr>
+                                <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
+                                <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
+                                <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
+                                <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
+                                <td class="hide-on-med-and-up"><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" >{{supplier.supplier_name}}</a></td>
+                                <td class="hide-on-small-only"><a href = "{{ url_for('supplier_info', supplier = supplier.supplier_name) }}" ><i class="far fa-file-alt"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

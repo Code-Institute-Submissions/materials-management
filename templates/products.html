@@ -17,26 +17,28 @@
         </ul>
     </div>    
     <div class="contentrow">
-        <table class="centered">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Product Type</th>
-                    <th>Cost</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-        {% for product in products %}
-            <tbody>
-                <tr>
-                    <td>{{ product.product_name }}</td>
-                    <td>{{ product.product_pack }}</td>
-                    <td>$ {{ product.product_cost }}</td>
-                    <td><a href="{{ url_for('product_info', name = product.product_name) }}"><i class="far fa-file-alt"></i></a></td>
-                </tr>
-            </tbody>
-        {% endfor %}
-        </table>
+        <div class="scrollx">
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Type</th>
+                        <th>Cost</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+            {% for product in products %}
+                <tbody>
+                    <tr>
+                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.product_pack }}</td>
+                        <td>$ {{ product.product_cost }}</td>
+                        <td><a href="{{ url_for('product_info', name = product.product_name) }}"><i class="far fa-file-alt"></i></a></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            </table>
+        </div>
     </div>
     
     <div id="new_product" class="modal modal-fixed-footer grey lighten-5">

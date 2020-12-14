@@ -68,13 +68,46 @@ def add_new_order(order_id):
 @app.route("/order_info/<order_id>")
 def order_info(order_id):
     orders = mongo.db.orders.find_one({"order_id": order_id})
+    in_stock = []
+    status = True
+    for j in range(0, len(orders["order_items"])):
+        item = orders["order_items"][j]
+        item_qty = int(orders["order_items_qty"][j])
+        product = mongo.db.stock.find(
+            {"product_name": item})
+        for p in product:
+            if int(p["product_qty"]) < item_qty:
+                status = False
+            in_stock.append(p["product_qty"])
+    print(orders["order_status"])
     return render_template(
         "order_info.html",
         items=zip(
             orders["order_items"],
-            orders["order_items_qty"]),
+            orders["order_items_qty"],
+            in_stock),
         orders=orders,
-        order_id=order_id)
+        order_id=order_id,
+        status=status)
+
+
+@app.route("/order_info/<order_id>/<status>")
+def ship_order(order_id, status):
+    orders = mongo.db.orders.find_one({"order_id": order_id})
+    mongo.db.orders.update_one(
+        {"order_id": order_id},
+        {"$set": {"order_status": "Shipped"}})
+    for j in range(0, len(orders["order_items"])):
+        item = orders["order_items"][j]
+        item_qty = int(orders["order_items_qty"][j])
+        product = mongo.db.stock.find_one(
+            {"product_name": item})
+        product_qty = int(product["product_qty"])
+        balance = product_qty - item_qty
+        mongo.db.stock.update_one(
+            {"product_name": item},
+            {"$set": {"product_qty": balance}})
+    return redirect(url_for("order_info", order_id=order_id))
 
 
 @app.route("/stock")
@@ -89,7 +122,8 @@ def stock():
                 if s["product_name"] == o["order_items"][j]:
                     qty = int(o["order_items_qty"][j])
                     products.append(0)
-                    products[i] += qty
+                    if o["order_status"] == "Pending":
+                        products[i] += qty
     return render_template(
         "stock.html",
         stock=zip(stock, products))
@@ -322,7 +356,7 @@ def new_purchase(supplier):
     suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})
     if request.method == "POST":
         date = datetime.datetime.now()
-        puo = mongo.db.puorders.count()+1
+        puo = mongo.db.puorders.countDocuments()+1
         puo_items = request.form.get("new_purchase_items")
         puo_items_qty = request.form.get("new_purchase_qty")
         puo_items_price = request.form.get("new_purchase_cost")
@@ -372,17 +406,17 @@ def purchase_info(puo_number):
             puorders["puo_items_price"]))
 
 
-@app.route("/purchase_info/<puo_number>", methods=["GET", "POST"])
-def items_received(puo_number):
-    items_name = request.form.get("items_name").split(",")
-    items_qty = request.form.get("items_qty").split(",")
-    for k in range(0, len(items_name)):
+@app.route("/purchase_info/<puo_number>/<status>")
+def items_received(puo_number, status):
+    puorders = mongo.db.puorders.find_one({"puo_number": puo_number})
+    for k in range(0, len(puorders["puo_items"])):
+        item = puorders["puo_items"][k]
         inventory = mongo.db.inventory.find_one(
-            {"material_description": items_name[k]})
+            {"material_description": item})
         qty = inventory["material_qty"]
-        newqty = qty+int(items_qty[k])
+        newqty = qty+int(puorders["puo_items_qty"][k])
         mongo.db.inventory.update_one(
-            {"material_description": items_name[k]},
+            {"material_description": item},
             {"$set": {"material_qty": newqty}})
     mongo.db.puorders.update_one(
         {"puo_number": puo_number},
