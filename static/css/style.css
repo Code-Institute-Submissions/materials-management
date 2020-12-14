@@ -9,6 +9,10 @@ body {
   min-height: -webkit-fill-available;
 }
 
+a {
+    color: #323264;
+}
+
 .pointer{
     cursor: pointer;
 }
@@ -61,40 +65,51 @@ body {
     left: 0;
     border-right: solid 1px #f3f3f3;
     background-color: #323264;
+    padding-top: 8vh !important;
 }
 
-.navpanel ul {
-    margin: 0 !important;
-    padding-top: 10vh !important;
+.sidenav{
+    top: 0;
+    left: 0;
+    border-right: solid 1px #f3f3f3;
+    background-color: #323264;
+    padding-top: 5vh !important;
+}
+
+.sidenav .s12{
+    margin: 5vh auto !important;
     border-top: none !important;
     border-right: none !important;
     border-left: none !important;
     box-shadow: none !important;
 }
 
-.navpanel li{
-    margin: 50px auto !important;
-    color: #f3f3f3;
+.sidenav a, .navpanel a, .navpanel div{
+    color: #f3f3f3 !important;
+    font-size: 20px;
 }
 
-.navpanel i{
-    color: #f3f3f3;
-    font-size: 25px;
-}
-
-.navpanel-mob{
-    margin: 0 !important;
+.navpanel .m12 {
+    margin: 3vh auto !important;
     border-top: none !important;
     border-right: none !important;
     border-left: none !important;
     box-shadow: none !important;
 }
 
+.navpanel i, .sidenav i{
+    color: #f3f3f3;
+    font-size: 30px;
+}
+
+.sidenav i{
+    margin-right: 15px;
+}
 .content{
     background-color: #f0f0f0;
 }
 
-.mobilepanel {
+.mobilepanel{
   overflow: hidden;
   position: fixed;
   bottom: 0;
@@ -102,6 +117,11 @@ body {
   width: 100%;
   height: 8vh;
   background-color: #323264;
+  margin-bottom: 0 !important;
+}
+
+.mobilepanel .s4{
+    margin-top: 3vh !important;
 }
 
 .mobilepanel-plus{
@@ -120,26 +140,6 @@ body {
     right: 0;
     bottom: 8vh;
     background-color: #323264;
-}
-
-#mobilepanel-plus-inventory{
-    display: none;
-    padding-top: 2vh;
-    left: 0;
-}
-
-#mobilepanel-search-inventory{
-    display: none;
-    padding-top: 1vh;
-    left: 0;
-}
-
-#mobilepanel-caret{
-    display: none;
-}
-
-#mobilepanel-search-inventory input, #mobilepanel-search-inventory i, .mobilepanel-plus a{
-    color: #f3f3f3;
 }
 
 .mobilepanel .s4{
@@ -171,16 +171,6 @@ body {
 
 .p-0{
     padding: 0 !important;
-}
-
-.fa-search{
-    color: #acacac;
-}
-
-.fa-folder-plus, .fa-shopping-cart{
-    font-size: 300%;
-    color: #323264;
-    bottom:0 !important;
 }
 
 .contentrow{
@@ -260,7 +250,7 @@ table{
     color: #f3f3f3;
 }
 
-.modal-content h6, .modal-content form{
+.modal-content h6{
     padding-left: 10% !important;
 }
 
@@ -268,7 +258,7 @@ table{
     margin-top: 20%;
 }
 
-.new_prdorder_h5, .new_prdorder_qty{
+.modal_short{
     margin: 50px 0 !important;
 }
 

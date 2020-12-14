@@ -15,12 +15,12 @@ $(document).ready(function(){
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
 
-    $(".previous").click(function (){
+    $(".previous, .previous_mobile").click(function (){
         window.history.back();
         return
     })
 
-    $(".next").click(function (){
+    $(".next, .next_mobile").click(function (){
         window.history.forward();
         return
     })

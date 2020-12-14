@@ -43,10 +43,10 @@
                         <h4>Production Order</h4>
                         <div class="row m-0">
                             <form class="col s12" method="POST" action="{{ url_for('stock') }}">
-                                <div class="row m-0 new_prdorder_h5">
+                                <div class="row m-0 modal_short">
                                     <h5 class="col s12 center">{{ product[0].product_name }}</h5>
                                 </div>
-                                <div class="row m-0 new_prdorder_qty">
+                                <div class="row m-0 modal_short">
                                      <div class="col s6 offset-s3">
                                         <span><input placeholder="Select Quantity" id="prdorder_qty" name="prdorder_qty" type="number" class="validate" required></span>
                                     </div>
