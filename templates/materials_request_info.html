@@ -2,9 +2,9 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "{{ url_for('production_orders') }}" ><h5>Production Orders</h5></a></li>
+            <li class="left-align"><a href = "{{ url_for('production_orders') }}" ><h5>Materials Request</h5></a></li>
             <li class="left-align"><h5>/</h5></li>
-            <li class="left-align"><h5>Production Order #{{ prdorders.prdorder_number }}</h5></li>
+            <li class="left-align"><h5>Order #{{ request.matrequest_id }}</h5></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -33,38 +33,22 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ prdorders.prdorder_number }}</td>
-                            <td>{{ prdorders.prdorder_date }}</td>
-                            <td>{{ prdorders.prdorder_product }}</td>
-                            <td>{{ prdorders.prdorder_qty }}</td>
-                            <td>{{ prdorders.prdorder_status }}</td>
-                            {% if prdorders.prdorder_status == "Pending" %}
-                                <td><a href="{{url_for('new_request', prdorder_number = prdorders.prdorder_number, action = 'add')}}">Request Materials</a></td>
-                            {% elif prdorders.prdorder_status == "Materials Requested" %}
-                                <td>Pending Materials</td>
-                            {% elif prdorders.prdorder_status == "Materials Received" %}
-                                <td><a href="">Send to Stock</a></td>
-                            {% else %}
-                                <td>Order Completed</td>
-                            {% endif %}
+                            <td>{{ request.matrequest_id }}</td>
+                            <td>{{ request.matrequest_prdorder_id }}</td>
+                            <td>{{ request.matrequest_product }}</td>
+                            <td>{{ request.matrequest_date }}</td>
+                            <td>{{ request.prdorder_status }}</td>
+                            <td>Action</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row m-0">
-            <div class="col s8 offset-s2 sup-info">
-                <h5 class="col s12 center">Order History</h5>
-                    <ol class="col s8 offset-s2 left-align">
-                    {% for line in prdorders.prdorder_history %}
-                        <li>{{ line }}</li>
-                    {% endfor %}
-                    </ol>
-            </div>
         </div>
         <div class="row m-0">
             <div class="col s12 center">
-                <h5>Product Materials</h5>
+                <h5>Materials Requested</h5>
             </div>
             <div class="col s12 m8 offset-m2">
                 <div class="scrollx">
@@ -72,15 +56,17 @@
                         <thead>
                             <tr>
                                 <th>Material</th>
-                                <th>Quantity</th>
+                                <th>Requested</th>
+                                <th>In Inventory</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
                     {% for item in items %}
                         <tbody>
                             <tr>
-                                <td class="items_name">{{ item[0] }}</td>
-                                <td class="items_qty">{{ prdorders.prdorder_qty }} x {{ item[1] }} {{ item[2] }}</td>
+                                <td>{{ item[0] }}</td>
+                                <td>{{ item[1] }}</td>
+                                <td>{{ item[2] }}</td>
                                 <td><a href="{{ url_for('material_info', name = item[0]) }}"><i class="far fa-file-alt"></i></a></td>
                             </tr>
                         </tbody>

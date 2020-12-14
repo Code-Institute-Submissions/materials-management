@@ -2,7 +2,7 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "#" ><h5>Production Orders</h5></a></li>
+            <li class="left-align"><a href = "#" ><h5>Materials Request</h5></a></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -20,33 +20,23 @@
             <table class="centered">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Date of Request</th>
+                        <th>Request ID</th>
+                        <th>Production Order Id</th>
                         <th>Product</th>
-                        <th>Quantity</th>
+                        <th>Date of Request</th>
                         <th>Status</th>
-                        <th>Action</th>
                         <th>Details</th>
                     </tr>
                 </thead>
-                 {% for product in prdorders %}
+                 {% for order in matrequest %}
                     <tbody>
                         <tr>
-                            <td>{{ product.prdorder_number }}</td>
-                            <td>{{ product.prdorder_date }}</td>
-                            <td>{{ product.prdorder_product }}</td>
-                            <td>{{ product.prdorder_qty }}</td>
-                            <td>{{ product.prdorder_status }}</td>
-                            {% if product.prdorder_status == "Pending" %}
-                                <td>Pending Materials</td>
-                            {% elif product.prdorder_status == "Materials Requested" %}
-                                <td>Materials Requested</td>
-                            {% elif product.prdorder_status == "Materials Received" %}
-                                <td><a href="">Send to Stock</a></td>
-                            {% else %}
-                                <td>Order Completed</td>
-                            {% endif %}
-                            <td><a href="{{ url_for('production_order_info', name = product.prdorder_product, prdorder_number = product.prdorder_number)}}"><i class="far fa-file-alt"></i></a></td>
+                            <td>{{ order.matrequest_id }}</td>
+                            <td>{{ order.matrequest_prdorder_id }}</td>
+                            <td>{{ order.matrequest_product }}</td>
+                            <td>{{ order.matrequest_date }}</td>
+                            <td>{{ order.matrequest_status }}</td>
+                            <td><a href="{{ url_for('materials_request_info', matrequest_id = order.matrequest_id)}}"><i class="far fa-file-alt"></i></a></td>
                         </tr>
                     </tbody>
                 {% endfor %}

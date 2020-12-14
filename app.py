@@ -91,6 +91,54 @@ def order_info(order_id):
         status=status)
 
 
+@app.route("/new_request/<prdorder_number>/<action>")
+def new_request(prdorder_number, action):
+    if action == "add":
+        date = datetime.datetime.now()
+        prdorders = mongo.db.prdorders.find_one({
+            "prdorder_number": prdorder_number})
+        products = mongo.db.products.find_one({
+            "product_name": prdorders["prdorder_product"]})
+        materials = list(numpy.unique(products["product_material_name"]))
+        materials_qty = []
+        for m in range(0, len(materials)):
+            materials_qty.append(0)
+            for i in range(0, len(products["product_material_name"])):
+                if materials[m] == products["product_material_name"][i]:
+                    materials_qty[m] += int(prdorders["prdorder_qty"])*int(
+                        products["product_material_qty"][i])
+        newrequest = {
+            "matrequest_id": mongo.db.matrequest.count()+1,
+            "matrequest_prdorder_id": prdorders["prdorder_number"],
+            "matrequest_product": prdorders["prdorder_product"],
+            "matrequest_date": date.strftime("%x"),
+            "matrequest_status": "Pending",
+            "matrequest_items": materials,
+            "matrequest_items_qty": materials_qty
+            }
+        prdorder_history = prdorders["prdorder_history"]
+        prdorder_history.append(
+            "Materials Requested: "
+            + date.strftime("%x")
+            + " "
+            + date.strftime("%X"))
+        mongo.db.matrequest.insert_one(newrequest)
+        mongo.db.prdorders.update(
+            {"prdorder_number": prdorders["prdorder_number"]},
+            {"$set": {
+                "prdorder_status": "Materials Requested",
+                "prdorder_history": prdorder_history
+                }})
+        return redirect(url_for(
+            "production_order_info",
+            name=prdorders["prdorder_product"],
+            prdorder_number=prdorders["prdorder_number"]))
+    return redirect(url_for(
+        "production_order_info",
+        name=prdorders["prdorder_product"],
+        prdorder_number=prdorders["prdorder_number"]))
+
+
 @app.route("/order_info/<order_id>/<status>")
 def ship_order(order_id, status):
     orders = mongo.db.orders.find_one({"order_id": order_id})
@@ -114,7 +162,7 @@ def ship_order(order_id, status):
 def stock():
     if request.method == "POST":
         prdorder_number = mongo.db.prdorders.count()+1
-        date = date = datetime.datetime.now()
+        date = datetime.datetime.now()
         prdorder = {
             "prdorder_number": "%04d" % (prdorder_number,),
             "prdorder_date": date.strftime("%x"),
@@ -134,11 +182,11 @@ def stock():
     products = []
     for s in stock:
         i = stock.index(s)
+        products.append(0)
         for o in orders:
             for j in range(0, len(o["order_items"])):
                 if s["product_name"] == o["order_items"][j]:
                     qty = int(o["order_items_qty"][j])
-                    products.append(0)
                     if o["order_status"] == "Pending":
                         products[i] += qty
     return render_template(
@@ -176,6 +224,35 @@ def production_order_info(name, prdorder_number):
             materials_unit),
         products=products,
         prdorders=prdorders)
+
+
+@app.route("/materials_request")
+def materials_request():
+    matrequest = mongo.db.matrequest.find()
+    return render_template(
+        "materials_request.html", matrequest=matrequest)
+
+
+@app.route("/materials_request_info/<matrequest_id>")
+def materials_request_info(matrequest_id):
+    request = mongo.db.matrequest.find_one(
+        {"matrequest_id": int(matrequest_id)})
+    print(request["matrequest_items"])
+    in_inventory = []
+    for m in range(0, len(request["matrequest_items"])):
+        material = request["matrequest_items"][m]
+        in_inventory.append(0)
+        inventory = mongo.db.inventory.find_one(
+            {"material_description": material})
+        in_inventory[m] = inventory["material_qty"]
+    return render_template(
+        "materials_request_info.html",
+        matrequest_id=request["matrequest_id"],
+        items=zip(
+            request["matrequest_items"],
+            request["matrequest_items_qty"],
+            in_inventory),
+        request=request)
 
 
 @app.route("/inventory", methods=["GET", "POST"])
