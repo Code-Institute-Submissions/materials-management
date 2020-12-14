@@ -2,9 +2,9 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "{{ url_for('products') }}" ><h5>Products</h5></a></li>
+            <li class="left-align"><a href = "{{ url_for('production_orders') }}" ><h5>Production Orders</h5></a></li>
             <li class="left-align"><h5>/</h5></li>
-            <li class="left-align"><h5>{{ products.product_name }}</h5></li>
+            <li class="left-align"><h5>Production Order #{{ prdorders.prdorder_number }}</h5></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -15,53 +15,51 @@
         <ul>
             <li class="col"><a href = "#" >Production Orders</a></li>
             <li class="col"><a href = "#" >Materials Request</a></li>
-            <li class="col"><a href = "{{ url_for('new_product', product_type = 'Pack') }}" >New Pack</a></li>
-            <li class="col"><a href = "{{ url_for('new_product', product_type = 'Product') }}" >New Product</a></li>
         </ul>
     </div>  
     <div class="contentrow">
         <div class="row m-0">
             <div class="scrollx">
                 <table class="centered">
-                <thead>
-                    <tr>
-                        <th>In Orders</th>
-                        <th>In Stock</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="pointer">
-                        <td>From Orders</td>
-                        <td>From Stock</td>
-                        <td>Balance</td>
-                    </tr>
-                </tbody>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date of Request</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ prdorders.prdorder_number }}</td>
+                            <td>{{ prdorders.prdorder_date }}</td>
+                            <td>{{ prdorders.prdorder_product }}</td>
+                            <td>{{ prdorders.prdorder_qty }}</td>
+                            <td>{{ prdorders.prdorder_status }}</td>
+                            {% if prdorders.prdorder_status == "Pending" %}
+                                <td><a href="">Request Materials</a></td>
+                            {% elif prdorders.prdorder_status == "Materials Requested" %}
+                                <td><a href="">Pending Materials</a></td>
+                            {% elif prdorders.prdorder_status == "Materials Received" %}
+                                <td><a href="">Send to Stock</a></td>
+                            {% else %}
+                                <td>Order Completed</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
         <div class="row m-0">
-            <div class="scrollx">
-                <table class="centered">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Description</th>
-                            <th>Quantity</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                {% for subproduct in products.sub_products %}
-                    <tbody>
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td class="items_name">{{ subproduct }}</td>
-                            <td class="items_qty">{{ products.sub_products_qty[loop.index-1] }}</td>
-                            <td><a href="{{ url_for('product_info', name = subproduct) }}"><i class="far fa-file-alt"></i></a></td>
-                        </tr>
-                    </tbody>
-                {% endfor %}
-                </table>
+            <div class="col s8 offset-s2 sup-info">
+                <h5 class="col s12 center">Order History</h5>
+                    <ol class="col s8 offset-s2 left-align">
+                    {% for line in prdorders.prdorder_history %}
+                        <li>{{ line }}</li>
+                    {% endfor %}
+                    </ol>
             </div>
         </div>
         <div class="row m-0">
@@ -82,7 +80,7 @@
                         <tbody>
                             <tr>
                                 <td class="items_name">{{ item[0] }}</td>
-                                <td class="items_qty">{{ item[1] }} {{ item[2] }}</td>
+                                <td class="items_qty">{{ prdorders.prdorder_qty }} x {{ item[1] }} {{ item[2] }}</td>
                                 <td><a href="{{ url_for('material_info', name = item[0]) }}"><i class="far fa-file-alt"></i></a></td>
                             </tr>
                         </tbody>

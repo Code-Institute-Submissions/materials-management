@@ -110,8 +110,25 @@ def ship_order(order_id, status):
     return redirect(url_for("order_info", order_id=order_id))
 
 
-@app.route("/stock")
+@app.route("/stock", methods=["GET", "POST"])
 def stock():
+    if request.method == "POST":
+        prdorder_number = mongo.db.prdorders.count()+1
+        date = date = datetime.datetime.now()
+        prdorder = {
+            "prdorder_number": "%04d" % (prdorder_number,),
+            "prdorder_date": date.strftime("%x"),
+            "prdorder_product": request.form.get("prdorder_product"),
+            "prdorder_qty": request.form.get("prdorder_qty"),
+            "prdorder_status": "Pending",
+            "prdorder_history": [
+                "Order created: "
+                + date.strftime("%x")
+                + " "
+                + date.strftime("%X")]
+        }
+        mongo.db.prdorders.insert_one(prdorder)
+        return redirect(url_for('production_orders'))
     stock = list(mongo.db.stock.find())
     orders = list(mongo.db.orders.find())
     products = []
@@ -127,6 +144,38 @@ def stock():
     return render_template(
         "stock.html",
         stock=zip(stock, products))
+
+
+@app.route("/production_orders")
+def production_orders():
+    prdorders = mongo.db.prdorders.find()
+    return render_template(
+        "production_orders.html", prdorders=prdorders)
+
+
+@app.route(
+    "/production_orders/<name>/<prdorder_number>", methods=["GET", "POST"])
+def production_order_info(name, prdorder_number):
+    products = mongo.db.products.find_one({"product_name": name})
+    prdorders = mongo.db.prdorders.find_one(
+        {"prdorder_number": prdorder_number})
+    materials = list(numpy.unique(products["product_material_name"]))
+    materials_qty = []
+    materials_unit = []
+    for m in range(0, len(materials)):
+        materials_qty.append(0)
+        for i in range(0, len(products["product_material_name"])):
+            if materials[m] == products["product_material_name"][i]:
+                materials_qty[m] += int(products["product_material_qty"][i])
+                materials_unit.append(products["product_material_unit"][i])
+    return render_template(
+        "production_order_info.html",
+        items=zip(
+            materials,
+            materials_qty,
+            materials_unit),
+        products=products,
+        prdorders=prdorders)
 
 
 @app.route("/inventory", methods=["GET", "POST"])
@@ -356,7 +405,7 @@ def new_purchase(supplier):
     suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})
     if request.method == "POST":
         date = datetime.datetime.now()
-        puo = mongo.db.puorders.countDocuments()+1
+        puo = mongo.db.puorders.count()+1
         puo_items = request.form.get("new_purchase_items")
         puo_items_qty = request.form.get("new_purchase_qty")
         puo_items_price = request.form.get("new_purchase_cost")

@@ -12,7 +12,7 @@
     <div class="menulist valign-wrapper m-0">
         <ul>
             <li class="col"><a href = "{{ url_for('orders') }}" >Customer Orders</a></li>
-            <li class="col"><a href = "#" >Production Orders</a></li>
+            <li class="col"><a href = "{{ url_for('production_orders') }}" >Production Orders</a></li>
             <li class="col"><a href = "#" >Materials Request</a></li>
         </ul>
     </div>    
@@ -23,7 +23,7 @@
                     <tr>
                         <th>Product Name</th>
                         <th>Product Type</th>
-                        <th>Quantity</th>
+                        <th>In Stock</th>
                         <th>In Orders</th>
                         <th>Action</th>
                     </tr>
@@ -35,12 +35,46 @@
                         <td>{{ product[0].product_type }}</td>
                         <td>{{ product[0].product_qty }}</td>
                         <td>{{ product[1] }}</td>
+                        <td><a class="modal-trigger" href="#new_prdorder_{{ loop.index }}" >Request Production</a></td>
                     </tr>
                 </tbody>
+                <div id="new_prdorder_{{ loop.index }}" class="modal modal-fixed-footer grey lighten-5">
+                    <div class="modal-content p-0 m-0 center">
+                        <h4>Production Order</h4>
+                        <div class="row m-0">
+                            <form class="col s12" method="POST" action="{{ url_for('stock') }}">
+                                <div class="row m-0 new_prdorder_h5">
+                                    <h5 class="col s12 center">{{ product[0].product_name }}</h5>
+                                </div>
+                                <div class="row m-0 new_prdorder_qty">
+                                     <div class="col s6 offset-s3">
+                                        <span><input placeholder="Select Quantity" id="prdorder_qty" name="prdorder_qty" type="number" class="validate" required></span>
+                                    </div>
+                                </div>
+                                <div class="row m-0 hidden_form">
+                                    <input id="prdorder_product" name="prdorder_product" type="text" value="{{ product[0].product_name }}">
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col s12 center">
+                                        <div class="col s6">
+                                            <a href="" class="modal-close btn-flat">Cancel</a>
+                                        </div>
+                                        <div class="col s6">
+                                            <button class="waves-effect waves-green btn-small green" type="submit">Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
             </table>
         </div>
     </div>
+
+    
+
     <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
         <div class="col s12">
             <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>

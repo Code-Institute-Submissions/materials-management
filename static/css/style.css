@@ -268,6 +268,10 @@ table{
     margin-top: 20%;
 }
 
+.new_prdorder_h5, .new_prdorder_qty{
+    margin: 50px 0 !important;
+}
+
 .btn-flat{
     background-color: #323264;
     color: #f3f3f3;
