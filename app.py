@@ -327,7 +327,13 @@ def new_product(product_type):
             "product_material_qty": product_material_qty,
             "product_material_unit": product_material_unit
         }
+        stock = {
+            "product_name": request.form.get("new_product_name"),
+            "product_type": product_type,
+            "product_qty": 0
+        }
         mongo.db.products.insert_one(new_product)
+        mongo.db.stock.insert_one(stock)
         return redirect(url_for("products"))
     if product_type == "Product":
         return render_template(
