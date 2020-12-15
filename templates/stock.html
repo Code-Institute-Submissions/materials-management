@@ -24,8 +24,9 @@
                         <th>Product Name</th>
                         <th>Product Type</th>
                         <th>In Stock</th>
-                        <th>In Orders</th>
                         <th>In Production</th>
+                        <th>In Orders</th>
+                        <th>Balance</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -35,8 +36,9 @@
                         <td>{{ product[0].product_name }}</td>
                         <td>{{ product[0].product_type }}</td>
                         <td>{{ product[0].product_qty }}</td>
+                        <td>{{ product[2] }}</td>
                         <td>{{ product[1] }}</td>
-                        <td>In Production</td>
+                        <td>{{ product[0].product_qty + product[2] - product[1]}}</td>
                         <td><a class="modal-trigger" href="#new_prdorder_{{ loop.index }}" >Request Production</a></td>
                     </tr>
                 </tbody>

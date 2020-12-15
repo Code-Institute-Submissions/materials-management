@@ -20,6 +20,7 @@
                 <thead>
                     <tr>
                         <th>Order ID</th>
+                        <th>Client</th>
                         <th>Date of Request</th>
                         <th>Status</th>
                         <th>Details</th>
@@ -29,6 +30,7 @@
                 <tbody>
                     <tr>
                         <td>{{ order.order_id }}</td>
+                        <td>{{ order.customer_fname }} {{ order.customer_lname }}</td>
                         <td>{{ order.order_date }}</td>
                         <td>{{ order.order_status }}</td>
                         <td><a href="{{ url_for('order_info', order_id = order.order_id) }}"><i class="far fa-file-alt"></i></a></td>

@@ -56,13 +56,13 @@
                 <div class="row m-0">
                     <div class="col s8 offset-s2 btn_confirm center">
                         <a href="{{ url_for('ship_order', order_id = orders.order_id, status = orders.order_status) }}"
-                        class="waves-effect waves-green btn-small green" type="submit">Ship Order</a>
+                        class="btn-flat" type="submit">Ship Order</a>
                     </div>
                 </div>
             {% else %}
                 <div class="row m-0">
                     <div class="col s8 offset-s2 center">
-                        <button class="btn-small grey tooltipped" data-position="top" data-tooltip="Missing items in stock">Ship Order</button>
+                        <button class="btn-flat grey tooltipped" data-position="top" data-tooltip="Missing items in stock">Ship Order</button>
                     </div>
                 </div>
             {% endif %}

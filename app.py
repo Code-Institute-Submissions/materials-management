@@ -180,20 +180,27 @@ def stock():
         mongo.db.prdorders.insert_one(prdorder)
         return redirect(url_for('production_orders'))
     stock = list(mongo.db.stock.find())
-    orders = list(mongo.db.orders.find())
-    products = []
+    orders = list(mongo.db.orders.find({"order_status": "Pending"}))
+    in_orders = []
+    in_production = []
     for s in stock:
         i = stock.index(s)
-        products.append(0)
+        in_orders.append(0)
+        in_production.append(0)
         for o in orders:
             for j in range(0, len(o["order_items"])):
                 if s["product_name"] == o["order_items"][j]:
                     qty = int(o["order_items_qty"][j])
                     if o["order_status"] == "Pending":
-                        products[i] += qty
+                        in_orders[i] += qty
+        prdorders = mongo.db.prdorders.find({
+            "prdorder_status": {"$ne": "Production Finished"},
+            "prdorder_product": s["product_name"]})
+        for p in prdorders:
+            in_production[i] += int(p["prdorder_qty"])
     return render_template(
         "stock.html",
-        stock=zip(stock, products))
+        stock=zip(stock, in_orders, in_production))
 
 
 @app.route("/production_orders")
@@ -316,6 +323,10 @@ def product_finished(matrequest_id, matrequest_prdorder_id, status):
     mongo.db.stock.update_one(
         {"product_name": product},
         {"$set": {"product_qty": new_balance}})
+    # Update materials request status
+    mongo.db.matrequest.update_one(
+        {"matrequest_id": matrequest_id},
+        {"$set": {"matrequest_status": "Production Finished"}})
     # Update production order status and history in prdorders collection:
     prdorder_history = prdorder["prdorder_history"]
     date = datetime.datetime.now()
@@ -585,7 +596,6 @@ def edit_supplier(supplier):
 
 @app.route("/supplier_info/<supplier>/<supplier_rep>/<supplier_id>")
 def delete_supplier(supplier, supplier_rep, supplier_id):
-    print(supplier_id)
     mongo.db.suppliers.remove({"_id": ObjectId(supplier_id)})
     return redirect(url_for("suppliers"))
 
