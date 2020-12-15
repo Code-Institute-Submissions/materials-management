@@ -11,6 +11,7 @@
     </div>
     <div class="menulist valign-wrapper m-0">
         <ul>
+            <li class="col"><a href="{{ url_for('purchases') }}" >Purchases</a></li>
             <li class="col"><a href="{{ url_for('materials_request') }}" >Materials Request</a></li>
             <li class="col"><a class="modal-trigger" href="#rgst-mat">New Material</a></li>
         </ul>
@@ -23,7 +24,9 @@
                         <th>Material ID</th>
                         <th>Material Description</th>
                         <th>In Inventory</th>
-                        <th>In Request</th>
+                        <th>In Requests</th>
+                        <th>In Purchases</th>
+                        <th>Balance</th>
                         <th>Details</th>
                     </tr>
                 </thead>
@@ -34,6 +37,8 @@
                         <td>{{ inventory[0].material_description }}</td>
                         <td>{{ inventory[0].material_qty }} {{ inventory[0].material_unit }}</td>
                         <td>{{ inventory[1] }} {{ inventory[0].material_unit }}</td>
+                        <td>{{ inventory[2] }} {{ inventory[0].material_unit }}</td>
+                        <td>{{inventory[0].material_qty + inventory[2] - inventory[1]}} {{ inventory[0].material_unit }}</td>
                         <td><a href="{{ url_for('material_info', name = inventory[0].material_description) }}"><i class="far fa-file-alt"></i></a></td>
                     </tr>
                 </tbody>

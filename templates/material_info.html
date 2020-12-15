@@ -30,10 +30,10 @@
                 </thead>
                 <tbody>
                     <tr class="pointer">
-                        <td>From Material Request</td>
-                        <td>{{inventory.material_qty}}</td>
-                        <td>{{total}}</td>
-                        <td>{{inventory.material_qty|int + total|int}}</td>
+                        <td>{{in_request}} {{inventory.material_unit}}</td>
+                        <td>{{inventory.material_qty}} {{inventory.material_unit}}</td>
+                        <td>{{in_purchase}} {{inventory.material_unit}}</td>
+                        <td>{{inventory.material_qty|int + in_purchase - in_request}} {{inventory.material_unit}}</td>
                     </tr>
                 </tbody>
             </table>

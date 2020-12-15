@@ -307,10 +307,12 @@ def approve_request(matrequest_id, matrequest_prdorder_id):
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = list(mongo.db.inventory.find())
-    material_qty = []
+    in_request = []
+    in_purchases = []
     for material in inventory:
         i = inventory.index(material)
-        material_qty.append(0)
+        in_request.append(0)
+        in_purchases.append(0)
         matrequest = mongo.db.matrequest.find({
             "matrequest_status": "Pending",
             "matrequest_items": material["material_description"]})
@@ -318,10 +320,15 @@ def inventory_list():
             for j in range(0, len(r["matrequest_items"])):
                 if r["matrequest_items"][j] == (
                     material["material_description"]):
-                    material_qty[i] += r["matrequest_items_qty"][j]
-                    # print(material["material_description"])
-                    # print(r["matrequest_items_qty"][j])
-    print(material_qty)
+                    in_request[i] += r["matrequest_items_qty"][j]
+        matrequest = mongo.db.puorders.find({
+            "puo_status": False,
+            "puo_items": material["material_description"]})
+        for p in matrequest:
+            for j in range(0, len(p["puo_items"])):
+                if p["puo_items"][j] == (
+                    material["material_description"]):
+                    in_purchases[i] += int(p["puo_items_qty"][j])
     if request.method == "POST":
         matid = mongo.db.inventory.count()+1
         rgstmat = {
@@ -333,7 +340,7 @@ def inventory_list():
         mongo.db.inventory.insert_one(rgstmat)
         return redirect(url_for("inventory_list"))
     return render_template(
-        "inventory.html", inventory=zip(inventory, material_qty))
+        "inventory.html", inventory=zip(inventory, in_request, in_purchases))
 
 
 @app.route("/products")
@@ -444,7 +451,10 @@ def purchases():
 
 @app.route("/material_info/<name>", methods=["GET", "POST"])
 def material_info(name):
-    puorders = mongo.db.puorders.find({"puo_items": name})
+    puorders = mongo.db.puorders.find({"puo_items": name, "puo_status": False})
+    matrequest = mongo.db.matrequest.find({
+            "matrequest_status": "Pending",
+            "matrequest_items": name})
     inventory = mongo.db.inventory.find_one({"material_description": name})
     supplier = mongo.db.suppliers.find()
     suppliers = list(mongo.db.suppliers.find({"supplier_products": name}))
@@ -463,18 +473,20 @@ def material_info(name):
                 }}
         )
         return redirect(url_for("material_info", name=name))
-    total = 0
+    in_purchase = 0
     for order in puorders:
-        if order["puo_status"] is False:
-            for i in range(0, len(order["puo_items"])):
-                total += int(order["puo_items_qty"][i])
+        for i in range(0, len(order["puo_items"])):
+            if order["puo_items"][i] == name:
+                in_purchase += int(order["puo_items_qty"][i])
+    in_request = 0
+    for materials in matrequest:
+        for i in range(0, len(materials["matrequest_items"])):
+            if materials["matrequest_items"][i] == name:
+                in_request += materials["matrequest_items_qty"][i]
     return render_template(
         "material_info.html",
-        puorders=puorders,
-        total=total,
-        inventory=inventory,
-        suppliers=suppliers,
-        supplier=supplier)
+        puorders=puorders, inventory=inventory, suppliers=suppliers,
+        supplier=supplier, in_purchase=in_purchase, in_request=in_request)
 
 
 @app.route("/suppliers", methods=["GET", "POST"])
