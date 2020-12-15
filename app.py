@@ -304,6 +304,36 @@ def approve_request(matrequest_id, matrequest_prdorder_id):
         'materials_request_info', matrequest_id=matrequest_id))
 
 
+@app.route(
+    "/production_order_info/<matrequest_id>/<matrequest_prdorder_id>/<status>")
+def product_finished(matrequest_id, matrequest_prdorder_id, status):
+    # Update product qty balance in stock collection:
+    prdorder = mongo.db.prdorders.find_one(
+        {"prdorder_number": matrequest_prdorder_id})
+    product = prdorder["prdorder_product"]
+    stock = mongo.db.stock.find_one({"product_name": product})
+    new_balance = stock["product_qty"] + int(prdorder["prdorder_qty"])
+    mongo.db.stock.update_one(
+        {"product_name": product},
+        {"$set": {"product_qty": new_balance}})
+    # Update production order status and history in prdorders collection:
+    prdorder_history = prdorder["prdorder_history"]
+    date = datetime.datetime.now()
+    prdorder_history.append(
+        "Production Finished: "
+        + date.strftime("%x") + " " + date.strftime("%X"))
+    mongo.db.prdorders.update(
+        {"prdorder_number": matrequest_prdorder_id},
+        {"$set": {
+            "prdorder_status": "Production Finished",
+            "prdorder_history": prdorder_history
+            }})
+    return redirect(url_for(
+        "production_order_info",
+        name=prdorder["prdorder_product"],
+        prdorder_number=prdorder["prdorder_number"]))
+
+
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory_list():
     inventory = list(mongo.db.inventory.find())

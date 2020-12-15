@@ -43,8 +43,8 @@
                             {% elif product.prdorder_status == "Materials Requested" %}
                                 <td>Materials Requested</td>
                             {% elif product.prdorder_status == "Materials Received" %}
-                                <td><a href="">Send to Stock</a></td>
-                            {% else %}
+                                <td>Materials Received</td>
+                            {% elif product.prdorder_status == "Production Finished" %}
                                 <td>Order Completed</td>
                             {% endif %}
                             <td><a href="{{ url_for('production_order_info', name = product.prdorder_product, prdorder_number = product.prdorder_number)}}"><i class="far fa-file-alt"></i></a></td>
