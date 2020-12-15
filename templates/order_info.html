@@ -12,12 +12,6 @@
         </div>
     </div>
     <div class="menulist valign-wrapper m-0">
-        <ul>
-            <li class="col"><a href = "{{ url_for('stock') }}" >Stock</a></li>
-            <li class="col"><a href = "{{ url_for('orders') }}" >Customer Orders</a></li>
-            <li class="col"><a href = "#" >Production Orders</a></li>
-            <li class="col"><a href = "#" >Materials Request</a></li>
-        </ul>
     </div>  
     <div class="contentrow">
         <div class="row m-0">
@@ -58,10 +52,11 @@
             </div>
         </div>
         {% if orders.order_status == "Pending" %}
-            {% if status == true %}
+            {% if status == True %}
                 <div class="row m-0">
                     <div class="col s8 offset-s2 btn_confirm center">
-                        <a href="{{ url_for('ship_order', order_id = orders.order_id, status = orders.order_status) }}" class="waves-effect waves-green btn-small green" type="submit">Ship Order</a>
+                        <a href="{{ url_for('ship_order', order_id = orders.order_id, status = orders.order_status) }}"
+                        class="waves-effect waves-green btn-small green" type="submit">Ship Order</a>
                     </div>
                 </div>
             {% else %}
@@ -78,36 +73,5 @@
                 </div>
             </div>
         {% endif %}
-    </div>    
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
-        <div class="col s12">
-            <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>
-            <div class="col s6"><a href="#">Purchase</a></div>
-        </div>
     </div>
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-search-inventory">
-        <form>
-            <div class="row">
-                <div class="col s12 valign-wrapper">
-                    <div class="col s10">
-                        <input type="text" placeholder="Search Material">
-                    </div>
-                    <div class="col s2 left-align">
-                        <a href="#"><i class="fas fa-search"></i></a>
-                    </div>
-                </div>
-            </div>                
-        </form>
-    </div>
-
-    <div class="row mobilepanel hide-on-med-and-up valign-wrapper m-0 p-0 center">
-        <div class="col s12">
-            <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
-            <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
-            <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
-        </div>
-        
-    </div>
-
 {% endblock %}

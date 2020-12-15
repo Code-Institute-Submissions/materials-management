@@ -2,7 +2,7 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "#" ><h5>Customer Orders</h5></a></li>
+            <li class="left-align"><a href = "{{ url_for('orders')}}" ><h5>Customer Orders</h5></a></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -11,8 +11,6 @@
     </div>
     <div class="menulist valign-wrapper m-0">
        <ul>
-           <li class="col"><a href = "#" >Production Orders</a></li>
-           <li class="col"><a href = "#" >Materials Request</a></li>
            <li class="col"><a class="modal-trigger" href="#new_order" >New Order</a></li>
         </ul>
     </div>    
@@ -40,27 +38,26 @@
             </table>
         </div>
     </div>
-
-    <div id="new_order" class="modal modal-fixed-footer grey lighten-5">
+    <div id="new_order" class="modal grey lighten-5">
         <div class="modal-content p-0 m-0">
-            <h4>New Order</h4>
+            <h4 class="center">New Order</h4>
             <div class="row m-0">
                 <form class="col s12" method="POST" action="{{ url_for('new_order') }}" >
-                    <div class="row">
-                        <h5 class="col s8 offset-s1">Customer Details</h5>
-                        <ul class="col s12">
-                            <li class="col s10"><input placeholder="Customer First Name" id="customer_fname" name="customer_fname" type="text" class="validate" value="" required></li>
-                            <li class="col s10"><input placeholder="Customer Last Name" id="customer_lname" name="customer_lname" type="text" class="validate" value="" required></li>
-                            <li class="col s10"><input placeholder="Customer Phone" id="customer_phone" name="customer_phone" type="text" class="validate" value="" required></li> 
-                            <li class="col s10"><input placeholder="Customer Email" id="customer_email" name="customer_email" type="email" class="validate" value="" required></li>
+                    <div class="row m-0">
+                        <h5 class="col s8 offset-s2 center">Customer Details</h5>
+                        <ul class="center">
+                            <li class="col s8 offset-s2"><input placeholder="Customer First Name" id="customer_fname" name="customer_fname" type="text" class="validate" value="" required></li>
+                            <li class="col s8 offset-s2"><input placeholder="Customer Last Name" id="customer_lname" name="customer_lname" type="text" class="validate" value="" required></li>
+                            <li class="col s8 offset-s2"><input placeholder="Customer Phone" id="customer_phone" name="customer_phone" type="text" class="validate" value="" required></li> 
+                            <li class="col s8 offset-s2"><input placeholder="Customer Email" id="customer_email" name="customer_email" type="email" class="validate" value="" required></li>
                         </ul>
                     </div>
                     <div class="row m-0">
-                        <div class="col s10">
-                            <div class="col s6">
-                                <a href="" class="modal-close btn-flat">Cancel</a>
+                        <div class="col s8 offset-s2">
+                            <div class="col s6 center">
+                                <button class="modal-close btn-flat">Cancel</button>
                             </div>
-                            <div class="col s6">
+                            <div class="col s6 center">
                                 <button type="submit" class="modal-close btn-flat">Confirm</button>
                             </div>
                         </div>
@@ -69,36 +66,4 @@
             </div>
         </div>
     </div>
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
-        <div class="col s12">
-            <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>
-            <div class="col s6"><a href="#">Purchase</a></div>
-        </div>
-    </div>
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-search-inventory">
-        <form>
-            <div class="row">
-                <div class="col s12 valign-wrapper">
-                    <div class="col s10">
-                        <input type="text" placeholder="Search Material">
-                    </div>
-                    <div class="col s2 left-align">
-                        <a href="#"><i class="fas fa-search"></i></a>
-                    </div>
-                </div>
-            </div>                
-        </form>
-    </div>
-
-    <div class="row mobilepanel hide-on-med-and-up valign-wrapper m-0 p-0 center">
-        <div class="col s12">
-            <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
-            <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
-            <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
-        </div>
-        
-    </div>
-
 {% endblock %}

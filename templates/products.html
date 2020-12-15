@@ -11,6 +11,9 @@
     </div>
     <div class="menulist valign-wrapper m-0">
         <ul>
+            <li class="col"><a href="{{ url_for('stock') }}" >Stock</a></li>
+            <li class="col"><a href="{{ url_for('production_orders') }}" >Production Orders</a></li>
+            <li class="col"><a href="{{ url_for('materials_request') }}" >Materials Request</a></li>
             <li class="col"><a class="modal-trigger" href="#new_product" >New Product</a></li>
         </ul>
     </div>    
@@ -38,7 +41,7 @@
             </table>
         </div>
     </div>
-    <div id="new_product" class="modal modal-fixed-footer grey lighten-5">
+    <div id="new_product" class="modal grey lighten-5">
         <div class="modal-content p-0 m-0">
             <h4 class="center">Select Product Type</h4>
             <div class="row modal_message m-0">

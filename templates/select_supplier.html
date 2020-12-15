@@ -26,56 +26,24 @@
                 <thead>
                     <tr>
                         <th>Supplier</th>
-                        <th class="hide-on-med-and-down">Phone</th>
-                        <th class="hide-on-small-only">Email</th>
-                        <th class="hide-on-small-only">Contact</th>
-                        <th class="hide-on-small-only s1"> Select</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Select</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for supplier in suppliers %}
                         <tr>
-                            <td class="hide-on-small-only">{{supplier.supplier_name}}</td>
-                            <td class="hide-on-med-and-down">{{supplier.supplier_phone}}</td>
-                            <td class="hide-on-small-only">{{ supplier.supplier_email}}</td>
-                            <td class="hide-on-small-only">{{ supplier.supplier_rep }}</td>
-                            <td class="hide-on-med-and-up"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}">{{supplier.supplier_name}}</a></td>
-                            <td class="hide-on-small-only s1"><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
+                            <td>{{supplier.supplier_name}}</td>
+                            <td>{{supplier.supplier_phone}}</td>
+                            <td>{{ supplier.supplier_email}}</td>
+                            <td>{{ supplier.supplier_rep }}</td>
+                            <td><a href="{{ url_for('new_purchase', supplier = supplier.supplier_name) }}"><i class="fas fa-check"></i></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
-        <div class="col s12">
-            <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>
-            <div class="col s6"><a href="#">Purchase</a></div>
-        </div>
-    </div>
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-search-inventory">
-        <form>
-            <div class="row">
-                <div class="col s12 valign-wrapper">
-                    <div class="col s10">
-                        <input type="text" placeholder="Search Material">
-                    </div>
-                    <div class="col s2 left-align">
-                        <a href="#"><i class="fas fa-search"></i></a>
-                    </div>
-                </div>
-            </div>                
-        </form>
-    </div>
-
-    <div class="row mobilepanel hide-on-med-and-up valign-wrapper m-0 p-0 center">
-        <div class="col s12">
-            <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
-            <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
-            <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
-        </div>    
-    </div>
-
 {% endblock %}

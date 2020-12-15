@@ -2,7 +2,7 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "#" ><h5>Materials Request</h5></a></li>
+            <li class="left-align"><a href="{{ url_for('materials_request') }}" ><h5>Materials Request</h5></a></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -10,9 +10,9 @@
         </div>
     </div>
     <div class="menulist valign-wrapper m-0">
-       <ul>
-           <li class="col"><a href = "#" >Production Orders</a></li>
-           <li class="col"><a href = "#" >Materials Request</a></li>
+        <ul>
+            <li class="col"><a href="{{ url_for('inventory_list') }}" >Inventory</a></li>
+            <li class="col"><a href="{{ url_for('production_orders') }}" >Production Orders</a></li>
         </ul>
     </div>    
     <div class="contentrow">
@@ -43,14 +43,4 @@
             </table>
         </div>
     </div>
-
-    <div class="row mobilepanel hide-on-med-and-up valign-wrapper m-0 p-0 center">
-        <div class="col s12">
-            <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
-            <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
-            <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
-        </div>
-        
-    </div>
-
 {% endblock %}

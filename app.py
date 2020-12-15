@@ -37,6 +37,7 @@ def new_order():
         customer.append(request.form.get("customer_lname"))
         customer.append(request.form.get("customer_phone"))
         customer.append(request.form.get("customer_email"))
+    order_id = "%04d" % (order_id,)
     return render_template(
         "new_order.html",
         order_id=order_id,
@@ -51,7 +52,7 @@ def add_new_order(order_id):
         order_items = request.form.get("new_product_items").split(",")
         order_items_qty = request.form.get("new_product_qty").split(",")
         neworder = {
-            "order_id": order_id,
+            "order_id": "%04d" % (int(order_id),),
             "order_date": date.strftime("%x"),
             "order_status": "Pending",
             "order_items": order_items,

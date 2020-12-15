@@ -2,7 +2,7 @@
 {% block content %}
     <div class="menulist valign-wrapper m-0">
         <ul class="col s12 m10 m-0">
-            <li class="left-align"><a href = "#" ><h5>Stock</h5></a></li>
+            <li class="left-align"><a href="{{ url_for('stock') }}" ><h5>Stock</h5></a></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -11,9 +11,9 @@
     </div>
     <div class="menulist valign-wrapper m-0">
         <ul>
-            <li class="col"><a href = "{{ url_for('orders') }}" >Customer Orders</a></li>
-            <li class="col"><a href = "{{ url_for('production_orders') }}" >Production Orders</a></li>
-            <li class="col"><a href = "#" >Materials Request</a></li>
+            <li class="col"><a href="{{ url_for('products') }}" >Products</a></li>
+            <li class="col"><a href="{{ url_for('orders') }}" >Customer Orders</a></li>
+            <li class="col"><a href="{{ url_for('production_orders') }}" >Production Orders</a></li>
         </ul>
     </div>    
     <div class="contentrow">
@@ -25,6 +25,7 @@
                         <th>Product Type</th>
                         <th>In Stock</th>
                         <th>In Orders</th>
+                        <th>In Production</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -35,10 +36,11 @@
                         <td>{{ product[0].product_type }}</td>
                         <td>{{ product[0].product_qty }}</td>
                         <td>{{ product[1] }}</td>
+                        <td>In Production</td>
                         <td><a class="modal-trigger" href="#new_prdorder_{{ loop.index }}" >Request Production</a></td>
                     </tr>
                 </tbody>
-                <div id="new_prdorder_{{ loop.index }}" class="modal modal-fixed-footer grey lighten-5">
+                <div id="new_prdorder_{{ loop.index }}" class="modal grey lighten-5">
                     <div class="modal-content p-0 m-0 center">
                         <h4>Production Order</h4>
                         <div class="row m-0">
@@ -47,8 +49,8 @@
                                     <h5 class="col s12 center">{{ product[0].product_name }}</h5>
                                 </div>
                                 <div class="row m-0 modal_short">
-                                     <div class="col s6 offset-s3">
-                                        <span><input placeholder="Select Quantity" id="prdorder_qty" name="prdorder_qty" type="number" class="validate" required></span>
+                                     <div class="col s4 offset-s4 center">
+                                        <input placeholder="Select Quantity" id="prdorder_qty" name="prdorder_qty" type="number" class="validate" required>
                                     </div>
                                 </div>
                                 <div class="row m-0 hidden_form">
@@ -60,7 +62,7 @@
                                             <a href="" class="modal-close btn-flat">Cancel</a>
                                         </div>
                                         <div class="col s6">
-                                            <button class="waves-effect waves-green btn-small green" type="submit">Confirm</button>
+                                            <button class="btn-flat" type="submit">Confirm</button>
                                         </div>
                                     </div>
                                 </div>
@@ -72,38 +74,4 @@
             </table>
         </div>
     </div>
-
-    
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-plus-inventory">
-        <div class="col s12">
-            <div class="col s6"><a class="modal-trigger" href="#rgst-mat">New Material</a></div>
-            <div class="col s6"><a href="#">Purchase</a></div>
-        </div>
-    </div>
-
-    <div class="row mobilepanel-plus hide-on-med-and-up valign-wrapper m-0 center" id="mobilepanel-search-inventory">
-        <form>
-            <div class="row">
-                <div class="col s12 valign-wrapper">
-                    <div class="col s10">
-                        <input type="text" placeholder="Search Material">
-                    </div>
-                    <div class="col s2 left-align">
-                        <a href="#"><i class="fas fa-search"></i></a>
-                    </div>
-                </div>
-            </div>                
-        </form>
-    </div>
-
-    <div class="row mobilepanel hide-on-med-and-up valign-wrapper m-0 p-0 center">
-        <div class="col s12">
-            <div class="col s4" id="plus-inventory"><a><i class="fas fa-plus"></i></a></div>
-            <div class="col s4" id="search-inventory"><a href="#"><i class="fas fa-search"></i></a></div>
-            <div class="col s4 caret-up"><a href="#"><i class="fas fa-caret-up"></i></a></div>
-        </div>
-        
-    </div>
-
 {% endblock %}
