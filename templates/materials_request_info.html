@@ -4,7 +4,7 @@
         <ul class="col s12 m10 m-0">
             <li class="left-align"><a href = "{{ url_for('materials_request') }}" ><h5>Materials Request</h5></a></li>
             <li class="left-align"><h5>/</h5></li>
-            <li class="left-align"><h5>Order #{{ request.matrequest_id }}</h5></li>
+            <li class="left-align"><h5>Order ID #{{ request.matrequest_id }}</h5></li>
         </ul>
         <div class="col s3 m-0 hide-on-small-only">
             <div class="previous"><i class="fas fa-caret-left"></i></div>
@@ -26,7 +26,7 @@
                             <th>Order ID</th>
                             <th>Date of Request</th>
                             <th>Product</th>
-                            <th>Quantity</th>
+                            <th>Production Order Id</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -34,11 +34,21 @@
                     <tbody>
                         <tr>
                             <td>{{ request.matrequest_id }}</td>
-                            <td>{{ request.matrequest_prdorder_id }}</td>
-                            <td>{{ request.matrequest_product }}</td>
                             <td>{{ request.matrequest_date }}</td>
-                            <td>{{ request.prdorder_status }}</td>
-                            <td>Action</td>
+                            <td>{{ request.matrequest_product }}</td>
+                            <td>{{ request.matrequest_prdorder_id }}</td>
+                            <td>{{ request.matrequest_status }}</td>
+                            <td>
+                                {% if request.matrequest_status == "Pending" %}
+                                    {% if status == True %}
+                                        <a href="{{ url_for('approve_request', matrequest_id = request.matrequest_id, matrequest_prdorder_id = request.matrequest_prdorder_id)}}">Approve Request</a>
+                                    {% else %}
+                                        Pending Materials
+                                    {% endif %}
+                                {% else %}
+                                    Request Approved
+                                {% endif %}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

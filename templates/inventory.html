@@ -22,17 +22,19 @@
                     <tr>
                         <th>Material ID</th>
                         <th>Material Description</th>
-                        <th>Qty</th>
+                        <th>In Inventory</th>
+                        <th>In Request</th>
                         <th>Details</th>
                     </tr>
                 </thead>
             {% for inventory in inventory %}
                 <tbody>
                     <tr>
-                        <td>{{ inventory.material_id }}</td>
-                        <td>{{ inventory.material_description }}</td>
-                        <td>{{ inventory.material_qty }} {{ inventory.material_unit }}</td>
-                        <td><a href="{{ url_for('material_info', name = inventory.material_description) }}"><i class="far fa-file-alt"></i></a></td>
+                        <td>{{ inventory[0].material_id }}</td>
+                        <td>{{ inventory[0].material_description }}</td>
+                        <td>{{ inventory[0].material_qty }} {{ inventory[0].material_unit }}</td>
+                        <td>{{ inventory[1] }} {{ inventory[0].material_unit }}</td>
+                        <td><a href="{{ url_for('material_info', name = inventory[0].material_description) }}"><i class="far fa-file-alt"></i></a></td>
                     </tr>
                 </tbody>
             {% endfor %}
