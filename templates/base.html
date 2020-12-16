@@ -37,6 +37,10 @@
                 <a href="{{ url_for('suppliers') }}"><i class="fas fa-dolly"></i></a>
                 <div>Suppliers</div>
             </div>
+            <div class="col m12">
+                <a href="../static/user_guide.pdf" target="_blank"><i class="fas fa-question"></i></a>
+                <div>Help</div>
+            </div>
         </div>
         <div class="col s12 m10 l11 full-height content m-0 p-0">
             {% block content %}
@@ -85,6 +89,12 @@
                     <a href="{{ url_for('suppliers') }}">
                         <i class="fas fa-dolly"></i>
                         <span>Suppliers</span>
+                    </a>
+                </div>
+                <div class="col s12">
+                    <a href="../static/user_guide.pdf">
+                        <i class="fas fa-question"></i>
+                        <span>Help</span>
                     </a>
                 </div>
             </div>

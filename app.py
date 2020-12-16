@@ -2,8 +2,8 @@ import os
 import datetime
 import numpy
 from flask import (
-    Flask, flash, render_template,
-    redirect, request, session, url_for)
+    Flask, render_template,
+    redirect, request, url_for)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 if os.path.exists("env.py"):
@@ -70,6 +70,10 @@ def add_new_order(order_id):
 def order_info(order_id):
     orders = mongo.db.orders.find_one({"order_id": order_id})
     in_stock = []
+    """
+    Loop to check if all materials are available in stock
+    to release ship to order, if status is True, it is available
+    """
     status = True
     for j in range(0, len(orders["order_items"])):
         item = orders["order_items"][j]
@@ -84,12 +88,8 @@ def order_info(order_id):
     return render_template(
         "order_info.html",
         items=zip(
-            orders["order_items"],
-            orders["order_items_qty"],
-            in_stock),
-        orders=orders,
-        order_id=order_id,
-        status=status)
+            orders["order_items"], orders["order_items_qty"], in_stock),
+        orders=orders, order_id=order_id, status=status)
 
 
 @app.route("/new_request/<prdorder_number>/<action>")
@@ -101,6 +101,10 @@ def new_request(prdorder_number, action):
         products = mongo.db.products.find_one({
             "product_name": prdorders["prdorder_product"]})
         materials = list(numpy.unique(products["product_material_name"]))
+        """
+        Loop to group all items in Production Orders and sum its quantities
+        in a array to match with a unique material
+        """
         materials_qty = []
         for m in range(0, len(materials)):
             materials_qty.append(0)
@@ -147,6 +151,10 @@ def ship_order(order_id, status):
     mongo.db.orders.update_one(
         {"order_id": order_id},
         {"$set": {"order_status": "Shipped"}})
+    """
+    Loop to sum all quantities of specific items in Orders and update
+    the balance in Stock collection
+    """
     for j in range(0, len(orders["order_items"])):
         item = orders["order_items"][j]
         item_qty = int(orders["order_items_qty"][j])
@@ -181,6 +189,11 @@ def stock():
         return redirect(url_for('production_orders'))
     stock = list(mongo.db.stock.find())
     orders = list(mongo.db.orders.find({"order_status": "Pending"}))
+    """
+    Loop to sum all quantities of specific product in Orders and Production
+    that matches with each product in Stock collection and create an array
+    of quantities
+    """
     in_orders = []
     in_production = []
     for s in stock:
@@ -216,13 +229,19 @@ def production_order_info(name, prdorder_number):
     products = mongo.db.products.find_one({"product_name": name})
     prdorders = mongo.db.prdorders.find_one(
         {"prdorder_number": prdorder_number})
-    # Check if it has materials requested
+    """
+    Check status of Production Order and update
+    the Materials Request Action
+    """
     if prdorders["prdorder_status"] == "Pending":
         request_id = "Pending Materials Request"
     else:
         matrequest = mongo.db.matrequest.find_one(
             {"matrequest_prdorder_id": prdorder_number})
         request_id = matrequest["matrequest_prdorder_id"]
+    """
+    Loop to sum the quantity of unique materials in the Production
+    """
     materials = list(numpy.unique(products["product_material_name"]))
     materials_qty = []
     materials_unit = []
@@ -251,6 +270,10 @@ def materials_request():
 def materials_request_info(matrequest_id):
     request = mongo.db.matrequest.find_one(
         {"matrequest_id": matrequest_id})
+    """
+    Loop to check quantity of each materials from Materials
+    Request in inventory to approve to Production
+    """
     in_inventory = []
     status = True
     for m in range(0, len(request["matrequest_items"])):
@@ -274,11 +297,15 @@ def materials_request_info(matrequest_id):
 
 @app.route("/materials_request_info/<matrequest_id>/<matrequest_prdorder_id>")
 def approve_request(matrequest_id, matrequest_prdorder_id):
-    # Update material request status in matrequest collection:
+    """
+    Update material request status in matrequest collection
+    """
     mongo.db.matrequest.update_one(
         {"matrequest_id": matrequest_id},
         {"$set": {"matrequest_status": "In production"}})
-    # Update production order status and history in prdorders collection:
+    """
+    Update production order status and history in prdorders collection
+    """
     prdorder = mongo.db.prdorders.find_one(
         {"prdorder_number": matrequest_prdorder_id})
     prdorder_history = prdorder["prdorder_history"]
@@ -292,8 +319,10 @@ def approve_request(matrequest_id, matrequest_prdorder_id):
             "prdorder_status": "Materials Received",
             "prdorder_history": prdorder_history
             }})
-    # Loop to update materials balance in inventory collection after approving
-    # materials request:
+    """
+    Loop to update materials balance in inventory collection after approving
+    materials request:
+    """
     matrequest = mongo.db.matrequest.find_one(
         {"matrequest_id": matrequest_id})
     for i in range(0, len(matrequest["matrequest_items"])):
@@ -314,7 +343,9 @@ def approve_request(matrequest_id, matrequest_prdorder_id):
 @app.route(
     "/production_order_info/<matrequest_id>/<matrequest_prdorder_id>/<status>")
 def product_finished(matrequest_id, matrequest_prdorder_id, status):
-    # Update product qty balance in stock collection:
+    """
+    Update product qty balance in stock collection:
+    """
     prdorder = mongo.db.prdorders.find_one(
         {"prdorder_number": matrequest_prdorder_id})
     product = prdorder["prdorder_product"]
@@ -323,11 +354,15 @@ def product_finished(matrequest_id, matrequest_prdorder_id, status):
     mongo.db.stock.update_one(
         {"product_name": product},
         {"$set": {"product_qty": new_balance}})
-    # Update materials request status
+    """
+    Update materials request status
+    """
     mongo.db.matrequest.update_one(
         {"matrequest_id": matrequest_id},
         {"$set": {"matrequest_status": "Production Finished"}})
-    # Update production order status and history in prdorders collection:
+    """
+    Update production order status and history in prdorders collection
+    """
     prdorder_history = prdorder["prdorder_history"]
     date = datetime.datetime.now()
     prdorder_history.append(
@@ -350,6 +385,10 @@ def inventory_list():
     inventory = list(mongo.db.inventory.find())
     in_request = []
     in_purchases = []
+    """
+    Loopt to verify quantity of each materials from inventory list
+    and check their quantity in Materials Request and Purchases
+    """
     for material in inventory:
         i = inventory.index(material)
         in_request.append(0)
@@ -369,6 +408,9 @@ def inventory_list():
             for j in range(0, len(p["puo_items"])):
                 if p["puo_items"][j] == item:
                     in_purchases[i] += int(p["puo_items_qty"][j])
+    """
+    Register new Material
+    """
     if request.method == "POST":
         matid = mongo.db.inventory.count()+1
         rgstmat = {
@@ -399,6 +441,10 @@ def new_product(product_type):
     product_material_qty = []
     product_material_unit = []
     if request.method == "POST":
+        """
+        Condition if the product to be added is single product
+        or a pack, as the list sent in the input fields are different
+        """
         if product_type == "Product":
             sub_products = [request.form.get("new_product_name")]
             sub_products_qty = [1]
@@ -449,16 +495,11 @@ def new_product(product_type):
         return redirect(url_for("products"))
     if product_type == "Product":
         return render_template(
-            "new_product.html",
-            product_type="Product",
-            products=products,
-            inventory=inventory,
-            suppliers=suppliers)
+            "new_product.html", product_type="Product", products=products,
+            inventory=inventory, suppliers=suppliers)
     else:
         return render_template(
-            "new_product.html",
-            products=products,
-            product_type="Pack")
+            "new_product.html", products=products, product_type="Pack")
 
 
 @app.route("/product_info/<name>", methods=["GET", "POST"])
@@ -467,6 +508,10 @@ def product_info(name):
     materials = list(numpy.unique(products["product_material_name"]))
     materials_qty = []
     materials_unit = []
+    """
+    Loop to sum quantities of each material that made up the product into
+    a array that matches grouped materials
+    """
     for m in range(0, len(materials)):
         materials_qty.append(0)
         for i in range(0, len(products["product_material_name"])):
@@ -520,6 +565,10 @@ def material_info(name):
                 }}
         )
         return redirect(url_for("material_info", name=name))
+    """
+    Loop to sum quantities of each materials in Purchases and
+    in Materials Request for this specific material
+    """
     in_purchase = 0
     for order in puorders:
         for i in range(0, len(order["puo_items"])):
@@ -582,7 +631,6 @@ def delete_item_supplier(supplier, item):
 
 @app.route("/supplier_info/<supplier>", methods=["GET", "POST"])
 def edit_supplier(supplier):
-    suppliers = mongo.db.suppliers.find_one({"supplier_name": supplier})
     edit_supplier = {
         "supplier_name": request.form.get("edit_supplier_name"),
         "supplier_address": request.form.get("edit_supplier_address"),
@@ -699,6 +747,9 @@ def purchase_info(puo_number):
 @app.route("/purchase_info/<puo_number>/<status>")
 def items_received(puo_number, status):
     puorders = mongo.db.puorders.find_one({"puo_number": puo_number})
+    """
+    Loop to update inventory when Purchase is received
+    """
     for k in range(0, len(puorders["puo_items"])):
         item = puorders["puo_items"][k]
         inventory = mongo.db.inventory.find_one(

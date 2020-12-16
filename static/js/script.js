@@ -4,7 +4,7 @@ var new_item_qty = []
 var new_item_cost = []
 var new_item_id = []
 var item_id = 0
-    
+
 $(document).ready(function(){
     $('.sidenav').sidenav();
     $('.fixed-action-btn').floatingActionButton();
@@ -14,24 +14,24 @@ $(document).ready(function(){
     $('.tabs').tabs();
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
-
+    /* Navigation buttons to go to previous and next page*/
     $(".previous, .previous_mobile").click(function (){
         window.history.back();
         return
     })
-
     $(".next, .next_mobile").click(function (){
         window.history.forward();
         return
     })
-
+    /* Function to add unit when a product is selected
+    from the list of new product */
     $("#product_name").on("change", function(){
         material_id = $("#product_name").val();
         unit = $(`#${material_id}`).val();
         $("#unit").html(unit);
         return
     })
-
+    /* Function to add materials to list when registering new product */
     $('#add_product').click(function(){
         material_id = $("#product_name").val();
         if ( $(`#${material_id}`).val() ){
@@ -66,7 +66,7 @@ $(document).ready(function(){
         item_id++;
         return
     })
-
+    /* Function to add products to list when registering new pack */
     $('#add_pack_product').click(function(){
         new_items[0] = $("#pack_product_name").val().split(",");
         new_items[1] = $("#pack_product_qty").val();
@@ -96,14 +96,15 @@ $(document).ready(function(){
         item_id++;
         return
     })
-
+    /* Function to add products to list when registering new pack */
     $("#puo_item_name").on("change", function(){
         new_items[0] = $("#puo_item_name").val().split(",");
         unit = new_items[0][2];
         $("#unit").html(unit);
         return
     })
-
+    /* Function to add unit when a material is selected
+    from the list of new purchase */
     $('#add_purchase_item').click(function(){
         new_items[0] = $("#puo_item_name").val().split(",");
         new_items[1] = $("#puo_item_qty").val();
@@ -134,7 +135,8 @@ $(document).ready(function(){
         return
     })
 })
-
+/* Function to delete item from interactive list when registering new product,
+material, order ... */
 function delete_item(btn){
     index = new_item_id.indexOf(Number(btn.parentElement.id));
     new_item_name.splice(index, 1);
@@ -145,7 +147,7 @@ function delete_item(btn){
     puo_total();
     return
 }
-
+/* Function to sum total of interactive new purchase order list */
 function puo_total(){
     var sum = 0;
     for(var i=0; i< new_item_cost.length; i++) {
@@ -155,7 +157,7 @@ function puo_total(){
     $('#new_purchase_total').val(sum);
     return
 }
-
+/* Function to sum total of interactive new product list */
 function product_total(){
     var sum = 0;
     for(var i=0; i< new_item_cost.length; i++) {

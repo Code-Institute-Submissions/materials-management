@@ -3,7 +3,6 @@ html {
   min-height: -webkit-fill-available;
 }
 
-
 body {
   min-height: 100vh !important;
   min-height: -webkit-fill-available;
@@ -21,7 +20,7 @@ a {
 .previous, .next{
     text-decoration: none !important;
     display: inline-block;
-    padding: 8px auto !important;
+    padding: 8px !important;
     height: 40px !important;
     width: 40px !important;
     cursor: pointer;
@@ -66,7 +65,7 @@ a {
     left: 0;
     border-right: solid 1px #f3f3f3;
     background-color: #323264;
-    padding-top: 8vh !important;
+    padding-top: 5vh !important;
 }
 
 .sidenav{
@@ -91,7 +90,7 @@ a {
 }
 
 .navpanel .m12 {
-    margin: 3vh auto !important;
+    margin: 2vh auto !important;
     border-top: none !important;
     border-right: none !important;
     border-left: none !important;
@@ -274,8 +273,6 @@ table{
     margin: 0 !important;
 }
 
-/* New Purchase*/
-
 .hidden_form{
     display: none;
     overflow-y: auto;
@@ -293,8 +290,6 @@ table{
 .btn_confirm{
     padding: 5vh !important;
 }
-
-/* Products */
 
 #new_product a, .modal-footer{
     background-color: #323264 !important;
