@@ -62,7 +62,7 @@
                                 <h5 class="center modal_short">Product Materials</h5>
                             </div>
                             <div class="col s12">
-                                <select class="validate" id="product_name" name="new_product_name" type="text" required>
+                                <select class="validate modal_short" id="product_name" name="new_product_name" type="text" required>
                                     <option value="" disabled selected>Select Material</option>
                                     {% for material in inventory %}
                                         <option class="{{ material._id }}" value="{{ material._id }}">{{ material.material_description }}</option>

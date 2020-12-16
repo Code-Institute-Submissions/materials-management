@@ -354,21 +354,20 @@ def inventory_list():
         i = inventory.index(material)
         in_request.append(0)
         in_purchases.append(0)
+        item = material["material_description"]
         matrequest = mongo.db.matrequest.find({
             "matrequest_status": "Pending",
-            "matrequest_items": material["material_description"]})
+            "matrequest_items": item})
         for r in matrequest:
             for j in range(0, len(r["matrequest_items"])):
-                if r["matrequest_items"][j] == (
-                    material["material_description"]):
+                if r["matrequest_items"][j] == item:
                     in_request[i] += r["matrequest_items_qty"][j]
         matrequest = mongo.db.puorders.find({
             "puo_status": False,
-            "puo_items": material["material_description"]})
+            "puo_items": item})
         for p in matrequest:
             for j in range(0, len(p["puo_items"])):
-                if p["puo_items"][j] == (
-                    material["material_description"]):
+                if p["puo_items"][j] == item:
                     in_purchases[i] += int(p["puo_items_qty"][j])
     if request.method == "POST":
         matid = mongo.db.inventory.count()+1
@@ -424,7 +423,7 @@ def new_product(product_type):
                 for i in material["product_material_name"]:
                     product_material_name.append(i)
                 for i in material["product_material_qty"]:
-                    q = i*int(sub_products_qty[int(sp)])
+                    q = int(sub_products_qty[int(sp)])
                     product_material_qty.append(q)
                 for i in material["product_material_unit"]:
                     product_material_unit.append(i)
@@ -474,13 +473,20 @@ def product_info(name):
             if materials[m] == products["product_material_name"][i]:
                 materials_qty[m] += int(products["product_material_qty"][i])
                 materials_unit.append(products["product_material_unit"][i])
+    stock = mongo.db.stock.find_one({"product_name": name})
+    in_stock = stock["product_qty"]
+    orders = mongo.db.orders.find({"order_items": name})
+    in_orders = 0
+    for o in orders:
+        for j in range(0, len(o["order_items"])):
+            if o["order_status"] == "Pending":
+                if name == o["order_items"][j]:
+                    qty = int(o["order_items_qty"][j])
+                    in_orders += qty
     return render_template(
         "product_info.html",
-        items=zip(
-            materials,
-            materials_qty,
-            materials_unit),
-        products=products)
+        items=zip(materials, materials_qty, materials_unit),
+        products=products, in_stock=in_stock, in_orders=in_orders)
 
 
 @app.route("/purchases")
@@ -569,11 +575,7 @@ def supplier_info(supplier):
 def delete_item_supplier(supplier, item):
     mongo.db.suppliers.update(
         {"supplier_name": supplier},
-        {"$pull":
-            {
-                "supplier_products": item,
-                }}
-        )
+        {"$pull": {"supplier_products": item}})
     return redirect(
         url_for("supplier_info", supplier=supplier))
 
@@ -598,6 +600,45 @@ def edit_supplier(supplier):
 def delete_supplier(supplier, supplier_rep, supplier_id):
     mongo.db.suppliers.remove({"_id": ObjectId(supplier_id)})
     return redirect(url_for("suppliers"))
+
+
+@app.route("/zz_restart_system")
+def zz_restart_system():
+    # mongo.db.puorders.remove({})
+    return render_template("zz_restart_system.html")
+
+
+@app.route("/zz_restart_system/<delete>")
+def restore(delete):
+    mongo.db.puorders.delete_many({})
+    mongo.db.matrequest.delete_many({})
+    mongo.db.prdorders.delete_many({})
+    mongo.db.orders.delete_many({})
+    inventory = mongo.db.inventory.find({})
+    count = 0
+    for i in inventory:
+        mongo.db.inventory.update_one(
+            {"material_description": i["material_description"]},
+            {"$set": {"material_qty": 0}})
+        count += 1
+        if count > 15:
+            mongo.db.inventory.delete_one(
+                {"material_description": i["material_description"]})
+    products = mongo.db.products.find({})
+    count = 0
+    for p in products:
+        mongo.db.stock.update_one(
+            {"product_name": p["product_name"]},
+            {"$set": {"product_qty": 0}})
+        count += 1
+        if count > 9:
+            print(p["product_name"])
+            mongo.db.products.delete_one(
+                {"product_name": p["product_name"]})
+            mongo.db.stock.delete_one(
+                {"product_name": p["product_name"]})
+    count = 0
+    return redirect(url_for("orders"))
 
 
 @app.route("/new_purchase/<supplier>", methods=["GET", "POST"])

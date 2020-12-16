@@ -43,7 +43,7 @@
                             {% elif prdorders.prdorder_status == "Materials Requested" %}
                                 <td><a href="{{ url_for('materials_request_info', matrequest_id = request_id)}}">Pending Materials</a></td>
                             {% elif prdorders.prdorder_status == "Materials Received" %}
-                                <td><a href="{{ url_for('product_finished', matrequest_id = request_id, matrequest_prdorder_id = prdorders.prdorder_number, status = 'finished')}}">Production finished</a></td>
+                                <td><a href="{{ url_for('product_finished', matrequest_id = request_id, matrequest_prdorder_id = prdorders.prdorder_number, status = 'finished')}}">Finish Production</a></td>
                             {% else %}
                                 <td>Order Completed</td>
                             {% endif %}

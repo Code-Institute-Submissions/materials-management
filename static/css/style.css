@@ -243,6 +243,11 @@ table{
     color: #f3f3f3;
 }
 
+.dropdown-content{
+    left: 0 !important;
+    top: 0 !important;
+}
+
 .dropdown-content li{
     min-height: 0 !important;
     padding: 0 !important;
@@ -253,6 +258,7 @@ table{
     width: 100%;
     text-align: left;
 }
+
 
 .dropdown-content li>span{
     color: #323264 !important;

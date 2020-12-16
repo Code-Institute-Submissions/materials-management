@@ -25,16 +25,16 @@
                 <table class="centered">
                 <thead>
                     <tr>
-                        <th>In Orders</th>
                         <th>In Stock</th>
+                        <th>In Orders</th>
                         <th>Balance</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="pointer">
-                        <td>From Orders</td>
-                        <td>From Stock</td>
-                        <td>Balance</td>
+                        <td>{{ in_stock }}</td>
+                        <td>{{ in_orders }}</td>
+                        <td>{{ in_stock - in_orders }}</td>
                     </tr>
                 </tbody>
                 </table>

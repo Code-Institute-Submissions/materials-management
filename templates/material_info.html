@@ -33,7 +33,7 @@
                         <td>{{in_request}} {{inventory.material_unit}}</td>
                         <td>{{inventory.material_qty}} {{inventory.material_unit}}</td>
                         <td>{{in_purchase}} {{inventory.material_unit}}</td>
-                        <td>{{inventory.material_qty|int + in_purchase - in_request}} {{inventory.material_unit}}</td>
+                        <td>{{inventory.material_qty + in_purchase - in_request}} {{inventory.material_unit}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -58,7 +58,7 @@
             <div class="col s8 offset-s2 center">
                 <a class="modal-trigger" href="#add_toSupplier"><i class="fas fa-plus"></i> Add Material to a New Supplier</a>
             </div>
-        </div>
+        </div> 
     </div>
     <div id="add_toSupplier" class="modal grey lighten-5">
         <div class="modal-content p-0">

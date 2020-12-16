@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="menulist valign-wrapper m-0 ">
+        <h5>Restart System</h5>
+    </div>
+    <div class="center modal_short">
+        <div class="row m-0 center">
+            <p>This action will delete all entries in the following collections:</p>
+            <ul>
+                <li>Orders</li>
+                <li>Production Orders</li>
+                <li>Materials Request</li>
+                <li>Purchase Orders</li>
+            </ul>
+        </div>
+        <div class="row m-0 center">
+            <p>It will also restore the following collections to initial parameters:</p>
+            <ul>
+                <li>Stock</li>
+                <li>Products</li>
+                <li>Inventory</li>
+            </ul>
+            <p>Suppliers can be Created, Updated, and Deleted from supplier_info template</p>
+        </div>
+        <a href="{{ url_for('restore', delete='delete') }}" class="btn-flat">CONFIRM</a>
+    </div>
+{% endblock %}
